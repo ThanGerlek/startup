@@ -6,6 +6,8 @@
 
 Are you tired of losing games just because of luck? Do you want a fun game that you can work at until you always win? NIM Player presents a game complex enough to be a challenge, but simple enough that anyone can become a master with practice. Play with your friends until you can win every time, then try your skills against the computer! Finally, once you've mastered the game, you'll unlock the Ultimate Algorithm--which can mathematically guarantee your victory against your friends (or enemies) in not only Nim Player but infinitely many variations of Nim as well!
 
+![Gameboard](img/gameboard.png)
+
 ### Key Features
 
 - User authentication through HTTPS
@@ -21,6 +23,8 @@ Are you tired of losing games just because of luck? Do you want a fun game that 
 - Global statistics
 - Multiple gamemodes
 
+![Statistics page](img/stats.png)
+
 ### Technology
 
 - HTML and CSS: Login screen, gameboard, stats page, tutorial, suitable chastisement for suboptimal play
@@ -30,3 +34,5 @@ Are you tired of losing games just because of luck? Do you want a fun game that 
 - Database persistence: account information, game statistics, leaderboard of top players
 - WebSocket: live play with other users
 - Web framework: ported to the React framework
+
+![Signup page](img/signup.png)
