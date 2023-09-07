@@ -4,7 +4,7 @@
 
 ### Elevator Pitch
 
-Are you tired of losing games just because of luck? Do you want a fun game that you can work at until you always win? NIM Player presents a game complex enough to be a challenge, but simple enough that anyone can become a master with practice. Play with your friends until you can win every time! Finally, once you've mastered the game, you'll unlock the Ultimate Algorithm--which can mathematically guarantee your victory against your friends (or enemies) in not only Nim Player but infinitely many variations of Nim as well!
+Are you tired of losing games just because of luck? Do you want a fun game that you can work at until you always win? NIM Player presents a game complex enough to be a challenge, but simple enough that anyone can become a master with practice. Play live against your friends until you can win every time! Finally, once you've mastered the game, you'll unlock _The Ultimate Algorithm_--which can mathematically guarantee your victory against your friends (or enemies)!
 
 ![Gameboard](img/gameboard.png)
 
