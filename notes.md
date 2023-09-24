@@ -25,8 +25,6 @@ Server IP: `44.206.85.52`
 
 Domain name: `gerleksgarage.click`
 
-Caddy: gateway (a.k.a. reverse proxy) service. Also handles HTTPS encryption and web certificates. This is how different subdomains (subdomain.domain.tld (TLD = top level domain)) can map to different HTML files even though the DNS records on Route53 map all of them to the same IP address.
-
 ### Resources
 
 In-person TAs are located in 1066 TMCB cube #4 ([TA Schedule](https://docs.google.com/spreadsheets/d/1g1AMtgvyfSwMgp85QcwHuy0mVR-nN3bIGI6XNEJWB1U/edit#gid=0))
@@ -44,6 +42,8 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 TLS (transport layer security) protocol: HTTPS's encryption handshake protocol
 
 TCP/IP: a framework (including TCP, UDP, and IP) for creating, sending, and routing data packets. Consists of the four abstraction layers: application layer (functionality, ex. HTTPS), transport layer (moving data packets, ex. TCP), internet layer (linking between networks, ex. IP), and link layer (physical connections).
+
+Caddy: gateway (a.k.a. reverse proxy) service. Also handles HTTPS encryption and web certificates. This is how different subdomains (subdomain.domain.tld (TLD = top level domain)) can map to different HTML files even though the DNS records on Route53 map all of them to the same IP address.
 
 ### AWS
 
