@@ -28,11 +28,9 @@ Caddy: gateway (a.k.a. reverse proxy) service. Also handles HTTPS encryption and
 
 ### Resources
 
-In-person TAs are located in 1066 TMCB cube #4
+In-person TAs are located in 1066 TMCB cube #4 ([TA Schedule](https://docs.google.com/spreadsheets/d/1g1AMtgvyfSwMgp85QcwHuy0mVR-nN3bIGI6XNEJWB1U/edit#gid=0))
 
 Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
-
-[TA Schedule](https://docs.google.com/spreadsheets/d/1g1AMtgvyfSwMgp85QcwHuy0mVR-nN3bIGI6XNEJWB1U/edit#gid=0)
 
 [Simon links](https://github.com/webprogramming260/.github/blob/main/profile/essentials/simon/simon.md)
 
