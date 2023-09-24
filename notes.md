@@ -38,6 +38,8 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 
 [Common mistakes](https://github.com/webprogramming260/.github/blob/main/profile/essentials/startup/startup.md)
 
+### Networking
+
 TLS (transport layer security) protocol: HTTPS's encryption handshake protocol
 
 TCP/IP: a framework (including TCP, UDP, and IP) for creating, sending, and routing data packets. Consists of the four abstraction layers: application layer (functionality, ex. HTTPS), transport layer (moving data packets, ex. TCP), internet layer (linking between networks, ex. IP), and link layer (physical connections).
