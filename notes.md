@@ -21,8 +21,9 @@
 
 ## Personal Notes
 
-Server IP: 44.206.85.52
-Domain name: gerleksgarage.click
+Server IP: `44.206.85.52`
+
+Domain name: `gerleksgarage.click`
 
 Caddy: gateway (a.k.a. reverse proxy) service. Also handles HTTPS encryption and web certificates. This is how different subdomains (subdomain.domain.tld (TLD = top level domain)) can map to different HTML files even though the DNS records on Route53 map all of them to the same IP address.
 
