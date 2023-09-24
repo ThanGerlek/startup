@@ -37,6 +37,14 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 
 [Common mistakes](https://github.com/webprogramming260/.github/blob/main/profile/essentials/startup/startup.md)
 
+### HTML
+
+[Common tags](https://github.com/webprogramming260/.github/blob/main/profile/html/introduction/introduction.md)
+
+[Input elements](https://github.com/webprogramming260/.github/blob/main/profile/html/input/input.md)
+
+[Media](https://github.com/webprogramming260/.github/blob/main/profile/html/media/media.md)
+
 ### Networking
 
 TLS (transport layer security) protocol: HTTPS's encryption handshake protocol
