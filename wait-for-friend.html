@@ -11,7 +11,7 @@
 <body>
     <header>
         <center>
-            <h1>NIM Player</h1>
+            <h1 class="titletext">NIM Player</h1>
         </center>
         <hr>
     </header>
@@ -19,10 +19,12 @@
 
     <main>
         <center>
-            <h3>Waiting for response...</h3>
-            <p>Once your friend logs in and requests to play with you, the game will begin!</p>
+            <div class="pageDescription">
+                <h3 class="pageTitle">Waiting for response...</h3>
+                <p>Once your friend logs in and requests to play with you, the game will begin!</p>
+            </div>
 
-            <form method="get" action="home.html">
+            <form method="get" action="home.html" id="cancelButton">
                 <input type="submit" value="Never mind">
             </form>
 
