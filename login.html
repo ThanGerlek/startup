@@ -24,21 +24,32 @@
     </header>
 
 
-    <main>
-        <div class="pageDescription">
-            <h3 class="pageTitle">Welcome!</h3>
-            <p>Please login to play.</p>
-        </div>
+    <main class="my-3">
+        <div class="container d-flex flex-column align-items-center justify-content-center">
+            <div>
+                <h3>Welcome!</h3>
+                <p>Please login to play.</p>
+            </div>
 
-        <form method="get" action="home.html">
-            <label for="username">Username:</label>
-            <input type="text" id="usernameBox" name="user">
-            <br><br>
-            <label for="password">Password: </label>
-            <input type="password" id="passwordBox" name="pass">
-            <br><br>
-            <input type="submit" value="Login">
-        </form>
+            <form class="d-flex flex-column align-items-center" method="get" action="home.html">
+
+                <!-- TODO align user and pass text boxes -->
+                <div class="my-2 justify-content-between">
+                    <label for="username">Username:</label>
+                    <input type="text" id="usernameBox" name="user">
+                </div>
+                <div class="my-2">
+                    <label for="password">Password: </label>
+                    <input type="password" id="passwordBox" name="pass">
+                </div>
+                <div class="my-2">
+                    <input type="submit" value="Login">
+                </div>
+
+                <!-- TODO forgot password button -->
+            </form>
+
+        </div>
     </main>
 
 
