@@ -22,17 +22,15 @@
     </header>
 
 
-    <main>
-        <div class="pageDescription">
-            <h3 class="pageTitle">Start a game</h3>
-            <p>Enter the username of a friend you want to play with.</p>
+    <main class="my-3">
+        <div class="container d-flex flex-column justify-content-center align-items-center">
+            <h3>Start a game</h3>
+            <p class="my-2">Enter the username of a friend you want to play with.</p>
+            <form class="my-2 align-items-center" method="get" action="wait-for-friend.html">
+                <input type="text" id="otherUser" name="otherUser">
+                <input type="submit" value="Go!">
+            </form>
         </div>
-
-        <form method="get" action="wait-for-friend.html">
-            <label for="otherUser">Friend's Username:</label>
-            <input type="text" id="otherUser" name="otherUser">
-            <input type="submit" value="Submit">
-        </form>
     </main>
 
 
