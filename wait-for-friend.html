@@ -23,18 +23,18 @@
     </header>
 
 
-    <main>
-        <div class="pageDescription">
-            <h3 class="pageTitle">Waiting for response...</h3>
-            <p>Once your friend logs in and requests to play with you, the game will begin!</p>
+    <main class="my-3">
+        <div class="container d-flex flex-column align-items-center">
+            <h3 class="">Waiting for response...</h3>
+            <p class="text-center">Once your friend requests to play with you, the game will begin!</p>
+
+            <form method="get" action="home.html" id="cancelButton">
+                <input type="submit" value="Never mind">
+            </form>
+
+            <!--TODO remove temporary link-->
+            <i>If the request goes through, the page will redirect <a href="board.html">here</a>.</i>
         </div>
-
-        <form method="get" action="home.html" id="cancelButton">
-            <input type="submit" value="Never mind">
-        </form>
-
-        <!--TODO remove temporary link-->
-        <i>If the request goes through, the page will redirect <a href="board.html">here</a>.</i>
     </main>
 
 
