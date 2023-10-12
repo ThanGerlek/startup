@@ -21,8 +21,10 @@
         </ul>
     </header>
 
+    <!-- TODO Shrink buttons to better handle 150% size? -->
 
-    <main class="m-3">
+
+    <main class="mx-3 flex-grow-1 d-flex flex-column justify-content-between align-items-center">
 
         <!-- TODO Decide on turn highlighting -->
 
@@ -123,18 +125,22 @@
 
         </div>
 
-        <div class="container-fluid d-flex justify-content-around">
-            <!-- TODO Switch to check and reset icons -->
-            <button type="button" class="btn btn-success">Submit</button>
-            <button type="button" class="btn btn-dark">Reset</button>
-        </div>
+        <div>
+            <div class="container-fluid d-flex justify-content-around">
+                <!-- TODO Switch to check and reset icons -->
+                <button type="button" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-dark">Reset</button>
+            </div>
 
-        <i>
-            <p>Submit checks for a valid move, sends it to your opponent, and switches turns. Reset restores the board
-                to
-                just after the opponent's move. A win takes you <a href="you-win.html">here</a> and a loss takes you <a
-                    href="you-lose.html">here</a>.</p>
-        </i>
+            <i>
+                <!-- TODO remove temporary links and useless wrapper div -->
+                <p>Submit checks for a valid move, sends it to your opponent, and switches turns. Reset restores the
+                    board
+                    to
+                    just after the opponent's move. A win takes you <a href="you-win.html">here</a> and a loss takes you
+                    <a href="you-lose.html">here</a>.</p>
+            </i>
+        </div>
     </main>
 
 

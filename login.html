@@ -10,7 +10,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
     <header class="container-fluid my-2 align-items-center justify-content-between d-flex flex-wrap border-bottom">
         <div></div>
         <a href="home.html" class="text-dark text-decoration-none">
@@ -24,32 +24,30 @@
     </header>
 
 
-    <main class="my-3">
-        <div class="container d-flex flex-column align-items-center justify-content-center">
-            <div>
-                <h3>Welcome!</h3>
-                <p>Please login to play.</p>
+    <main class="mx-3 flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+        <div>
+            <h3>Welcome!</h3>
+            <p>Please login to play.</p>
+        </div>
+
+        <form class="d-flex flex-column align-items-center" method="get" action="home.html">
+
+            <!-- TODO align user and pass text boxes (switch to grid design? flex-shrink?) -->
+            <div class="my-2 justify-content-between">
+                <label for="username">Username:</label>
+                <input type="text" id="usernameBox" name="user">
+            </div>
+            <div class="my-2">
+                <label for="password">Password: </label>
+                <input type="password" id="passwordBox" name="pass">
+            </div>
+            <div class="my-2">
+                <input type="submit" value="Login">
             </div>
 
-            <form class="d-flex flex-column align-items-center" method="get" action="home.html">
+            <!-- TODO forgot password button -->
+        </form>
 
-                <!-- TODO align user and pass text boxes -->
-                <div class="my-2 justify-content-between">
-                    <label for="username">Username:</label>
-                    <input type="text" id="usernameBox" name="user">
-                </div>
-                <div class="my-2">
-                    <label for="password">Password: </label>
-                    <input type="password" id="passwordBox" name="pass">
-                </div>
-                <div class="my-2">
-                    <input type="submit" value="Login">
-                </div>
-
-                <!-- TODO forgot password button -->
-            </form>
-
-        </div>
     </main>
 
 
