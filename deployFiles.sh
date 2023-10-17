@@ -22,8 +22,10 @@ printf "\n----> Clear out the previous distribution on the target.\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
 rm -rf services/${service}/public
 mkdir -p services/${service}/public
+mkdir -p services/${service}/public/img
 ENDSSH
 
 # Step 2
 printf "\n----> Copy the distribution package to the target.\n"
-scp -r -i "$key" * ubuntu@$hostname:services/$service/public
+scp -r -i "$key" *.html ubuntu@$hostname:services/$service/public
+scp -r -i "$key" img/*.png ubuntu@$hostname:services/$service/public/img
