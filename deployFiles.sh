@@ -28,4 +28,5 @@ ENDSSH
 # Step 2
 printf "\n----> Copy the distribution package to the target.\n"
 scp -r -i "$key" *.html ubuntu@$hostname:services/$service/public
+scp -r -i "$key" *.js ubuntu@$hostname:services/$service/public
 scp -r -i "$key" img/*.png ubuntu@$hostname:services/$service/public/img
