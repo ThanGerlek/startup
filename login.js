@@ -2,7 +2,7 @@
 
 // TODO account creation
 
-// TODO fix: local storage gets erased upon redirect?
+// TODO change logout from a simple redirect to returning a completely different HTTP response
 
 async function onLoginButtonClick() {
     clearMessageDisplay();
@@ -39,7 +39,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
             response = new ErrorResponse('incorrectPassword');
         } else {
             let token = {username: username, tokenString: 'pi/2'};
-            response = new TokenResponse(token);
+            response = new AuthResponse(token);
         }
 
         // TODO remove test code
@@ -80,10 +80,10 @@ function isValidResponse(response) {
 }
 
 function loginUser(token) {
-    console.log(`Response: valid credentials! Your token string is: '${token.tokenString}'`);
+    console.log(`Your token string is: '${token.tokenString}'`);
     clearTimeout(window.waitNotification);
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('username', token.username);
+    localStorage.setItem('authtoken', JSON.stringify(token));
+    localStorage.setItem('user', token.username);
     displayMessage('info', 'Redirecting...');
     window.location.href = 'home.html';
 }
@@ -101,7 +101,7 @@ function cancelWaitNotification() {
 }
 
 function displayWaitNotification() {
-    displayMessage('info', 'Logging in, please wait...');
+    displayMessage('info', 'Please wait...');
     // TODO? Separate from other messages (don't want this to overwrite them)
 }
 
@@ -159,7 +159,7 @@ function hash(text) {
     return 42;
 }
 
-class LoginResponse {
+class HTTPResponse {
     #value;
     constructor(value) {
         this.#value = value;
@@ -168,7 +168,7 @@ class LoginResponse {
     get value() {return this.#value;}
 }
 
-class ErrorResponse extends LoginResponse {
+class ErrorResponse extends HTTPResponse {
     #errorType;
     constructor(errorType) {
         super('error');
@@ -177,7 +177,7 @@ class ErrorResponse extends LoginResponse {
     get errorType() {return this.#errorType;}
 }
 
-class TokenResponse extends LoginResponse {
+class AuthResponse extends HTTPResponse {
     #token;
     constructor(token) {
         super('token');
