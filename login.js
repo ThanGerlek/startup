@@ -5,6 +5,7 @@
 // TODO change logout from a simple redirect to returning a completely different HTTP response
 
 async function onLoginButtonClick() {
+    clearUserInfoFromLocalStorage(); // TODO? Authenticate existing tokens?
     clearMessageDisplay();
     setupWaitNotification();
     authenticateLogin();
@@ -144,10 +145,6 @@ function extractPassword() {
     document.getElementById('passwordBox').value = '';
     return hashedPassword;
 }
-function clearUserInfoFromLocalStorage() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-}
 
 function hash(text) {
     // TODO pull in a secure hashing algorithm
@@ -157,6 +154,101 @@ function hash(text) {
     }
 
     return 42;
+}
+
+
+
+
+
+
+
+//        Shared Code from main.js  (DO NOT EDIT HERE!!! EDIT THERE AND COPY OVER!)
+
+// Code directly referenced by the above code:
+// clearUserInfoFromLocalStorage()
+// Response class definitions
+
+
+
+
+function loadFakeTokenData() {
+    localStorage.setItem('user', 'john');
+    let token = {"username":"john","tokenString":"pi/2"};
+    localStorage.setItem('authtoken', JSON.stringify(token));
+}
+
+async function authenticateToken() {
+    let existingToken = getAuthTokenFromLocalStorage();
+    if (existingToken) {
+        try {
+            let response = await getAuthenticateTokenResponse(existingToken);
+            parseAuthenticateTokenResponse(response);
+        } catch (err) {
+            console.log('Failed to connect to the server when authenticating existing token.');
+        }
+    } else {
+        if (!(window.location.href === 'login.html')) {
+            console.log(window.location.href);
+            window.location.href = 'login.html';
+        }
+    }
+}
+
+async function getAuthenticateTokenResponse(token) {
+    // Return artificial data
+
+    return new Promise((resolve, reject) => {
+        console.log(`Simulating accessing server to authenticate token. Token: '${token}'`);
+
+        // TODO create time-based artificial data (including random server failures?)
+
+        let response = {};
+
+        if (token.username === "") {
+            response = new ErrorResponse('invalidUser');
+        } else if (token.tokenString == "") {
+            response = new ErrorResponse('invalidTokenString');
+        } else {
+            response = new AuthResponse(token);
+        }
+
+        setTimeout(() => resolve(response), 2000);
+        // resolve(response);
+    });
+}
+
+function parseAuthenticateTokenResponse(response) {
+    if (isValidResponse(response)) {
+        loginUser(response.token);
+        return true;
+    } else {
+        console.log('Failed to authenticate existing token. Clearing token');
+        clearUserInfoFromLocalStorage();
+        return false;
+    }
+}
+
+function invalidateToken(token) {
+    clearUserInfoFromLocalStorage();
+    // TODO Send message to server to invalidate the token
+}
+
+function getAuthTokenFromLocalStorage() {
+    let serializedToken = localStorage.getItem('authtoken');
+    if (serializedToken) {
+        let token = JSON.parse(serializedToken);
+        let {username, tokenString} = token;
+        console.log(`extracted user: ${username}, extracted string: ${tokenString}`);
+        if (username && tokenString) {
+            return token;
+        }
+    }
+    return null;
+}
+
+function clearUserInfoFromLocalStorage() {
+    localStorage.removeItem('authtoken');
+    localStorage.removeItem('user');
 }
 
 class HTTPResponse {
