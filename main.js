@@ -5,20 +5,22 @@ function logout() {
     redirectToLoginPage();
 }
 
+async function silentAuthenticateToken() {
+    await authenticateToken(() => {}, redirectToLoginPage);
+}
 
-
-
-async function authenticateToken() {
+async function authenticateToken(successAction, failureAction) {
     let existingToken = getAuthTokenFromLocalStorage();
     if (existingToken) {
         try {
             let response = await getAuthenticateTokenResponse(existingToken);
-            parseAuthenticateTokenResponse(response);
+            parseAuthenticateTokenResponse(response, successAction, failureAction);
         } catch (err) {
             console.log('Failed to connect to the server when authenticating existing token.');
+            failureAction();
         }
     } else {
-        redirectToLoginPage();
+        failureAction();
     }
 }
 
@@ -45,14 +47,13 @@ async function getAuthenticateTokenResponse(token) {
     });
 }
 
-function parseAuthenticateTokenResponse(response) {
-    if (isValidResponse(response)) {
-        loginUser(response.token);
-        return true;
+function parseAuthenticateTokenResponse(response, successAction, failureAction) {
+    if (response.value === 'token') {
+        successAction();
     } else {
         console.log('Failed to authenticate existing token. Clearing token');
-        clearUserInfoFromLocalStorage();
-        return false;
+        invalidateToken(response.token);
+        failureAction();
     }
 }
 
@@ -81,6 +82,10 @@ function clearUserInfoFromLocalStorage() {
 
 function redirectToLoginPage() {
     window.location.href = 'login.html';
+}
+
+function redirectToHomePage() {
+    window.location.href = 'home.html';
 }
 
 class HTTPResponse {

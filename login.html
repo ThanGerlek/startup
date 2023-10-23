@@ -44,7 +44,8 @@
                 <input type="password" id="passwordBox" name="pass">
             </div>
 
-            <button class="btn btn-success my-2" onclick="onLoginButtonClick()">Login</button>
+            <button class="btn btn-success my-2"
+                onclick="authenticateToken(redirectToHomePage, onLoginButtonClick)">Login</button>
 
             <div id="info_message" class="alert alert-info" style="display: none;"></div>
             <div id="warn_message" class="alert alert-warning" style="display: none;"></div>
@@ -65,6 +66,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="login.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
