@@ -1,5 +1,13 @@
 'use strict';
 
+function logout() {
+    invalidateToken(getAuthTokenFromLocalStorage());
+    redirectToLoginPage();
+}
+
+
+
+
 async function authenticateToken() {
     let existingToken = getAuthTokenFromLocalStorage();
     if (existingToken) {
@@ -10,10 +18,7 @@ async function authenticateToken() {
             console.log('Failed to connect to the server when authenticating existing token.');
         }
     } else {
-        if (!(window.location.href === 'login.html')) {
-            console.log(window.location.href);
-            window.location.href = 'login.html';
-        }
+        redirectToLoginPage();
     }
 }
 
@@ -21,7 +26,7 @@ async function getAuthenticateTokenResponse(token) {
     // Return artificial data
 
     return new Promise((resolve, reject) => {
-        console.log(`Simulating accessing server to authenticate token. Token: '${token}'`);
+        console.log(`Simulating accessing server to authenticate token. Token string: '${token.tokenString}'`);
 
         // TODO create time-based artificial data (including random server failures?)
 
@@ -72,6 +77,10 @@ function getAuthTokenFromLocalStorage() {
 function clearUserInfoFromLocalStorage() {
     localStorage.removeItem('authtoken');
     localStorage.removeItem('user');
+}
+
+function redirectToLoginPage() {
+    window.location.href = 'login.html';
 }
 
 class HTTPResponse {
