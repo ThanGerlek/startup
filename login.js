@@ -87,7 +87,7 @@ function loginUser(token) {
 function setupWaitNotification() {
     window.waitNotification = setTimeout(() => {
         // TODO? Separate from other messages (don't want this to overwrite them)
-        displayMessage('info', 'Please wait...');
+        displayMessage('info', 'Connecting to the server, please wait...');
     }, 1000);
 }
 
