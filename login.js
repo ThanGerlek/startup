@@ -78,7 +78,6 @@ function isIncorrectPasswordResponse(response) {
 
 function loginUser(token) {
     console.log(`Your token string is: '${token.tokenString}'`);
-    clearTimeout(window.waitNotification);
     localStorage.setItem('authtoken', JSON.stringify(token));
     localStorage.setItem('user', token.username);
     displayMessage('info', 'Redirecting...');
@@ -86,8 +85,10 @@ function loginUser(token) {
 }
 
 function setupWaitNotification() {
-    window.waitNotification = setTimeout(() => displayWaitNotification(), 1000);
-    console.log('Please wait while we log you in.');
+    window.waitNotification = setTimeout(() => {
+        // TODO? Separate from other messages (don't want this to overwrite them)
+        displayMessage('info', 'Please wait...');
+    }, 1000);
 }
 
 function cancelWaitNotification() {
@@ -97,9 +98,11 @@ function cancelWaitNotification() {
     }
 }
 
-function displayWaitNotification() {
-    displayMessage('info', 'Please wait...');
-    // TODO? Separate from other messages (don't want this to overwrite them)
+function displayMessage(msgType, msg) {
+    clearMessageDisplay();
+    let msgElement = getMessageElement(msgType);
+    msgElement.textContent = msg;
+    msgElement.style.display = 'inline';
 }
 
 function clearMessageDisplay() {
@@ -110,14 +113,6 @@ function clearMessageDisplay() {
         msgElement.style.display = 'none';
     });
 }
-
-function displayMessage(msgType, msg) {
-    clearMessageDisplay();
-    let msgElement = getMessageElement(msgType);
-    msgElement.textContent = msg;
-    msgElement.style.display = 'inline';
-}
-
 function getMessageElement(msgType) {
     if (!(msgType === 'info' || msgType === 'warn' || msgType === 'error')) {
         throw new Error(`Invalid message element type '${msgType}' (must be one of 'info', 'warn', 'error')`)
