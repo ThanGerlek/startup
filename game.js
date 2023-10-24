@@ -188,3 +188,5 @@ class Game {
 
 
 document.addEventListener('DOMContentLoaded', onLoad);
+document.getElementById('submit-board-button').addEventListener('click', () => onSubmitButtonClick());
+document.getElementById('reset-board-button').addEventListener('click', () => onResetButtonClick());
