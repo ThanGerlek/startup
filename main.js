@@ -1,5 +1,13 @@
 'use strict';
 
+
+function loadFakeTokenData() {
+    localStorage.setItem('user', 'john');
+    let token = {username: 'john', tokenString: 'pi/2'};
+    localStorage.setItem('authtoken', JSON.stringify(token));
+}
+
+
 function logout() {
     invalidateToken(getAuthTokenFromLocalStorage());
     redirectToLoginPage();
