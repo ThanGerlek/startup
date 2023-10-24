@@ -4,6 +4,8 @@
 
 // TODO change logout from a simple redirect to returning a completely different HTTP response
 
+import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
+
 function onLoginButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
@@ -146,3 +148,7 @@ function hash(text) {
 
     return 42;
 }
+
+document.getElementById('login-button').addEventListener('click', () => {
+    authenticateToken(redirectToHomePage, onLoginButtonClick);
+});

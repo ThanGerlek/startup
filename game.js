@@ -4,6 +4,7 @@ const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
 function onLoad() {
     //TODO test for server connection?
+    silentAuthenticateToken();
     setUpGame();
 }
 
@@ -172,7 +173,7 @@ class Game {
 
     takePiece(rowIndex, pieceIndex) {
         // TODO test if valid (this piece is already taken, piece in a different row also selected, etc.)
-        this.#localBoard.markTaken(rowIndex, pieceIndex);
+                this.#localBoard.markTaken(rowIndex, pieceIndex);
     }
 
     submitMove() {
@@ -184,3 +185,6 @@ class Game {
         this.#localBoard.copyStateFrom(this.#gameBoard);
     }
 }
+
+
+document.addEventListener('DOMContentLoaded', onLoad);

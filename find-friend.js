@@ -127,3 +127,5 @@ function getMessageElement(msgType) {
         return msgElement;
     }
 }
+
+document.getElementById('submit-game-request-button').addEventListener('click', () => submitGameRequest());
