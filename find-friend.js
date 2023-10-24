@@ -1,5 +1,7 @@
 'use strict';
 
+//BUG empty string fails to connect
+
 function onSubmitButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
@@ -37,18 +39,23 @@ async function getGameRequestResponse(senderUsername, receiverUsername) {
             response = new HTTPResponse('200 OK');
         }
 
+
         // TODO remove test code
-        if (receiverUsername === "test-bad-response") {
-            console.log('Test: simulating recieving a malformed response');
-            response = {value: 'blue', errorType: 'french fries'};
-        } else if (receiverUsername === "test-server-access-failure") {
+        if (receiverUsername === "test-server-access-failure") {
             console.log('Test: simulating a server access failure');
             reject();
-        }
+        } else {
 
-        // TODO create time-based artificial data (including random server failures?)
-        setTimeout(() => resolve(response), 2000);
-        // resolve(response);
+            if (receiverUsername === "test-bad-response") {
+                console.log('Test: simulating recieving a malformed response');
+                response = {value: 'blue', errorType: 'french fries'};
+            }
+            
+            // TODO create time-based artificial data (including random server failures?)
+            setTimeout(() => resolve(response), 2000);
+            // resolve(response);
+
+        }
     });
 }
 
@@ -61,6 +68,10 @@ function parseGameRequestResponse(response, receiverUsername) {
     } else {
         displayMessage('error', 'Failed to parse HTTP response!');
     }
+}
+
+function isInvalidUserResponse(response) {
+    return response.value === 'error' && response.errorType === 'invalidUser'; // temporary artificial implementation
 }
 
 function setUpForConnection(response, receiverUsername) {
@@ -128,4 +139,4 @@ function getMessageElement(msgType) {
     }
 }
 
-document.getElementById('submit-game-request-button').addEventListener('click', () => submitGameRequest());
+document.getElementById('submit-game-request-button').addEventListener('click', () => onSubmitButtonClick());
