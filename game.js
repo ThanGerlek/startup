@@ -1,6 +1,6 @@
-'use strict';
-
 const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
+
+import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
 
 function onLoad() {
     //TODO test for server connection?
