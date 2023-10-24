@@ -43,8 +43,12 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
         }
 
         // TODO remove test code
-        if (username === "uuddababstart") {
+        if (username === "test-bad-response") {
+            console.log('Test: simulating recieving a malformed response');
             response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
+        } else if (username === "test-server-access-failure") {
+            console.log('Test: simulating a server access failure');
+            reject();
         }
 
         // TODO create time-based artificial data (including random server failures?)
