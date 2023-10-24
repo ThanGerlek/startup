@@ -24,12 +24,19 @@
 
     <main class="mx-3 flex-grow-1 d-flex flex-column justify-content-center align-items-center">
         <h3>Start a game</h3>
+
         <p class="my-2">Enter the username of a friend you want to play with.</p>
-        <form class="my-2 d-flex flex-wrap align-items-center justify-content-center" method="get"
+
+        <div class="my-2 d-flex flex-wrap align-items-center justify-content-center" method="get"
             action="wait-for-friend.html">
-            <input type="text" id="otherUser" name="otherUser">
-            <input class="btn btn-success m-1" type="submit" value="Go!">
-        </form>
+
+            <input type="text" id="otherUsernameBox" name="otherUser">
+            <button class="btn btn-success m-1" onclick="submitGameRequest()">Go!</button>
+        </div>
+
+            <div id="info_message" class="alert alert-info" style="display: none;"></div>
+            <div id="warn_message" class="alert alert-warning" style="display: none;"></div>
+            <div id="error_message" class="alert alert-danger" style="display: none;"></div>
     </main>
 
 
@@ -41,7 +48,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <script src="main.js"></script>
+        <script src="main.js"></script>
+        <script src="find-friend.js"></script>
 </body>
 
 </html>
