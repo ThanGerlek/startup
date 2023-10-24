@@ -89,11 +89,11 @@ function clearUserInfoFromLocalStorage() {
 }
 
 function redirectToLoginPage() {
-    window.location.href = 'login.html';
+    window.location.replace('login.html');
 }
 
 function redirectToHomePage() {
-    window.location.href = 'home.html';
+    window.location.replace('home.html');
 }
 
 class HTTPResponse {
