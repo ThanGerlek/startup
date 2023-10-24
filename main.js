@@ -75,7 +75,7 @@ function getAuthTokenFromLocalStorage() {
     if (serializedToken) {
         let token = JSON.parse(serializedToken);
         let {username, tokenString} = token;
-        console.log(`extracted user: ${username}, extracted string: ${tokenString}`);
+        console.log(`Found AuthToken in local storage. Username: '${username}', token string: '${tokenString}'`);
         if (username && tokenString) {
             return token;
         }
