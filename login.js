@@ -16,12 +16,11 @@ async function authenticateLogin() {
     try {
         let response = await getAuthenticateLoginResponse(username, hashedPassword);
         cancelWaitNotification();
-        clearTimeout(window.waitNotification);
         parseLoginResponse(response);
     } catch (err) {
+        cancelWaitNotification();
         let msg = `Failed to connect to the server. Make sure you're connected to the internet, or try again later.`;
         displayMessage('error', msg);
-        throw err;
     }
 }
 
@@ -60,7 +59,6 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
 function parseLoginResponse(response) {
     if (response.value === 'token') {
         loginUser(response.token);
-        return true;
     } else if (isInvalidUserResponse(response)) {
         displayMessage('warn', 'Incorrect username.');
     } else if (isIncorrectPasswordResponse(response)) {
@@ -68,7 +66,6 @@ function parseLoginResponse(response) {
     } else {
         displayMessage('error', 'Failed to parse HTTP response!');
     }
-    return false;
 }
 
 function isInvalidUserResponse(response) {
