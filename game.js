@@ -2,6 +2,12 @@ const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
 import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
 
+// TODO. Add persistence across page reloads
+// Store the actual board state in localStorage, and deserialize into window.game upon page load?
+
+// TODO Don't let player unmark nodes that were taken in a previous turn
+// Replace boolean with a ternary value?
+
 function onLoad() {
     //TODO test for server connection?
     silentAuthenticateToken();
@@ -26,7 +32,7 @@ function setUpGame() {
     console.log('Setting up Game');
     let isPlayerTurn = true;
     let boardContainerElement = document.getElementById('board-container');
-    let game = new Game(isPlayerTurn, boardContainerElement, DEFAULT_BOARD_DIMENSIONS);
+    let game = new Game(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
 }
 
 function opponentWin() {
@@ -39,22 +45,74 @@ function playerWin() {
     console.log('Player win');
 }
 
-// TODO? Write code to dynamically generate board HTML?
-function getPieceElement(rowIndex, pieceIndex) {
-    let id = `gamepiece-element-${rowIndex}-${pieceIndex}`;
-    return document.getElementById('gamepiece-element-')
+function markElementTaken(element) {
+    // TODO. Replace opacity with a bootstrap mask
+    element.style.opacity = 0.5;
+}
+
+function markElementNotTaken(element) {
+    element.style.opacity = 1.0;
+}
+
+function constructGamepieceElement(onclickListener) {
+    const gamepieceElement = document.createElement('input');
+    gamepieceElement.type = "image";
+    gamepieceElement.alt = "matchstick";
+    gamepieceElement.height = "50";
+    gamepieceElement.src = "img/150-750-matchstick.png";
+    gamepieceElement.className = "px-2";
+
+    // const outer = document.createElement('div');
+    // outer.className = "container d-flex justify-content-center cursor-pointer";
+    // outer.role = "button";
+    gamepieceElement.addEventListener('click', onclickListener);
+    // outer.appendChild(gamepieceElement);
+
+    return gamepieceElement;
+}
+
+function constructRowContainerElement() {
+    const rowContainerElement = document.createElement('div');
+    rowContainerElement.className = "container py-2 d-flex justify-content-around";
+    return rowContainerElement;
 }
 
 class Gamepiece {
     #taken = false;
+    #gamepieceElement;
+
+    constructor(gamepieceElement) {
+        if (gamepieceElement) {
+            this.#gamepieceElement = gamepieceElement;
+            markElementNotTaken(gamepieceElement);
+            gamepieceElement.addEventListener('click', () => this.toggleIsTaken());
+        } else {
+            this.#gamepieceElement = null;
+        }
+    }
 
     isTaken() {return this.#taken;}
 
-    take() {
-        if (this.taken) {
-            throw new Error("Tried to mark a piece as taken that was already taken");
+    toggleIsTaken() {
+        this.setIsTaken(!this.isTaken());
+    }
+
+    setIsTaken(taken) {
+        if (this.#taken == taken) {
+            throw new Error(`Tried to mark a piece as taken='${taken}' that already had that status.`);
         } else {
-        this.#taken = true;
+            this.#taken = taken;
+            this.updateElement();
+        }
+    }
+
+    updateElement() {
+        if (this.#gamepieceElement) {
+            if (this.isTaken()) {
+                markElementTaken(this.#gamepieceElement);
+            } else {
+                markElementNotTaken(this.#gamepieceElement);
+            }
         }
     }
 }
@@ -63,13 +121,16 @@ class Row {
     #pieces;
     #size;
     #numPiecesLeft;
-    constructor(size) {
+    #rowContainerElement;
+
+    constructor(size, rowContainerElement) {
+        this.#pieces = [];
         this.#size = size;
         this.#numPiecesLeft = size;
+        this.#rowContainerElement = rowContainerElement;
 
-        this.#pieces = [];
         for (let i = 0; i < size; i++) {
-            this.#pieces[i] = new Gamepiece();
+            this.addNewGamepiece();
         }
     }
 
@@ -81,10 +142,19 @@ class Row {
 
     markTaken(pieceIndex) {
         let piece = this.#pieces[pieceIndex];
-        if (piece.isTaken()) {
-            piece.take();
+        if (!piece.isTaken()) {
+            piece.setIsTaken(true);
             this.#numPiecesLeft--;
         }
+    }
+
+    addNewGamepiece() {
+        let gamepieceElement = null;
+        if (this.#rowContainerElement) {
+            gamepieceElement = constructGamepieceElement();
+            this.#rowContainerElement.appendChild(gamepieceElement);
+        }
+        this.#pieces.push(new Gamepiece(gamepieceElement));
     }
 
     copyStateFrom(otherRow) {
@@ -93,59 +163,57 @@ class Row {
         }
         this.#pieces = [];
         for (let i = 0; i < this.size() && i < otherRow.size(); i++) {
-            this.#pieces[i] = new Gamepiece();
-            if (otherRow.isPieceTaken(i)) {
-                this.#pieces[i].take();
-            }
+            let isPieceTaken = otherRow.isPieceTaken(i);
+            this.#pieces[i].setIsTaken(isPieceTaken);
         }
     }
 }
 
 class Board {
     #rows;
+    #boardContainerElement;
 
-    constructor(boardDimensions) {
+    constructor(boardDimensions, boardContainerElement) {
         this.#rows = [];
+        this.#boardContainerElement = boardContainerElement;
 
         let numRows = boardDimensions.length;
         for (let i = 0; i < numRows; i++) {
             let rowSize = boardDimensions[i];
-            this.#rows[i] = new Row(rowSize);
+            this.addNewRow(rowSize);
         }
     }
 
     numPiecesLeft() {
         let numLeft = 0;
-        for (row in rows) {
+        for (let row in this.#rows) {
             numLeft += row.numPiecesLeft();
         }
         return numLeft;
     }
 
     isTaken(rowIndex, pieceIndex) {
-        return rows[rowIndex].isTaken(pieceIndex);
+        return this.#rows[rowIndex].isTaken(pieceIndex);
     }
 
     markTaken(rowIndex, pieceIndex) {
-        rows[rowIndex].markTaken(pieceIndex);
+        this.#rows[rowIndex].markTaken(pieceIndex);
+    }
+
+    addNewRow(rowSize) {
+        let rowContainerElement = null;
+        if (this.#boardContainerElement) {
+            rowContainerElement = constructRowContainerElement();
+            this.#boardContainerElement.appendChild(rowContainerElement);
+        }
+        this.#rows.push(new Row(rowSize, rowContainerElement));
     }
 
     copyStateFrom(otherBoard) {
-        for (let rowIndex = 0; rowIndex < this.#rows.length; rowIndex++) {
-            rows[rowIndex].copyStateFrom(otherBoard.#rows[rowIndex]);
+        for (let rowIndex = 0; rowIndex < this._rows.length; rowIndex++) {
+            this.#rows[rowIndex].copyStateFrom(otherBoard.#rows[rowIndex]);
         }
     }
-}
-
-class BoardDisplay extends Board {
-    constructor(boardContainerElement, boardDimensions) {
-        if (boardContainerElement == undefined || boardDimensions == undefined) {
-            throw new Error("Argument Error: Tried to construct a BoardDisplay with only one parameter (did something think it was a Board?)");
-        }
-        super(boardDimensions);
-    }
-
-    // TODO Override Board methods
 }
 
 class Game {
@@ -154,17 +222,11 @@ class Game {
     #localBoard;
     #rowBeingEdited;
 
-    constructor(isPlayerTurn, boardContainerElement, boardDimensions) {
+    constructor(boardContainerElement, boardDimensions, isPlayerTurn) {
         this.#isPlayerTurn = isPlayerTurn;
-        this.#gameBoard = new Board(boardDimensions);
-        this.#localBoard = new BoardDisplay(boardContainerElement, boardDimensions);
-        this.#rowBeingEdited = null;
-
-        this.#addPieceClickEvents();
-    }
-
-    #addPieceClickEvents() {
-        // TODO dynamically add click events, rather than hardcode into HTML
+        this.#gameBoard = new Board(boardDimensions, null); // TODO. Replace 1-param constructor with a subclass of Board
+        this.#localBoard = new Board(boardDimensions, boardContainerElement);
+        this.#rowBeingEdited = null; // TODO Track rowBeingEdited
     }
 
     isGameOver() {
@@ -173,10 +235,17 @@ class Game {
 
     takePiece(rowIndex, pieceIndex) {
         // TODO test if valid (this piece is already taken, piece in a different row also selected, etc.)
+        if (this.#rowBeingEdited) {
+            if (this.#rowBeingEdited == rowIndex) {
                 this.#localBoard.markTaken(rowIndex, pieceIndex);
+            } else {
+                displayMessage('warn', `You can only take pieces from one row.`);
+            }
+        }
     }
 
     submitMove() {
+        // Check valid move (at least one piece must have been taken)
         this.#gameBoard.copyStateFrom(this.#localBoard);
         // TODO send move to server
     }
