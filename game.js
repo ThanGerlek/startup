@@ -270,7 +270,7 @@ class Game {
         return this.#isPlayerTurn;
     }
 
-    togglePlayerTurn() {
+    changeTurn() {
         this.#isPlayerTurn = !this.#isPlayerTurn;
     }
 

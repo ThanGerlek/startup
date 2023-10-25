@@ -70,7 +70,7 @@ function parseSubmitMoveResponse(response) {
 
 function changeTurn() {
     console.log(`Move submitted. Changing turn`);
-    let game = getGame();
+    window.game.changeTurn();
 
     let currentPlayerName = localStorage.getItem(
         game.isPlayerTurn() ? 'user' : 'opponentUsername');
@@ -86,6 +86,10 @@ function isInvalidUserResponse(response) {
 
 function isOKResponse(response) {
     return response.value === '200 OK'; // temporary artificial implementation
+}
+
+function getTurnElement() {
+    return document.getElementById('opponent-name-box');
 }
 
 export { submitMoveToServer };
