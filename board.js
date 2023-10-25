@@ -82,4 +82,4 @@ function isOKResponse(response) {
     return response.value === '200 OK'; // temporary artificial implementation
 }
 
-export { submitMoveToServer }; // TODO! Export
+export { submitMoveToServer };

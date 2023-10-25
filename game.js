@@ -6,9 +6,6 @@ import { clearMessageDisplay, displayMessage } from "./message-display.js";
 // TODO. Add persistence across page reloads
 // Store the actual board state in localStorage, and deserialize into window.game upon page load?
 
-// TODO! js: Don't let player unmark nodes that were taken in a previous turn
-// Replace boolean with a ternary value?
-
 function onLoad() {
     //TODO server: test for server connection?
     silentAuthenticateToken();
@@ -266,7 +263,7 @@ class Game {
         this.#isPlayerTurn = isPlayerTurn;
         this.#gameBoard = new Board(boardDimensions, null); // TODO? style: Replace 1-param constructor with a subclass of Board
         this.#localBoard = new Board(boardDimensions, boardContainerElement);
-        this.#rowBeingEdited = null; // TODO! js: Track rowBeingEdited
+        this.#rowBeingEdited = null;
     }
 
     isGameOver() {
