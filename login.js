@@ -1,8 +1,8 @@
 'use strict';
 
-// TODO account creation
+// TODO js: server: account creation
 
-// TODO change logout from a simple redirect to returning a completely different HTTP response
+// TODO server: change logout from a simple redirect to returning a completely different HTTP response
 
 import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
 
@@ -43,7 +43,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
             response = new AuthResponse(token);
         }
 
-        // TODO remove test code
+        // TODO server: remove test code
         if (username === "test-bad-response") {
             console.log('Test: simulating recieving a malformed response');
             response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
@@ -52,7 +52,6 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
             reject();
         }
 
-        // TODO create time-based artificial data (including random server failures?)
         setTimeout(() => resolve(response), 2000);
         // resolve(response);
     });
@@ -97,7 +96,7 @@ function extractPassword() {
 }
 
 function hash(text) {
-    // TODO pull in a secure hashing algorithm
+    // TODO auth: pull in a secure hashing algorithm
     console.warn('Warning: password hashing is unimplemented!');
     if (text === "") {
         return 0;

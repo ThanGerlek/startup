@@ -40,7 +40,7 @@ async function getGameRequestResponse(senderUsername, receiverUsername) {
         }
 
 
-        // TODO remove test code
+        // TODO server: remove test code
         if (receiverUsername === "test-server-access-failure") {
             console.log('Test: simulating a server access failure');
             reject();
@@ -51,7 +51,6 @@ async function getGameRequestResponse(senderUsername, receiverUsername) {
                 response = {value: 'blue', errorType: 'french fries'};
             }
             
-            // TODO create time-based artificial data (including random server failures?)
             setTimeout(() => resolve(response), 2000);
             // resolve(response);
 
@@ -78,13 +77,13 @@ function setUpForConnection(response, receiverUsername) {
     openWebSocketConnection(response);
     localStorage.setItem('gameRequestReceiverUsername', receiverUsername);
     window.location.href = 'wait-for-friend.html?requestreceiveruser=' + receiverUsername;
-    //TODO! Warning: this^^^ means usernames MUST be URL-safe (no '?', no ' ', etc.)
-    //TODO Choose either localStorage or URL ? for sending username, but not both
+    //TODO! db: Warning: this^^^ means usernames MUST be URL-safe (no '?', no ' ', etc.)
+    //TODO server: Choose either localStorage or URL ? for sending username, but not both
 }
 
 function openWebSocketConnection(response) {
     console.log(`Simulating opening WebSocket connection.`);
-    // TODO implement WebSocket
+    // TODO ws: implement WebSocket
 }
 
 

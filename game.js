@@ -5,27 +5,23 @@ import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMes
 // TODO. Add persistence across page reloads
 // Store the actual board state in localStorage, and deserialize into window.game upon page load?
 
-// TODO Don't let player unmark nodes that were taken in a previous turn
+// TODO! js: Don't let player unmark nodes that were taken in a previous turn
 // Replace boolean with a ternary value?
 
 function onLoad() {
-    //TODO test for server connection?
+    //TODO server: test for server connection?
     silentAuthenticateToken();
     setUpGame();
 }
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
+    // TODO! js:
 }
 
 function onResetButtonClick() {
     console.log(`Reset button was clicked.`);
-    // TODO
-}
-
-function onPieceClick(rowIndex, pieceIndex) {
-    console.log(`Piece in row ${rowIndex}, index ${pieceIndex} was clicked.`);
-    // TODO
+    // TODO! js:
 }
 
 function setUpGame() {
@@ -36,17 +32,17 @@ function setUpGame() {
 }
 
 function opponentWin() {
-    // TODO
+    // TODO! js:
     console.log('Opponent win');
 }
 
 function playerWin() {
-    // TODO
+    // TODO! js:
     console.log('Player win');
 }
 
 function markElementTaken(element) {
-    // TODO. Replace opacity with a bootstrap mask
+    // TODO. css: Replace opacity with a bootstrap mask
     element.style.opacity = 0.5;
 }
 
@@ -224,9 +220,9 @@ class Game {
 
     constructor(boardContainerElement, boardDimensions, isPlayerTurn) {
         this.#isPlayerTurn = isPlayerTurn;
-        this.#gameBoard = new Board(boardDimensions, null); // TODO. Replace 1-param constructor with a subclass of Board
+        this.#gameBoard = new Board(boardDimensions, null); // TODO? style: Replace 1-param constructor with a subclass of Board
         this.#localBoard = new Board(boardDimensions, boardContainerElement);
-        this.#rowBeingEdited = null; // TODO Track rowBeingEdited
+        this.#rowBeingEdited = null; // TODO! js: Track rowBeingEdited
     }
 
     isGameOver() {
@@ -247,7 +243,7 @@ class Game {
     submitMove() {
         // Check valid move (at least one piece must have been taken)
         this.#gameBoard.copyStateFrom(this.#localBoard);
-        // TODO send move to server
+        // TODO server: send move to server
     }
 
     resetMove() {

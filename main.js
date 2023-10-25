@@ -38,8 +38,6 @@ async function getAuthenticateTokenResponse(token) {
     return new Promise((resolve, reject) => {
         console.log(`Simulating accessing server to authenticate token. Token string: '${token.tokenString}'`);
 
-        // TODO create time-based artificial data (including random server failures?)
-
         let response = {};
 
         if (token.username === "") {
@@ -67,7 +65,7 @@ function parseAuthenticateTokenResponse(response, successAction, failureAction) 
 
 function invalidateToken(token) {
     clearUserInfoFromLocalStorage();
-    // TODO Send message to server to invalidate the token
+    // TODO server: Send message to server to invalidate the token
 }
 
 function getAuthTokenFromLocalStorage() {

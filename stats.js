@@ -1,4 +1,3 @@
 'use strict';
 
-// TODO stats.js
-
+// TODO! js: stats.js
