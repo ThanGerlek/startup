@@ -4,25 +4,25 @@
 
 I added CSS styling using Bootstrap on every page to create a simple but nice design that I'm happy with (although I'm sure I'll keep fiddling with details through the whole project).
 
-Header and footer: every page has a standardized header and footer with navigation links.
-Main content body: context is organized using flexbox into nice-looking elements.
-Navigation elements: each page has a home link and logout button in the header, with page-specific navigation buttons built into the main page content but with a consistent style.
-Responsive design: everything is built using flexbox and responsive design, so it works well on nearly any device.
-Application elements: main page content uses Bootstrap styling.
-Application text content: I simplified and streamlined text, using styling to create a consistent feel.
-Application images: I changed the hardcoded board images into flexbox-styled elements, so they automatically space themselves according to the device.
+- *Header and footer*: every page has a standardized header and footer with navigation links.
+- *Main content body*: context is organized using flexbox into nice-looking elements.
+- *Navigation elements*: each page has a home link and logout button in the header, with page-specific navigation buttons built into the main page content but with a consistent style.
+- *Responsive design*: everything is built using flexbox and responsive design, so it works well on nearly any device.
+- *Application elements*: main page content uses Bootstrap styling.
+- *Application text content*: I simplified and streamlined text, using styling to create a consistent feel.
+- *Application images*: I changed the hardcoded board images into flexbox-styled elements, so they automatically space themselves according to the device.
 
 ## HTML deliverable
 
 I outlined every page using hardcoded HTML as a structural skeleton of the eventual functionality I want to add.
 
-HTML pages: Each page is structured using placeholder HTML.
-Links: Every page has links to the pages relevant to it (including placeholder links for redirects or gamestates), including home links in the header.
-Text: There's a brief description or welcome on each page.
-Images: Placeholder images are used as hardcoded icons on the game board.
-Login: Username and password input form with placeholder buttons and links.
-Database: Placeholder statistics page including account information and game stats.
-WebSocket: Placeholder board page for live play with other users.
+- *HTML pages*: Each page is structured using placeholder HTML.
+- *Links*: Every page has links to the pages relevant to it (including placeholder links for redirects or gamestates), including home links in the header.
+- *Text*: There's a brief description or welcome on each page.
+- *Images*: Placeholder images are used as hardcoded icons on the game board.
+- *Login*: Username and password input form with placeholder buttons and links.
+- *Database*: Placeholder statistics page including account information and game stats.
+- *WebSocket*: Placeholder board page for live play with other users.
 
 ## Description Deliverable
 
