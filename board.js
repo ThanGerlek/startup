@@ -61,7 +61,7 @@ function parseSubmitMoveResponse(response) {
         clearMessageDisplay();
         changeTurn();
     } else if (isInvalidUserResponse(response)) {
-        displayMessage('error', 'Woah! Invalid username! Please try restarting the game.');
+        displayMessage('error', 'Woah! Invalid username! Try restarting the game.');
         // TODO. err: handle by ending game?
     } else {
         displayMessage('error', 'Failed to parse HTTP response! Please try again.');
@@ -70,6 +70,12 @@ function parseSubmitMoveResponse(response) {
 
 function changeTurn() {
     console.log(`Move submitted. Changing turn`);
+    let game = getGame();
+
+    let currentPlayerName = localStorage.getItem(
+        game.isPlayerTurn() ? 'user' : 'opponentUsername');
+    getTurnElement().textContent = currentPlayerName;
+
     console.log(`[Not acutally changing turn, since the database isn't implemented yet]`);
     //TODO. js: Actually change turns, with all the functional restrictions that entails; then when the user clicks submit again, change back to their turn without marking anything.
 }

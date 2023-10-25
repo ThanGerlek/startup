@@ -266,6 +266,14 @@ class Game {
         this.#rowBeingEdited = null;
     }
 
+    isPlayerTurn() {
+        return this.#isPlayerTurn;
+    }
+
+    togglePlayerTurn() {
+        this.#isPlayerTurn = !this.#isPlayerTurn;
+    }
+
     isGameOver() {
         return this.#gameBoard.numPiecesLeft() == 0;
     }
