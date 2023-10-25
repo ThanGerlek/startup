@@ -8,7 +8,7 @@ Most of the basic features are implemented in JavaScript, with artificial data b
 - *Gameplay*: all game rules, win conditions, and player turn tracking logic are represented using JavaScript classes and functions
 - *Dynamic HTML/CSS*: nearly all event listeners (onclick, onload, etc) are implemented with DOM manipulations rather than HTML properties, info and alert boxes are dynamically shown and hidden, and the entire board is generated from JavaScript
 - *Modules*: message style is consistent across pages through a single `message-display` module
-- *Simulated server communication*: data is sent through JavaScript Promises to a simulated server, which generates and returns accurate (albeit artificial) responses
+- *Simulated server communication*: data is sent through JavaScript Promises to a simulated server, which generates and returns accurate (albeit artificial) responses for both database access (ex. when sending a game request) and WebSocket communication (ex. during gameplay)
 - *Persistent data*: usernames, game states, authtokens, and other data is stored in the browser's localStorage
 
 ## CSS deliverable
