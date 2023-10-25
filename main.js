@@ -103,6 +103,12 @@ class HTTPResponse {
     get value() {return this.#value;}
 }
 
+class OKResponse extends HTTPResponse {
+    constructor(value) {
+        super('200 OK');
+    }
+}
+
 class ErrorResponse extends HTTPResponse {
     #errorType;
     constructor(errorType) {

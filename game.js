@@ -1,6 +1,6 @@
 const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
-import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
+import { submitMoveToServer } from "./board.js";
 
 // TODO. Add persistence across page reloads
 // Store the actual board state in localStorage, and deserialize into window.game upon page load?
@@ -16,12 +16,16 @@ function onLoad() {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
-    // TODO! js:
+    let game = getGame();
+    game.submitMove();
+    if (game.isGameOver()) {
+        opponentWin();
+    }
 }
 
 function onResetButtonClick() {
     console.log(`Reset button was clicked.`);
-    // TODO! js:
+    getGame().resetMove();
 }
 
 function setUpGame() {
@@ -57,6 +61,15 @@ function markElementTaken(element) {
 
 function markElementNotTaken(element) {
     element.style.opacity = 1.0;
+}
+
+function getGame() {
+    let game = window.game;
+    if (!game) {
+        throw new Error('Failed to get Game object');
+        // TODO? db: handle error? End game, or maybe re-query database?
+    }
+    return game;
 }
 
 function constructGamepieceElement(onclickListener) {
@@ -103,12 +116,9 @@ class Gamepiece {
     }
 
     setIsTaken(taken) {
-if (this.#taken == taken) {
-            throw new Error(`Tried to mark a piece as taken='${taken}' that already had that status.`);
-        } else {
         this.#taken = taken;
         this.updateElement();
-}
+
     }
 
     updateElement() {
@@ -125,7 +135,6 @@ if (this.#taken == taken) {
 class Row {
     #pieces;
     #size;
-#numPiecesLeft;
     #rowContainerElement;
 
     constructor(size, rowContainerElement) {
@@ -148,8 +157,17 @@ class Row {
         let piece = this.#pieces[pieceIndex];
         if (!piece.isTaken()) {
             piece.setIsTaken(true);
-        this.#numPiecesLeft--;
         }
+    }
+
+    numPiecesLeft() {
+        let numLeft = 0;
+        for (let i = 0; i < this.#size; i++) {
+            if (!this.isTaken(i)) {
+                numLeft++;
+            }
+        }
+        return numLeft;
     }
 
     addNewGamepiece() {
@@ -165,10 +183,9 @@ class Row {
         if (this.size() != otherRow.size()) {
             throw new Error("Mismatched row sizes when calling row.copyStateFrom()");
         }
-this.#pieces = [];
         for (let i = 0; i < this.size() && i < otherRow.size(); i++) {
-            let isPieceTaken = otherRow.isPieceTaken(i);
-            this.#pieces[i].setIsTaken(isPieceTaken);
+            let isTaken = otherRow.isTaken(i);
+            this.#pieces[i].setIsTaken(isTaken);
         }
     }
 }
@@ -214,7 +231,7 @@ class Board {
     }
 
     copyStateFrom(otherBoard) {
-        for (let rowIndex = 0; rowIndex < this._rows.length; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < this.#rows.length; rowIndex++) {
             this.#rows[rowIndex].copyStateFrom(otherBoard.#rows[rowIndex]);
         }
     }
@@ -240,7 +257,7 @@ class Game {
     submitMove() {
         // Check valid move (at least one piece must have been taken)
         this.#gameBoard.copyStateFrom(this.#localBoard);
-        // TODO server: send move to server
+        submitMoveToServer(this.#gameBoard);
     }
 
     resetMove() {
