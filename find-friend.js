@@ -75,7 +75,7 @@ function isInvalidUserResponse(response) {
 
 function setUpForConnection(response, receiverUsername) {
     openWebSocketConnection(response);
-    localStorage.setItem('gameRequestReceiverUsername', receiverUsername);
+    localStorage.setItem('opponentUsername', receiverUsername);
     window.location.href = 'wait-for-friend.html?requestreceiveruser=' + receiverUsername;
     //TODO! db: Warning: this^^^ means usernames MUST be URL-safe (no '?', no ' ', etc.)
     //TODO server: Choose either localStorage or URL ? for sending username, but not both

@@ -24,6 +24,8 @@
 
     <!-- TODO. css: Shrink buttons to better handle 150% size? Remove opponent name when they're too big? -->
 
+    <!-- TODO. html: Display "Make your move!" as a message, so there's always a box there, and replace with "waiting for opponent" when it's not the player's turn -->
+
 
     <main class="mx-3 flex-grow-1 d-flex flex-column justify-content-between align-items-center">
 
@@ -35,7 +37,7 @@
             <div class="btn btn-primary disabled">
                 Make your move!
             </div>
-            <div class="btn btn-outline-primary disabled">
+            <div id = "opponent-name-box" class="btn btn-outline-primary disabled">
                 George Washington
             </div>
         </div>
@@ -85,6 +87,10 @@
             <button type="button" id="reset-board-button" class="btn btn-dark">Reset</button>
         </div>
 
+        <div id="info_message" class="alert alert-info" style="display: none;"></div>
+        <div id="warn_message" class="alert alert-warning" style="display: none;"></div>
+        <div id="error_message" class="alert alert-danger" style="display: none;"></div>
+
     </main>
 
 
@@ -99,7 +105,9 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="require-auth.js" type="module"></script>
+    <script src="message-display.js" type="module"></script>
     <script src="main.js"></script>
+    <script src="board.js" type="module"></script>
     <script src="game.js" type="module"></script>
 </body>
 

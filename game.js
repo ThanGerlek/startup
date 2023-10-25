@@ -26,9 +26,18 @@ function onResetButtonClick() {
 
 function setUpGame() {
     console.log('Setting up Game');
-    let isPlayerTurn = true;
+
     let boardContainerElement = document.getElementById('board-container');
-    let game = new Game(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
+    boardContainerElement.textContent = '';
+
+    let isPlayerTurn = true;
+    window.game = new Game(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
+
+    let opponentName = localStorage.getItem('opponentUsername');
+    if (!opponentName) { // TODO rmv test code
+        opponentName = "Bob Ross";
+    }
+    document.getElementById('opponent-name-box').textContent = opponentName;
 }
 
 function opponentWin() {
@@ -94,12 +103,12 @@ class Gamepiece {
     }
 
     setIsTaken(taken) {
-        if (this.#taken == taken) {
+if (this.#taken == taken) {
             throw new Error(`Tried to mark a piece as taken='${taken}' that already had that status.`);
         } else {
-            this.#taken = taken;
-            this.updateElement();
-        }
+        this.#taken = taken;
+        this.updateElement();
+}
     }
 
     updateElement() {
@@ -116,13 +125,12 @@ class Gamepiece {
 class Row {
     #pieces;
     #size;
-    #numPiecesLeft;
+#numPiecesLeft;
     #rowContainerElement;
 
     constructor(size, rowContainerElement) {
         this.#pieces = [];
         this.#size = size;
-        this.#numPiecesLeft = size;
         this.#rowContainerElement = rowContainerElement;
 
         for (let i = 0; i < size; i++) {
@@ -140,7 +148,7 @@ class Row {
         let piece = this.#pieces[pieceIndex];
         if (!piece.isTaken()) {
             piece.setIsTaken(true);
-            this.#numPiecesLeft--;
+        this.#numPiecesLeft--;
         }
     }
 
@@ -157,7 +165,7 @@ class Row {
         if (this.size() != otherRow.size()) {
             throw new Error("Mismatched row sizes when calling row.copyStateFrom()");
         }
-        this.#pieces = [];
+this.#pieces = [];
         for (let i = 0; i < this.size() && i < otherRow.size(); i++) {
             let isPieceTaken = otherRow.isPieceTaken(i);
             this.#pieces[i].setIsTaken(isPieceTaken);
@@ -182,8 +190,8 @@ class Board {
 
     numPiecesLeft() {
         let numLeft = 0;
-        for (let row in this.#rows) {
-            numLeft += row.numPiecesLeft();
+        for (let i = 0; i < this.#rows.length; i++) {
+            numLeft += this.#rows[i].numPiecesLeft();
         }
         return numLeft;
     }
@@ -227,17 +235,6 @@ class Game {
 
     isGameOver() {
         return this.#gameBoard.numPiecesLeft() == 0;
-    }
-
-    takePiece(rowIndex, pieceIndex) {
-        // TODO test if valid (this piece is already taken, piece in a different row also selected, etc.)
-        if (this.#rowBeingEdited) {
-            if (this.#rowBeingEdited == rowIndex) {
-                this.#localBoard.markTaken(rowIndex, pieceIndex);
-            } else {
-                displayMessage('warn', `You can only take pieces from one row.`);
-            }
-        }
     }
 
     submitMove() {

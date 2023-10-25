@@ -1,7 +1,10 @@
-function setupWaitNotification() {
+function setupWaitNotification(delay) {
+    if (!delay) {
+        delay = 1000;
+    }
     window.waitNotification = setTimeout(() => {
         displayMessage('info', 'Connecting to the server, please wait...');
-    }, 1000);
+    }, delay);
 }
 
 function cancelWaitNotification() {
