@@ -10,6 +10,7 @@ function loadFakeTokenData() {
 
 function logout() {
     invalidateToken(getAuthTokenFromLocalStorage());
+    clearStorage();
     redirectToLoginPage();
 }
 
@@ -66,6 +67,10 @@ function parseAuthenticateTokenResponse(response, successAction, failureAction) 
 function invalidateToken(token) {
     clearUserInfoFromLocalStorage();
     // TODO server: Send message to server to invalidate the token
+}
+
+function clearStorage() {
+    localStorage.clear();
 }
 
 function getAuthTokenFromLocalStorage() {
