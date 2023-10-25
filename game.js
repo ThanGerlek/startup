@@ -1,6 +1,7 @@
 const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
 import { submitMoveToServer } from "./board.js";
+import { displayMessage } from "./message-display.js";
 
 // TODO. Add persistence across page reloads
 // Store the actual board state in localStorage, and deserialize into window.game upon page load?
@@ -20,6 +21,16 @@ function onSubmitButtonClick() {
     game.submitMove();
     if (game.isGameOver()) {
         opponentWin();
+    }
+    
+    temp_testPlayerWin();
+}
+
+function temp_testPlayerWin() {
+    // TODO server: remove temp_testPlayerWin() and Game.temp_isGameOverForOpponent()
+    let game = getGame();
+    if (game.temp_isGameOverForOpponent()) {
+        playerWin();
     }
 }
 
@@ -45,13 +56,15 @@ function setUpGame() {
 }
 
 function opponentWin() {
-    // TODO! js:
     console.log('Opponent win');
+    // TODO ws: close connection? (on win or loss)
+    window.location.href = 'you-lose.html';
+    // TODO db: update player stats (on win or loss)
 }
 
 function playerWin() {
-    // TODO! js:
     console.log('Player win');
+    window.location.href = 'you-win.html';
 }
 
 function markElementTaken(element) {
@@ -252,6 +265,10 @@ class Game {
 
     isGameOver() {
         return this.#gameBoard.numPiecesLeft() == 0;
+    }
+
+    temp_isGameOverForOpponent() {
+        return this.#gameBoard.numPiecesLeft() == 1;
     }
 
     submitMove() {
