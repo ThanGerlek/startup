@@ -1,5 +1,16 @@
 # NIM Player
 
+## JavaScript deliverable
+
+Most of the basic features are implemented in JavaScript, with artificial data being generated and returned to simulate database interactions. Local play is fully supported (and online play is functionally equivalent to it for now).
+
+- *Login authentication*: a valid username and password (nearly anything except the empty string) are required to authenticate, and pages redirect to the login screen if a valid authtoken is not found
+- *Gameplay*: all game rules, win conditions, and player turn tracking logic are represented using JavaScript classes and functions
+- *Dynamic HTML/CSS*: nearly all event listeners (onclick, onload, etc) are implemented with DOM manipulations rather than HTML properties, info and alert boxes are dynamically shown and hidden, and the entire board is generated from JavaScript
+- *Modules*: message style is consistent across pages through a single `message-display` module
+- *Simulated server communication*: data is sent through JavaScript Promises to a simulated server, which generates and returns accurate (albeit artificial) responses
+- *Persistent data*: usernames, game states, authtokens, and other data is stored in the browser's localStorage
+
 ## CSS deliverable
 
 I added CSS styling using Bootstrap on every page to create a simple but nice design that I'm happy with (although I'm sure I'll keep fiddling with details through the whole project).
