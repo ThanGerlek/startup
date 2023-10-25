@@ -1,7 +1,7 @@
 const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
 import { submitMoveToServer } from "./board.js";
-import { displayMessage } from "./message-display.js";
+import { clearMessageDisplay, displayMessage } from "./message-display.js";
 
 // TODO. Add persistence across page reloads
 // Store the actual board state in localStorage, and deserialize into window.game upon page load?
@@ -36,6 +36,7 @@ function temp_testPlayerWin() {
 
 function onResetButtonClick() {
     console.log(`Reset button was clicked.`);
+    clearMessageDisplay();
     getGame().resetMove();
 }
 
@@ -93,11 +94,7 @@ function constructGamepieceElement(onclickListener) {
     gamepieceElement.src = "img/150-750-matchstick.png";
     gamepieceElement.className = "px-2";
 
-    // const outer = document.createElement('div');
-    // outer.className = "container d-flex justify-content-center cursor-pointer";
-    // outer.role = "button";
     gamepieceElement.addEventListener('click', onclickListener);
-    // outer.appendChild(gamepieceElement);
 
     return gamepieceElement;
 }
@@ -248,6 +245,15 @@ class Board {
             this.#rows[rowIndex].copyStateFrom(otherBoard.#rows[rowIndex]);
         }
     }
+
+    compareRows(otherBoard) {
+        let rowDiffs = [];
+        for (let i = 0; i < this.#rows.length; i++) {
+            let rowDiff = this.#rows[i].numPiecesLeft() - otherBoard.#rows[i].numPiecesLeft();
+            rowDiffs.push(rowDiff);
+        }
+        return rowDiffs;
+    }
 }
 
 class Game {
@@ -273,12 +279,32 @@ class Game {
 
     submitMove() {
         // Check valid move (at least one piece must have been taken)
-        this.#gameBoard.copyStateFrom(this.#localBoard);
-        submitMoveToServer(this.#gameBoard);
+        if(this.checkForValidMove()) {
+            this.#gameBoard.copyStateFrom(this.#localBoard);
+            submitMoveToServer(this.#gameBoard);
+        } else {
+            displayMessage('warn', 'Invalid move! You must select at least one match, and they all must be from the same row.');
+            this.resetMove();
+        }
     }
 
     resetMove() {
         this.#localBoard.copyStateFrom(this.#gameBoard);
+    }
+
+    checkForValidMove() {
+        let rowDiffs = this.#gameBoard.compareRows(this.#localBoard);
+        let numEditedRows = 0;
+        for (let i = 0; i < rowDiffs.length; i++) {
+            if (rowDiffs[i] > 0) {
+                numEditedRows++;
+            } else if (rowDiffs[i] < 0) {
+                console.log('Un-took pieces that were taken in a previous move (without preserving the row total)');
+                return false;
+            }
+        }
+
+        return numEditedRows == 1;
     }
 }
 
