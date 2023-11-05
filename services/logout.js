@@ -1,6 +1,6 @@
 'use strict';
 
-function logout() {
+module.exports.logout = function () {
     // TODO! services
 }
 
@@ -11,5 +11,3 @@ function logout() {
 // | **Success response** | [200]                                        |
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }` |
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
-
-export {logout};

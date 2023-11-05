@@ -1,6 +1,6 @@
 'use strict';
 
-function login() {
+module.exports.login = function () {
     // TODO! services
 }
 
@@ -11,5 +11,3 @@ function login() {
 // | **Success response** | [200] `{ "username":"", "token":"" }`           |
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`    |
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
-
-export {login};

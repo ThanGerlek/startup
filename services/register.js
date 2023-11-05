@@ -1,6 +1,6 @@
 'use strict';
 
-function register() {
+module.exports.register = function () {
     // TODO! services
 }
 
@@ -12,5 +12,3 @@ function register() {
 // | **Failure response** | [400] `{ "message": "Error: bad request" }`   |
 // | **Failure response** | [403] `{ "message": "Error: already taken" }` |
 // | **Failure response** | [500] `{ "message": "Error: description" }`   |
-
-export {register};

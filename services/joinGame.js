@@ -1,7 +1,7 @@
 'use strict';
 
-function joinGame() {
-// TODO! services
+module.exports.joinGame = function () {
+    // TODO! services
 }
 
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
@@ -14,5 +14,3 @@ function joinGame() {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`                                                                                                                                               |
 // | **Failure response** | [403] `{ "message": "Error: already taken" }`                                                                                                                                              |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
-
-export {joinGame};

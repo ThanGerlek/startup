@@ -1,6 +1,6 @@
 'use strict';
 
-function clearApplication() {
+module.exports.clearApplication = function () {
     // TODO! services
 }
 
@@ -9,5 +9,3 @@ function clearApplication() {
 // | **Description**      | Clears the database. Removes all users, games, and authTokens. |
 // | **Success response** | [200]                                                          |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                    |
-
-export {clearApplication};
