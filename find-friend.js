@@ -5,7 +5,7 @@ import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMes
 function onSubmitButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
-    submitGameRequest();
+    submitGameRequest(); // TODO convert to use .then() to redirect
 }
 
 async function submitGameRequest() {

@@ -9,7 +9,7 @@ import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMes
 function onLoginButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
-    authenticateLogin();
+    authenticateLogin(); // TODO Convert to use .then()
 }
 
 async function authenticateLogin() {
@@ -107,4 +107,5 @@ function hash(text) {
 
 document.getElementById('login-button').addEventListener('click', () => {
     authenticateToken(redirectToHomePage, onLoginButtonClick);
+    // TODO Convert to use .then()
 });

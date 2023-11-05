@@ -8,7 +8,7 @@ import { clearMessageDisplay, displayMessage } from "./message-display.js";
 
 function onLoad() {
     //TODO server: test for server connection?
-    silentAuthenticateToken();
+    silentAuthenticateToken(); // TODO convert to use .then()
     setUpGame();
 }
 
@@ -291,7 +291,7 @@ class Game {
         // Check valid move (at least one piece must have been taken)
         if(this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
-            submitMoveToServer(this.#gameBoard);
+            submitMoveToServer(this.#gameBoard); // TODO add .then() to change turn locally
         } else {
             displayMessage('warn', 'Invalid move! You must select at least one match, and they all must be from the same row.');
             this.resetMove();
