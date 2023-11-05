@@ -2,6 +2,7 @@
 
 module.exports.login = function () {
     // TODO! services
+    console.log("Called login()");
 }
 
 // | **Request class**    | LoginRequest                                    |

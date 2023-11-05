@@ -2,6 +2,7 @@
 
 module.exports.register = function () {
     // TODO! services
+    console.log("Called register()");
 }
 
 // | **Request class**    | RegisterRequest                               |

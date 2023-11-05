@@ -2,6 +2,7 @@
 
 module.exports.joinGame = function () {
     // TODO! services
+    console.log("Called joinGame()");
 }
 
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |

@@ -2,6 +2,7 @@
 
 module.exports.logout = function () {
     // TODO! services
+    console.log("Called logout()");
 }
 
 // | **Request class**    | N/A (no request body)                        |
