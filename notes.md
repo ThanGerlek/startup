@@ -42,7 +42,7 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 #### Selectors
 
 | Combinator Example | Name             | Description                                |
-| ------------------ | ---------------- | ------------------------------------------ |
+|--------------------|------------------|--------------------------------------------|
 | `body section`     | Descendant       | Any section that is a descendant of a body |
 | `section > p`      | Direct child     | Any p that is a direct child of a section  |
 | `p ~ div`          | sibling          | Any p that has a div sibling               |
@@ -56,7 +56,7 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 #### Common Properties
 
 | Property           | Value                              | Example             | Discussion                                                                     |
-| ------------------ | ---------------------------------- | ------------------- | ------------------------------------------------------------------------------ |
+|--------------------|------------------------------------|---------------------|--------------------------------------------------------------------------------|
 | background-color   | color                              | `red`               | Fill the background color                                                      |
 | border             | color width style                  | `#fad solid medium` | Sets the border using shorthand where any or all of the values may be provided |
 | border-radius      | unit                               | `20px`              | The size of the border radius                                                  |
@@ -65,9 +65,9 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 | column-rule        | color width style                  | `solid thin black`  | Sets the border used between columns using border shorthand                    |
 | color              | color                              | `rgb(128, 0, 0)`    | Sets the text color                                                            |
 | cursor             | type                               | `grab`              | Sets the cursor to display when hovering over the element                      |
-| display            | type                               | `block`, `inline`   | Defines how to display the element (display:none makes it disappear)                            |
+| display            | type                               | `block`, `inline`   | Defines how to display the element (display:none makes it disappear)           |
 | filter             | filter-function                    | `grayscale(30%)`    | Applies a visual filter                                                        |
-| float              | direction                          | `right`             | Allows inline text to wrap around it                            |
+| float              | direction                          | `right`             | Allows inline text to wrap around it                                           |
 | font               | family size style                  | `Arial 1.2em bold`  | Defines the text font using shorthand                                          |
 | flex               |                                    |                     | Flex layout. Used for responsive design                                        |
 | grid               |                                    |                     | Grid layout. Used for responsive design                                        |
@@ -88,7 +88,7 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 #### Units
 
 | Unit | Description                                                      |
-| ---- | ---------------------------------------------------------------- |
+|------|------------------------------------------------------------------|
 | px   | The number of pixels                                             |
 | pt   | The number of points (1/72 of an inch)                           |
 | in   | The number of inches                                             |

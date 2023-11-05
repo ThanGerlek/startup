@@ -1,6 +1,6 @@
 'use strict';
 
-import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
+import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 
 async function submitMoveToServer(gameboard) {
     clearMessageDisplay();
@@ -38,7 +38,7 @@ async function getSubmitMoveResponse(gameboard, username, opponentUsername) {
 
         // TODO server: remove test code
         if (username === "board_test-bad-response") {
-            console.log('Test: simulating recieving a malformed response');
+            console.log('Test: simulating receiving a malformed response');
             response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
         }
         else if (username === "board_invalid-but-logged-in") {
@@ -56,7 +56,6 @@ async function getSubmitMoveResponse(gameboard, username, opponentUsername) {
 }
 
 function parseSubmitMoveResponse(response) {
-    cancelWaitNotification();
     if (isOKResponse(response)) {
         clearMessageDisplay();
         changeTurn();
@@ -72,11 +71,10 @@ function changeTurn() {
     console.log(`Move submitted. Changing turn`);
     window.game.changeTurn();
 
-    let currentPlayerName = localStorage.getItem(
+    getTurnElement().textContent = localStorage.getItem(
         game.isPlayerTurn() ? 'user' : 'opponentUsername');
-    getTurnElement().textContent = currentPlayerName;
 
-    console.log(`[Not acutally changing turn, since the database isn't implemented yet]`);
+    console.log(`[Not actually changing turn, since the database isn't implemented yet]`);
     //TODO. js: Actually change turns, with all the functional restrictions that entails; then when the user clicks submit again, change back to their turn without marking anything.
 }
 
