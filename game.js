@@ -229,10 +229,6 @@ class Board {
         return this.#rows[rowIndex].isTaken(pieceIndex);
     }
 
-    markTaken(rowIndex, pieceIndex) {
-        this.#rows[rowIndex].markTaken(pieceIndex);
-    }
-
     addNewRow(rowSize) {
         let rowContainerElement = null;
         if (this.#boardContainerElement) {
