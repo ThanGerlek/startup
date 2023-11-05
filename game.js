@@ -43,14 +43,19 @@ function setUpGame() {
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
 
-    let isPlayerTurn = true;
+    let isPlayerTurn = initializePlayerTurn();
     window.game = new Game(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
+}
 
+function initializePlayerTurn() {
+    // TODO feat: allow choosing of who goes first
     let opponentName = localStorage.getItem('opponentUsername');
     if (!opponentName) { // TODO rmv test code
         opponentName = "Bob Ross";
     }
-    document.getElementById('opponent-name-box').textContent = opponentName;
+    let isPlayerTurn = false;
+    document.getElementById('current-turn-username-box').textContent = opponentName;
+    return isPlayerTurn;
 }
 
 function opponentWin() {

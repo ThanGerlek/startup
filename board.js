@@ -89,7 +89,7 @@ function isOKResponse(response) {
 }
 
 function getTurnElement() {
-    return document.getElementById('opponent-name-box');
+    return document.getElementById('current-turn-username-box');
 }
 
 export { submitMoveToServer };
