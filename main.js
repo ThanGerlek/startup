@@ -43,7 +43,7 @@ async function getAuthenticateTokenResponse(token) {
 
         if (token.username === "") {
             response = new ErrorResponse('invalidUser');
-        } else if (token.tokenString == "") {
+        } else if (token.tokenString === "") {
             response = new ErrorResponse('invalidTokenString');
         } else {
             response = new AuthResponse(token);
@@ -109,7 +109,7 @@ class HTTPResponse {
 }
 
 class OKResponse extends HTTPResponse {
-    constructor(value) {
+    constructor() {
         super('200 OK');
     }
 }

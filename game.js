@@ -72,11 +72,11 @@ function playerWin() {
 
 function markElementTaken(element) {
     // TODO. css: Replace opacity with a bootstrap mask
-    element.style.opacity = 0.5;
+    element.style.opacity = "0.5";
 }
 
 function markElementNotTaken(element) {
-    element.style.opacity = 1.0;
+    element.style.opacity = "1.0";
 }
 
 function getGame() {
@@ -92,7 +92,7 @@ function constructGamepieceElement(onclickListener) {
     const gamepieceElement = document.createElement('input');
     gamepieceElement.type = "image";
     gamepieceElement.alt = "matchstick";
-    gamepieceElement.height = "50";
+    gamepieceElement.height = 50;
     gamepieceElement.src = "img/150-750-matchstick.png";
     gamepieceElement.className = "px-2";
 
@@ -192,7 +192,7 @@ class Row {
     }
 
     copyStateFrom(otherRow) {
-        if (this.size() != otherRow.size()) {
+        if (this.size() !== otherRow.size()) {
             throw new Error("Mismatched row sizes when calling row.copyStateFrom()");
         }
         for (let i = 0; i < this.size() && i < otherRow.size(); i++) {
@@ -280,11 +280,11 @@ class Game {
     }
 
     isGameOver() {
-        return this.#gameBoard.numPiecesLeft() == 0;
+        return this.#gameBoard.numPiecesLeft() === 0;
     }
 
     temp_isGameOverForOpponent() {
-        return this.#gameBoard.numPiecesLeft() == 1;
+        return this.#gameBoard.numPiecesLeft() === 1;
     }
 
     submitMove() {
@@ -314,7 +314,7 @@ class Game {
             }
         }
 
-        return numEditedRows == 1;
+        return numEditedRows === 1;
     }
 }
 

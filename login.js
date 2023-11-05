@@ -36,7 +36,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
 
         if (username === "") {
             response = new ErrorResponse('invalidUser');
-        } else if (hashedPassword == hash("")) {
+        } else if (hashedPassword === hash("")) {
             response = new ErrorResponse('incorrectPassword');
         } else {
             let token = {username: username, tokenString: 'pi/2'};
