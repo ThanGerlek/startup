@@ -45,7 +45,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
 
         // TODO server: remove test code
         if (username === "test-bad-response") {
-            console.log('Test: simulating recieving a malformed response');
+            console.log('Test: simulating receiving a malformed response');
             response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
         } else if (username === "test-server-access-failure") {
             console.log('Test: simulating a server access failure');

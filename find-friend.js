@@ -47,7 +47,7 @@ async function getGameRequestResponse(senderUsername, receiverUsername) {
         } else {
 
             if (receiverUsername === "test-bad-response") {
-                console.log('Test: simulating recieving a malformed response');
+                console.log('Test: simulating receiving a malformed response');
                 response = {value: 'blue', errorType: 'french fries'};
             }
             

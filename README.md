@@ -6,7 +6,7 @@ Most of the basic features are implemented in JavaScript, with artificial data b
 
 - *Login authentication*: a valid username and password (nearly anything except the empty string) are required to authenticate, and pages redirect to the login screen if a valid authtoken is not found
 - *Gameplay*: all game rules, win conditions, and player turn tracking logic are represented using JavaScript classes and functions
-- *Dynamic HTML/CSS*: nearly all event listeners (onclick, onload, etc) are implemented with DOM manipulations rather than HTML properties, info and alert boxes are dynamically shown and hidden, and the entire board is generated from JavaScript
+- *Dynamic HTML/CSS*: nearly all event listeners (onclick, onload, etc.) are implemented with DOM manipulations rather than HTML properties, info and alert boxes are dynamically shown and hidden, and the entire board is generated from JavaScript
 - *Modules*: message style is consistent across pages through a single `message-display` module
 - *Simulated server communication*: data is sent through JavaScript Promises to a simulated server, which generates and returns accurate (albeit artificial) responses for both database access (ex. when sending a game request) and WebSocket communication (ex. during gameplay)
 - *Persistent data*: usernames, game states, authtokens, and other data is stored in the browser's localStorage
@@ -55,14 +55,14 @@ Are you tired of losing games just because of luck? Do you want a fun game that 
 #### To add if I have time
 
 - Global statistics
-- Multiple gamemodes
+- Multiple game-modes
 - Singleplayer against the computer
 
 ![Statistics page](img/stats.png)
 
 ### Technology
 
-- HTML and CSS: Login screen, gameboard, stats page, tutorial, suitable chastisement for suboptimal play
+- HTML and CSS: Login screen, game board, stats page, tutorial, suitable chastisement for suboptimal play
 - JavaScript: gameplay, board functionality
 - Web service: Remote calls for authentication, retrieving statistics
 - Authentication: creating accounts and logging in
