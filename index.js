@@ -86,6 +86,3 @@ app.put('/game', (req, res, next) => {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`                                                                                                                                               |
 // | **Failure response** | [403] `{ "message": "Error: already taken" }`                                                                                                                                              |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
-
-
-document.addEventListener('DOMContentLoaded', () => authenticateToken(redirectToHomePage, redirectToLoginPage));
