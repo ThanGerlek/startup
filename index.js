@@ -1,21 +1,26 @@
 'use strict'
 
-import {clearApplication} from "services/clearApplication.js";
-import {joinGame} from "services/joinGame.js";
-import {login} from "services/login.js";
-import {logout} from "services/logout.js";
-import {register} from "services/register.js";
+const PORT = 5600;
 
 const express = require('express');
 const app = express();
 
-app.listen(5600);
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}...`);
+});
+
+const services = {};
+services.clearApplication = require('services/clearApplication').clearApplication;
+services.joinGame = require('services/joinGame').joinGame;
+services.login = require('services/login').login;
+services.logout = require('services/logout').logout;
+services.register = require('services/register').register;
 
 
 // Clear application
 app.delete('/db', (req, res, next) => {
     // TODO(db)!
-    clearApplication();
+    services.clearApplication();
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -27,7 +32,7 @@ app.delete('/db', (req, res, next) => {
 // Register
 app.post('/user', (req, res, next) => {
     // TODO!
-    register();
+    services.register();
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -42,7 +47,7 @@ app.post('/user', (req, res, next) => {
 //  Login
 app.post('/session', (req, res, next) => {
     // TODO!
-    login();
+    services.login();
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -56,7 +61,7 @@ app.post('/session', (req, res, next) => {
 //  Logout
 app.delete('/session', (req, res, next) => {
     // TODO!
-    logout();
+    services.logout();
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -69,7 +74,7 @@ app.delete('/session', (req, res, next) => {
 //  Join Game
 app.put('/game', (req, res, next) => {
     // TODO!
-    joinGame();
+    services.joinGame();
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
