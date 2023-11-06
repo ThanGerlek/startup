@@ -10,11 +10,11 @@ app.listen(PORT, () => {
 });
 
 const services = {};
-services.clearApplication = require('services/clearApplication').clearApplication;
-services.joinGame = require('services/joinGame').joinGame;
-services.login = require('services/login').login;
-services.logout = require('services/logout').logout;
-services.register = require('services/register').register;
+services.clearApplication = require('./services/clearApplication').clearApplication;
+services.joinGame = require('./services/joinGame').joinGame;
+services.login = require('./services/login').login;
+services.logout = require('./services/logout').logout;
+services.register = require('./services/register').register;
 
 
 // Clear application
