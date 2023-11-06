@@ -1,13 +1,11 @@
 'use strict'
 
-const PORT = 5600;
-
 const express = require('express');
 const app = express();
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}...`);
-});
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
+
+app.use(express.static('public'));
 
 const services = {};
 services.clearApplication = require('./services/clearApplication').clearApplication;
@@ -87,4 +85,6 @@ app.put('/game', (req, res, next) => {
 // | **Failure response** | [403] `{ "message": "Error: already taken" }`                                                                                                                                              |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
 
-app.use(express.static('public'));
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
