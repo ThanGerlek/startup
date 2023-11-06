@@ -4,7 +4,6 @@ do
         k) key=${OPTARG};;
         h) hostname=${OPTARG};;
         s) service=${OPTARG};;
-        *) ;;
     esac
 done
 
