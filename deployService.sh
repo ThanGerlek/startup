@@ -4,6 +4,7 @@ do
         k) key=${OPTARG};;
         h) hostname=${OPTARG};;
         s) service=${OPTARG};;
+        *) ;;
     esac
 done
 
@@ -19,11 +20,10 @@ printf "\n----> Deploying $service to $hostname with $key\n"
 printf "\n----> Build the distribution package\n"
 rm -rf dist
 mkdir dist
-mkdir dist/img
 cp -r public dist
+cp -r dataAccess dist
 cp *.js dist
 cp *.json dist
-cp img/* dist/img
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target\n"
