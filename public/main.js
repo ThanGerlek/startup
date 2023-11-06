@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO Make main.js a proper module using export or something
 
 function loadFakeTokenData() {
     localStorage.setItem('user', 'john');
