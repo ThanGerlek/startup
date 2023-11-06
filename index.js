@@ -87,4 +87,4 @@ app.put('/game', (req, res, next) => {
 // | **Failure response** | [403] `{ "message": "Error: already taken" }`                                                                                                                                              |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
 
-app.use(express.static('.'));
+app.use(express.static('public'));
