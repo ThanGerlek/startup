@@ -1,9 +1,25 @@
 'use strict';
 
-module.exports = function () {
-    // TODO! services
-    console.log("Called register()");
+const RegisterService = class {
+    #authDAO;
+    #gameDAO;
+    #gameRequestDAO;
+    #userDAO;
+
+    constructor(persistentData) {
+        this.#authDAO = persistentData.authDAO;
+        this.#gameDAO = persistentData.gameDAO;
+        this.#gameRequestDAO = persistentData.gameRequestDAO;
+        this.#userDAO = persistentData.userDAO;
+    }
+
+    register() {
+        // TODO! services
+        console.log("Called register()");
+    }
 }
+
+module.exports = RegisterService;
 
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |

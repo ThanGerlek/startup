@@ -1,9 +1,25 @@
 'use strict';
 
-module.exports = function () {
-    // TODO! services
-    console.log("Called joinGame()");
+const JoinGameService = class {
+    #authDAO;
+    #gameDAO;
+    #gameRequestDAO;
+    #userDAO;
+
+    constructor(persistentData) {
+        this.#authDAO = persistentData.authDAO;
+        this.#gameDAO = persistentData.gameDAO;
+        this.#gameRequestDAO = persistentData.gameRequestDAO;
+        this.#userDAO = persistentData.userDAO;
+    }
+
+    joinGame() {
+        // TODO! services
+        console.log("Called joinGame()");
+    }
 }
+
+module.exports = JoinGameService;
 
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |

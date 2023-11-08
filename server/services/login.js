@@ -1,9 +1,25 @@
 'use strict';
 
-module.exports = function () {
-    // TODO! services
-    console.log("Called login()");
+const LoginService = class {
+    #authDAO;
+    #gameDAO;
+    #gameRequestDAO;
+    #userDAO;
+
+    constructor(persistentData) {
+        this.#authDAO = persistentData.authDAO;
+        this.#gameDAO = persistentData.gameDAO;
+        this.#gameRequestDAO = persistentData.gameRequestDAO;
+        this.#userDAO = persistentData.userDAO;
+    }
+
+    login() {
+        // TODO! services
+        console.log("Called login()");
+    }
 }
+
+module.exports = LoginService;
 
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |

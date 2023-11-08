@@ -1,14 +1,28 @@
 'use strict';
 
-// TODO Test if setting module.exports.clearApplication directly works properly.
-// Specifically, when calling other functions defined in clearApplication.js.
-// The alternative is `m.e.cA = function () {return clearApplication();}` which might
-// work better or might be exactly the same.
+const ClearApplicationService = class {
+    #authDAO;
+    #gameDAO;
+    #gameRequestDAO;
+    #userDAO;
 
-module.exports = function () {
-    // TODO! services
-    console.log("Called clearApplication()");
+    constructor(persistentData) {
+        this.#authDAO = persistentData.authDAO;
+        this.#gameDAO = persistentData.gameDAO;
+        this.#gameRequestDAO = persistentData.gameRequestDAO;
+        this.#userDAO = persistentData.userDAO;
+    }
+
+    clearApplication() {
+        console.log("Called clearApplication()");
+        this.#authDAO.clearTokens();
+        this.#gameDAO.clearGames();
+        this.#gameRequestDAO.clearGameRequests();
+        this.#userDAO.clearUsers();
+    }
 }
+
+module.exports = ClearApplicationService;
 
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
