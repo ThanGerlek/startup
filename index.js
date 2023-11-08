@@ -7,18 +7,12 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.static('public'));
 
-const services = {};
-services.clearApplication = require('./server/services/clearApplication');
-services.joinGame = require('./server/services/joinGame');
-services.login = require('./server/services/login');
-services.logout = require('./server/services/logout');
-services.register = require('./server/services/register');
 
 
 // Clear application
 app.delete('/db', (req, res, next) => {
     // TODO(db)!
-    services.clearApplication();
+    // services.clearApplicationService.clearApplication();
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -30,7 +24,7 @@ app.delete('/db', (req, res, next) => {
 // Register
 app.post('/user', (req, res, next) => {
     // TODO!
-    services.register();
+    // services.registerService.register();
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -45,7 +39,7 @@ app.post('/user', (req, res, next) => {
 //  Login
 app.post('/session', (req, res, next) => {
     // TODO!
-    services.login();
+    // services.loginService.login();
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -59,7 +53,7 @@ app.post('/session', (req, res, next) => {
 //  Logout
 app.delete('/session', (req, res, next) => {
     // TODO!
-    services.logout();
+    // services.logoutService.logout();
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -72,7 +66,7 @@ app.delete('/session', (req, res, next) => {
 //  Join Game
 app.put('/game', (req, res, next) => {
     // TODO!
-    services.joinGame();
+    // services.joinGameService.joinGame();
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
