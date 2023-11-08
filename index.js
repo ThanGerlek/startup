@@ -11,12 +11,17 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+    console.log(`req.originalUrl: '${req.originalUrl}', body: '${req.body}'`);
+    next();
+})
 
 
 // Clear application
 app.delete('/db', (req, res, next) => {
     // TODO(db)!
     services.clearApplicationService.clearApplication();
+    res.send({message: "Okay!"});
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -29,6 +34,7 @@ app.delete('/db', (req, res, next) => {
 app.post('/user', (req, res, next) => {
     // TODO!
     services.registerService.register();
+    res.send({message: "Okay!"});
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -44,6 +50,7 @@ app.post('/user', (req, res, next) => {
 app.post('/session', (req, res, next) => {
     // TODO!
     services.loginService.login();
+    res.send({message: "Okay!"});
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -58,6 +65,7 @@ app.post('/session', (req, res, next) => {
 app.delete('/session', (req, res, next) => {
     // TODO!
     services.logoutService.logout();
+    res.send({message: "Okay!"});
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -71,6 +79,7 @@ app.delete('/session', (req, res, next) => {
 app.put('/game', (req, res, next) => {
     // TODO!
     services.joinGameService.joinGame();
+    res.send({message: "Okay!"});
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
