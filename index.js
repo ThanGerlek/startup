@@ -1,5 +1,8 @@
 'use strict'
 
+const persistentData = require('./server/dataAccess/dataAccess');
+const services = require('./server/services/services').getServicesFromDataSource(persistentData);
+
 const express = require('express');
 const app = express();
 
@@ -12,7 +15,7 @@ app.use(express.static('public'));
 // Clear application
 app.delete('/db', (req, res, next) => {
     // TODO(db)!
-    // services.clearApplicationService.clearApplication();
+    services.clearApplicationService.clearApplication();
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -24,7 +27,7 @@ app.delete('/db', (req, res, next) => {
 // Register
 app.post('/user', (req, res, next) => {
     // TODO!
-    // services.registerService.register();
+    services.registerService.register();
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -39,7 +42,7 @@ app.post('/user', (req, res, next) => {
 //  Login
 app.post('/session', (req, res, next) => {
     // TODO!
-    // services.loginService.login();
+    services.loginService.login();
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -53,7 +56,7 @@ app.post('/session', (req, res, next) => {
 //  Logout
 app.delete('/session', (req, res, next) => {
     // TODO!
-    // services.logoutService.logout();
+    services.logoutService.logout();
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -66,7 +69,7 @@ app.delete('/session', (req, res, next) => {
 //  Join Game
 app.put('/game', (req, res, next) => {
     // TODO!
-    // services.joinGameService.joinGame();
+    services.joinGameService.joinGame();
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
