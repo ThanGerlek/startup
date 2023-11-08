@@ -76,7 +76,7 @@ app.delete('/session', (req, res, next) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 //  Join Game
-app.put('/game', (req, res, next) => {
+app.post('/game', (req, res, next) => {
     // TODO!
     services.joinGameService.joinGame();
     res.send({message: "Okay!"});
