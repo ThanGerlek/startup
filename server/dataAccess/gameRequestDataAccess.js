@@ -35,6 +35,13 @@ let GameRequestDAO = class {
 
     }
 
+    /**
+     * Clear all GameRequests from the database.
+     */
+    clearGameRequests() {
+
+    }
+
 }
 
 module.exports = GameRequestDAO;
