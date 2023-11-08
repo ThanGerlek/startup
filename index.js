@@ -2,6 +2,7 @@
 
 const persistentData = require('./server/dataAccess/dataAccess');
 const services = require('./server/services/services').getServicesFromDataSource(persistentData);
+const models = require('./server/models');
 
 const express = require('express');
 const app = express();
