@@ -8,11 +8,11 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.static('public'));
 
 const services = {};
-services.clearApplication = require('./server/services/clearApplication').clearApplication;
-services.joinGame = require('./server/services/joinGame').joinGame;
-services.login = require('./server/services/login').login;
-services.logout = require('./server/services/logout').logout;
-services.register = require('./server/services/register').register;
+services.clearApplication = require('./server/services/clearApplication');
+services.joinGame = require('./server/services/joinGame');
+services.login = require('./server/services/login');
+services.logout = require('./server/services/logout');
+services.register = require('./server/services/register');
 
 
 // Clear application

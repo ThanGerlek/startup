@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.joinGame = function () {
+module.exports = function () {
     // TODO! services
     console.log("Called joinGame()");
 }

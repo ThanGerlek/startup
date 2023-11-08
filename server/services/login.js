@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.login = function () {
+module.exports = function () {
     // TODO! services
     console.log("Called login()");
 }

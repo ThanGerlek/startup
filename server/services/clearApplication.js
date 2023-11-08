@@ -5,7 +5,7 @@
 // The alternative is `m.e.cA = function () {return clearApplication();}` which might
 // work better or might be exactly the same.
 
-module.exports.clearApplication = function () {
+module.exports = function () {
     // TODO! services
     console.log("Called clearApplication()");
 }
