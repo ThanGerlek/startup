@@ -3,14 +3,20 @@
 const request = require('supertest');
 const app = require('../../server');
 
-let persistentData;
-let services;
+const dataAccess = require('../../server/dataAccess/dataAccess');
+const models = require('../../server/models');
+const ClearApplicationService = require('../../server/services/clearApplication');
+
+let authDAO;
+let userDAO;
+
 let service;
 
 beforeEach(() => {
-    persistentData = require('../../server/dataAccess/dataAccess');
-    services = require('../../server/services/services').getServicesFromDataSource(persistentData);
-    service = services.registerService;
+    authDAO = new dataAccess.AuthDAO();
+    userDAO = new dataAccess.UserDAO();
+
+    service = new ClearApplicationService(persistentData);
 });
 
 test('invalid URL returns 404', (done) => {
