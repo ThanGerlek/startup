@@ -3,9 +3,10 @@
 const request = require('supertest');
 const app = require('../../server');
 
-const dataAccess = require('../../server/dataAccess/dataAccess');
-const models = require('../../server/models');
-const services = require('../../server/services/services');
+const {AuthDAO, UserDAO, ValueAlreadyTakenError, BadRequestError} = require('../../server/dataAccess/dataAccess');
+const {User} = require("../../server/models");
+const {RegisterService} = require('../../server/services/services');
+const {AuthRequest} = require("../../server/http");
 
 let authDAO;
 let userDAO;
@@ -13,10 +14,10 @@ let userDAO;
 let service;
 
 beforeEach(() => {
-    authDAO = new dataAccess.AuthDAO();
-    userDAO = new dataAccess.UserDAO();
+    authDAO = new AuthDAO();
+    userDAO = new UserDAO();
 
-    service = new services.RegisterService(authDAO, userDAO);
+    service = new RegisterService(authDAO, userDAO);
 });
 
 test('invalid URL returns 404', (done) => {
