@@ -22,7 +22,7 @@ let GameDAO = class {
      * @param player1
      * @param player2
      */
-    findGame(player1, player2) {
+    findGameID(player1, player2) {
         // TODO
         return -1;
     }
@@ -33,7 +33,7 @@ let GameDAO = class {
      * @param gameID the ID of the game to fetch
      * @return the fetched game
      */
-    getGameState(gameID) {
+    findGame(gameID) {
         /* Failures
         can't access database
         game not found
