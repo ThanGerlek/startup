@@ -57,16 +57,33 @@ test('clearing_twice_does_not_throw', (done) => {
 });
 
 
-test('finding_cleared_Games_errors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('getting_cleared_Games_errors', (done) => {
+    gameDAO.insertGame(new models.Game(1, "user1", "user2", new models.Board()));
+    gameDAO.insertGame(new models.Game(2, "user3", "user4", new models.Board()));
+
+    service.clearApplication();
+
+    expect(() => gameDAO.findGame(1)).toThrow(NoSuchItemError);
+    expect(() => gameDAO.findGame(1)).toThrow(NoSuchItemError);
 });
 
 
 test('finding_cleared_GameRequests_errors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    gameRequestDAO.insertGameRequest("user3", "user4");
+
+    service.clearApplication();
+
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(false);
+    expect(gameRequestDAO.hasGameRequest("user3", "user4")).toBe(false);
 });
 
-
 test('cleared_AuthTokens_are_invalid', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    authDAO.addToken("1234");
+    authDAO.addToken("2468");
+
+    service.clearApplication();
+
+    expect(authDAO.isValidToken("1234")).toBe(false);
+    expect(authDAO.isValidToken("2468")).toBe(false);
 });
