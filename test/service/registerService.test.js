@@ -32,32 +32,35 @@ test('invalid URL returns 404', (done) => {
 
 // Positive test
 
-test('get_registered_user_returns_user', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('register_then_get_user_returns_user', (done) => {
+    service.register(new AuthRequest("user1", "pass1"));
+    expect(userDAO.getUser("user1")).toBe(new User("user1", "pass1"));
 });
+
 
 // Negative test
 
 test('register_existing_user_throws_already_taken', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-test('register_new_user_returns_okay', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    service.register(new AuthRequest("user1", "pass1"));
+    expect(() => service.register(new AuthRequest("user1", "pass1"))).toThrow(ValueAlreadyTakenError);
 });
 
 
 test('register_with_null_username_throws_bad_request_error', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    expect(() => service.register(new AuthRequest(null, "pass1"))).toThrow(BadRequestError);
 });
 
 
 test('register_with_null_password_throws_bad_request_error', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    expect(() => service.register(new AuthRequest("user1", null))).toThrow(BadRequestError);
 });
 
 
-test('register_with_null_email_returns_user', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('register_with_blank_username_throws_bad_request_error', (done) => {
+    expect(() => service.register(new AuthRequest("", "pass1"))).toThrow(BadRequestError);
+});
+
+
+test('register_with_blank_password_throws_bad_request_error', (done) => {
+    expect(() => service.register(new AuthRequest("user1", ""))).toThrow(BadRequestError);
 });
