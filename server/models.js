@@ -34,11 +34,13 @@ let Game = class {
     #gameID;
     #usernames;
     #board;
+    #isFirstPlayerTurn;
 
     constructor(gameID, playerOneUsername, playerTwoUsername, board) {
         this.#gameID = gameID;
         this.#usernames = [playerOneUsername, playerTwoUsername];
         this.#board = board;
+        this.#isFirstPlayerTurn = true;
     }
 
     getGameID() {
@@ -55,6 +57,15 @@ let Game = class {
 
     updateBoard(newBoard) {
         this.#board = newBoard;
+    }
+
+    playerTurn() {
+        const index = this.#isFirstPlayerTurn ? 0 : 1;
+        return this.#usernames[index];
+    }
+
+    toggleTurn() {
+        this.#isFirstPlayerTurn = !this.#isFirstPlayerTurn;
     }
 }
 
