@@ -1,7 +1,7 @@
 'use strict'
 
-const dataAccess = require('./server/dataAccess/dataAccess').getNewDAOs();
-const services = require('./server/services/services').getServicesFromDataSource(dataAccess);
+const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
+const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
 const models = require('./server/models');
 
 const express = require('express');
