@@ -6,6 +6,8 @@ const app = require('../../server');
 const dataAccess = require('../../server/dataAccess/dataAccess');
 const models = require('../../server/models');
 const services = require('../../server/services/services');
+const httpObjects = require('../../server/http');
+const {UnauthorizedAccessError} = require("../../server/dataAccess/dataAccess");
 
 let authDAO;
 let userDAO;
@@ -30,30 +32,22 @@ test('invalid URL returns 404', (done) => {
 });
 
 
-
 // Positive test
- 
-test('login_successfully_returns_valid_authToken', (done) =>  {
-    throw new Error("Unimplemented test!"); // TODO test
+test('successful_login_returns_valid_token', (done) =>  {
+    const authRequest = new httpObjects.AuthRequest("user1", "pass1");
+    const response = service.login(authRequest);
+    expect(authDAO.isValidToken(response.token())).toBe(true);
 });
+
 
 // Negative test
- 
-test('login_incorrect_password_returns_forbidden', (done) =>  {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
- 
-test('login_successfully_returns_okay', (done) =>  {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
- 
-test('login_successfully_returns_authToken', (done) =>  {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
- 
 test('login_incorrect_username_returns_forbidden', (done) =>  {
-    throw new Error("Unimplemented test!"); // TODO test
+    const authRequest = new httpObjects.AuthRequest("user1", "iAmIncorrect");
+    expect(() => service.login(authRequest)).toThrow(UnauthorizedAccessError);
+});
+
+
+test('login_incorrect_password_returns_forbidden', (done) =>  {
+    const authRequest = new httpObjects.AuthRequest("user1", "iAmIncorrect");
+    expect(() => service.login(authRequest)).toThrow(dataAccess.UnauthorizedAccessError);
 });
