@@ -22,3 +22,8 @@ function getServicesFromDataSource(persistentData) {
 }
 
 module.exports.getServicesFromDataSource = getServicesFromDataSource;
+module.exports.ClearApplicationService = ClearApplicationService;
+module.exports.JoinGameService = JoinGameService;
+module.exports.LoginService = LoginService;
+module.exports.LogoutService = LogoutService;
+module.exports.RegisterService = RegisterService;
