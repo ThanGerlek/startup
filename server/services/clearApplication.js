@@ -1,5 +1,7 @@
 'use strict';
 
+const httpObjects = require('../http');
+
 const ClearApplicationService = class {
     #authDAO;
     #gameDAO;
@@ -19,6 +21,8 @@ const ClearApplicationService = class {
         this.#gameDAO.clearGames();
         this.#gameRequestDAO.clearGameRequests();
         this.#userDAO.clearUsers();
+
+        return new httpObjects.MessageResponse("Cleared application.");
     }
 }
 

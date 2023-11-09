@@ -1,5 +1,7 @@
 'use strict';
 
+const httpObjects = require('../http');
+
 const LoginService = class {
     #authDAO;
     #userDAO;
@@ -12,6 +14,8 @@ const LoginService = class {
     login() {
         // TODO! services
         console.log("Called login()");
+
+        return new httpObjects.AuthResponse("Logged in.", "1234");
     }
 }
 

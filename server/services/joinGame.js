@@ -1,5 +1,7 @@
 'use strict';
 
+const httpObjects = require('../http');
+
 const JoinGameService = class {
     #gameDAO;
     #gameRequestDAO;
@@ -11,9 +13,21 @@ const JoinGameService = class {
         this.#userDAO = userDAO;
     }
 
+    // If a game with the specified players exists, joins the game and
+    // returns the gameID. Otherwise, if a game request exists, a new
+    // (empty) game is created and WS requests are sent. If a request
+    // does not exist, a request is created.
+
+    // Game + req: join game
+    // Game + no req: join game
+    // No game + request: create game, delete request
+    // No game + no req: create request
+
     joinGame() {
         // TODO! services
         console.log("Called joinGame()");
+
+        return new httpObjects.MessageResponse("Joined game.");
     }
 }
 

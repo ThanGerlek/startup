@@ -1,5 +1,7 @@
 'use strict';
 
+const httpObjects = require('../http');
+
 const RegisterService = class {
     #authDAO;
     #userDAO;
@@ -12,6 +14,8 @@ const RegisterService = class {
     register() {
         // TODO! services
         console.log("Called register()");
+
+        return new httpObjects.AuthResponse("Registered user.", "1234");
     }
 }
 

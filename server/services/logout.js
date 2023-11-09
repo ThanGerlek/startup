@@ -1,5 +1,7 @@
 'use strict';
 
+const httpObjects = require('../http');
+
 const LogoutService = class {
     #authDAO;
 
@@ -10,6 +12,8 @@ const LogoutService = class {
     logout() {
         // TODO! services
         console.log("Called logout()");
+
+        return new httpObjects.MessageResponse("Logged out.");
     }
 }
 
