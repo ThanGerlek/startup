@@ -17,8 +17,7 @@
   },
   "homepage": "https://github.com/ThanGerlek/startup#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "http": "^0.0.1-security"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
