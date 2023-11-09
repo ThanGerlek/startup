@@ -58,4 +58,11 @@ let Game = class {
     }
 }
 
-module.exports = {User: User, Game: Game, AuthToken: AuthToken}; // TODO Does this work properly?
+let Board = class {
+    // TODO
+    constructor() {
+
+    }
+}
+
+module.exports = {User: User, Game: Game, AuthToken: AuthToken, Board: Board};
