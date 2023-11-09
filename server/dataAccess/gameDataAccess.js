@@ -3,7 +3,7 @@
 // Game Data Access
 // TODO! db
 
-let GameDAO = class {
+class GameDAO {
     /**
      * Inserts a game into the database.
      * @param game the game to insert
@@ -80,4 +80,4 @@ let GameDAO = class {
     }
 }
 
-module.exports = GameDAO;
+module.exports = {GameDAO};

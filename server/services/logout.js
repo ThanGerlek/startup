@@ -1,8 +1,8 @@
 'use strict';
 
-const httpObjects = require('../http');
+const {MessageResponse} = require('../http');
 
-const LogoutService = class {
+class LogoutService {
     #authDAO;
 
     constructor(authDAO) {
@@ -13,11 +13,11 @@ const LogoutService = class {
         // TODO! services
         console.log("Called logout()");
 
-        return new httpObjects.MessageResponse("Logged out.");
+        return new MessageResponse("Logged out.");
     }
 }
 
-module.exports = LogoutService;
+module.exports = {LogoutService};
 
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |

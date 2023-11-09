@@ -3,9 +3,10 @@
 const request = require('supertest');
 const app = require('../../server');
 
-const dataAccess = require('../../server/dataAccess/dataAccess');
-const models = require('../../server/models');
-const services = require('../../server/services/services');
+const {GameDAO, GameRequestDAO, UserDAO} = require('../../server/dataAccess/dataAccess');
+const {Game} = require('../../server/models');
+const {JoinGameService} = require('../../server/services/services');
+const {JoinGameRequest} = require('../../server/http');
 
 let gameDAO;
 let gameRequestDAO;
@@ -14,11 +15,11 @@ let userDAO;
 let service;
 
 beforeEach(() => {
-    gameDAO = new dataAccess.GameDAO();
-    gameRequestDAO = new dataAccess.GameRequestDAO();
-    userDAO = new dataAccess.UserDAO();
+    gameDAO = new GameDAO();
+    gameRequestDAO = new GameRequestDAO();
+    userDAO = new UserDAO();
 
-    service = new services.JoinGameService(gameDAO, gameRequestDAO, userDAO);
+    service = new JoinGameService(gameDAO, gameRequestDAO, userDAO);
 });
 
 

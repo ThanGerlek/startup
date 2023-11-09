@@ -1,8 +1,8 @@
 'use strict';
 
-const httpObjects = require('../http');
+const {AuthResponse} = require('../http');
 
-const RegisterService = class {
+class RegisterService {
     #authDAO;
     #userDAO;
 
@@ -15,11 +15,11 @@ const RegisterService = class {
         // TODO! services
         console.log("Called register()");
 
-        return new httpObjects.AuthResponse("Registered user.", "1234");
+        return new AuthResponse("Registered user.", "1234");
     }
 }
 
-module.exports = RegisterService;
+module.exports = {RegisterService};
 
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |

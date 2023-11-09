@@ -3,7 +3,7 @@
 // GameRequest Data Access
 // TODO! db
 
-let GameRequestDAO = class {
+class GameRequestDAO {
 
     /**
      * Inserts a GameRequest into the database.
@@ -44,4 +44,4 @@ let GameRequestDAO = class {
 
 }
 
-module.exports = GameRequestDAO;
+module.exports = {GameRequestDAO};

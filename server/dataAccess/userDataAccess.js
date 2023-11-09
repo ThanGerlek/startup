@@ -3,7 +3,7 @@
 // User Data Access
 // TODO! db
 
-let UserDAO = class {
+class UserDAO {
 
     /**
      * Adds a new User to the database.
@@ -68,4 +68,4 @@ let UserDAO = class {
 
 }
 
-module.exports = UserDAO;
+module.exports = {UserDAO};

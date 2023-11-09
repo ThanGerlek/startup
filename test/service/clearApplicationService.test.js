@@ -3,9 +3,9 @@
 const request = require('supertest');
 const app = require('../../server');
 
-const dataAccess = require('../../server/dataAccess/dataAccess');
-const models = require('../../server/models');
-const services = require('../../server/services/services');
+const {AuthDAO, GameDAO, GameRequestDAO, UserDAO, NoSuchItemError} = require('../../server/dataAccess/dataAccess');
+const {Board, Game, User} = require('../../server/models');
+const {ClearApplicationService} = require('../../server/services/services');
 
 let authDAO;
 let gameDAO;
@@ -15,12 +15,12 @@ let userDAO;
 let service;
 
 beforeEach(() => {
-    authDAO = new dataAccess.AuthDAO();
-    gameDAO = new dataAccess.GameDAO();
-    gameRequestDAO = new dataAccess.GameRequestDAO();
-    userDAO = new dataAccess.UserDAO();
+    authDAO = new AuthDAO();
+    gameDAO = new GameDAO();
+    gameRequestDAO = new GameRequestDAO();
+    userDAO = new UserDAO();
 
-    service = new services.ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO);
+    service = new ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO);
 });
 
 
@@ -36,8 +36,8 @@ test('invalid URL returns 404', (done) => {
 
 // Positive test
 test('has_cleared_Users_is_false', (done) => {
-    userDAO.insertNewUser(new models.User("user1", "pass1"));
-    userDAO.insertNewUser(new models.User("user2", "pass2"));
+    userDAO.insertNewUser(new User("user1", "pass1"));
+    userDAO.insertNewUser(new User("user2", "pass2"));
 
     service.clearApplication();
 
@@ -58,8 +58,8 @@ test('clearing_twice_does_not_throw', (done) => {
 
 
 test('getting_cleared_Games_errors', (done) => {
-    gameDAO.insertGame(new models.Game(1, "user1", "user2", new models.Board()));
-    gameDAO.insertGame(new models.Game(2, "user3", "user4", new models.Board()));
+    gameDAO.insertGame(new Game(1, "user1", "user2", new Board()));
+    gameDAO.insertGame(new Game(2, "user3", "user4", new Board()));
 
     service.clearApplication();
 

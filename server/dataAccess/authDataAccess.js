@@ -3,7 +3,7 @@
 // Auth Data Access
 // TODO! db
 
-let AuthDAO = class {
+class AuthDAO {
 
     /**
      * Registers the given token as a valid token.
@@ -44,4 +44,4 @@ let AuthDAO = class {
     }
 }
 
-module.exports = AuthDAO;
+module.exports = {AuthDAO};

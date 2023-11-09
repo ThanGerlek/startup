@@ -1,8 +1,8 @@
 'use strict';
 
-const httpObjects = require('../http');
+const {MessageResponse} = require('../http');
 
-const ClearApplicationService = class {
+class ClearApplicationService {
     #authDAO;
     #gameDAO;
     #gameRequestDAO;
@@ -22,11 +22,11 @@ const ClearApplicationService = class {
         this.#gameRequestDAO.clearGameRequests();
         this.#userDAO.clearUsers();
 
-        return new httpObjects.MessageResponse("Cleared application.");
+        return new MessageResponse("Cleared application.");
     }
 }
 
-module.exports = ClearApplicationService;
+module.exports = {ClearApplicationService};
 
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |

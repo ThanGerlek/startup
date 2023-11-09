@@ -1,17 +1,13 @@
 'use strict';
 
-const ClearApplicationService = require('./clearApplication');
-const JoinGameService = require('./joinGame');
-const LoginService = require('./login');
-const LogoutService = require('./logout');
-const RegisterService = require('./register');
+const {ClearApplicationService} = require('./clearApplication');
+const {JoinGameService} = require('./joinGame');
+const {LoginService} = require('./login');
+const {LogoutService} = require('./logout');
+const {RegisterService} = require('./register');
 
 module.exports = {
-    ClearApplicationService,
-    JoinGameService,
-    LoginService,
-    LogoutService,
-    RegisterService,
+    ClearApplicationService, JoinGameService, LoginService, LogoutService, RegisterService,
 
     getServicesFromDataSource: function (persistentData) {
         let authDAO = persistentData.authDAO;

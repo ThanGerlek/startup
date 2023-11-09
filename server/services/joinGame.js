@@ -1,8 +1,8 @@
 'use strict';
 
-const httpObjects = require('../http');
+const {MessageResponse} = require('../http');
 
-const JoinGameService = class {
+class JoinGameService {
     #gameDAO;
     #gameRequestDAO;
     #userDAO;
@@ -27,11 +27,11 @@ const JoinGameService = class {
         // TODO! services
         console.log("Called joinGame()");
 
-        return new httpObjects.MessageResponse("Joined game.");
+        return new MessageResponse("Joined game.");
     }
 }
 
-module.exports = JoinGameService;
+module.exports = {JoinGameService};
 
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |

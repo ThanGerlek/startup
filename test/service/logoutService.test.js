@@ -3,8 +3,8 @@
 const request = require('supertest');
 const app = require('../../server');
 
-const dataAccess = require('../../server/dataAccess/dataAccess');
-const services = require('../../server/services/services');
+const {AuthDAO, UserDAO} = require('../../server/dataAccess/dataAccess');
+const {LogoutService} = require('../../server/services/services');
 const {UnauthorizedAccessError} = require("../../server/dataAccess/dataAccess");
 
 const token = "1234";
@@ -15,10 +15,10 @@ let userDAO;
 let service;
 
 beforeEach(() => {
-    authDAO = new dataAccess.AuthDAO();
-    userDAO = new dataAccess.UserDAO();
+    authDAO = new AuthDAO();
+    userDAO = new UserDAO();
 
-    service = new services.LogoutService(authDAO, userDAO);
+    service = new LogoutService(authDAO, userDAO);
 });
 
 test('invalid URL returns 404', (done) => {

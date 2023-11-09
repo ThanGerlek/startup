@@ -1,7 +1,7 @@
-const AuthDAO = require("./authDataAccess");
-const GameDAO = require("./gameDataAccess");
-const GameRequestDAO = require("./gameRequestDataAccess");
-const UserDAO = require("./userDataAccess");
+const {AuthDAO} = require("./authDataAccess");
+const {GameDAO} = require("./gameDataAccess");
+const {GameRequestDAO} = require("./gameRequestDataAccess");
+const {UserDAO} = require("./userDataAccess");
 
 
 class DataAccessError extends Error {
