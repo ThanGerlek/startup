@@ -36,17 +36,24 @@ test('invalid URL returns 404', (done) => {
 
 // Positive test
 test('has_cleared_Users_is_false', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    userDAO.insertNewUser(new models.User("user1", "pass1"));
+    userDAO.insertNewUser(new models.User("user2", "pass2"));
+
+    service.clearApplication();
+
+    expect(userDAO.hasUser("user1")).toBe(false);
+    expect(userDAO.hasUser("user2")).toBe(false);
 });
 
 
-test('clearing_returns_okay', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('clearing_does_not_throw', (done) => {
+    expect(() => service.clearApplication()).not.toThrow();
 });
 
 
-test('clearing_empty_returns_okay', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('clearing_twice_does_not_throw', (done) => {
+    service.clearApplication();
+    expect(() => service.clearApplication()).not.toThrow();
 });
 
 
