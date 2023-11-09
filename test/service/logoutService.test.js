@@ -4,8 +4,10 @@ const request = require('supertest');
 const app = require('../../server');
 
 const dataAccess = require('../../server/dataAccess/dataAccess');
-const models = require('../../server/models');
 const services = require('../../server/services/services');
+const {UnauthorizedAccessError} = require("../../server/dataAccess/dataAccess");
+
+const token = "1234";
 
 let authDAO;
 let userDAO;
@@ -30,23 +32,21 @@ test('invalid URL returns 404', (done) => {
 
 
 // Positive test
-
-test('logout_existing_user_invalidates_token', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('logout_existing_token_invalidates_token', (done) => {
+    authDAO.addToken(token);
+    service.logout(token);
+    expect(authDAO.isValidToken(token)).toBe(false);
 });
+
 
 // Negative test
-
-test('logout_fake_user_returns_bad_request_error', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-test('logout_existing_user_returns_okay', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
 test('logout_invalid_token_errors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    expect(() => service.logout("iAmIncorrect")).toThrow(UnauthorizedAccessError);
+});
+
+
+test('logout_token_twice_errors', (done) => {
+    authDAO.addToken(token);
+    service.logout(token);
+    expect(() => service.logout(token)).toThrow(UnauthorizedAccessError);
 });
