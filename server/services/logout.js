@@ -6,11 +6,11 @@ const LogoutService = class {
     #gameRequestDAO;
     #userDAO;
 
-    constructor(persistentData) {
-        this.#authDAO = persistentData.authDAO;
-        this.#gameDAO = persistentData.gameDAO;
-        this.#gameRequestDAO = persistentData.gameRequestDAO;
-        this.#userDAO = persistentData.userDAO;
+    constructor(authDAO, gameDAO, gameRequestDAO, userDAO) {
+        this.#authDAO = authDAO;
+        this.#gameDAO = gameDAO;
+        this.#gameRequestDAO = gameRequestDAO;
+        this.#userDAO = userDAO;
     }
 
     logout() {

@@ -8,3 +8,8 @@ module.exports.getNewDAOs = function() {
         authDAO: new AuthDAO(), gameDAO: new GameDAO(), gameRequestDAO: new GameRequestDAO(), userDAO: new UserDAO()
     };
 };
+
+module.exports.AuthDAO = AuthDAO;
+module.exports.GameDAO = GameDAO;
+module.exports.GameRequestDAO = GameRequestDAO;
+module.exports.UserDAO = UserDAO;
