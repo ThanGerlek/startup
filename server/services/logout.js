@@ -2,15 +2,9 @@
 
 const LogoutService = class {
     #authDAO;
-    #gameDAO;
-    #gameRequestDAO;
-    #userDAO;
 
-    constructor(authDAO, gameDAO, gameRequestDAO, userDAO) {
+    constructor(authDAO) {
         this.#authDAO = authDAO;
-        this.#gameDAO = gameDAO;
-        this.#gameRequestDAO = gameRequestDAO;
-        this.#userDAO = userDAO;
     }
 
     logout() {

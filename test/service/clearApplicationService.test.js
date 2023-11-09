@@ -5,7 +5,7 @@ const app = require('../../server');
 
 const dataAccess = require('../../server/dataAccess/dataAccess');
 const models = require('../../server/models');
-const ClearApplicationService = require('../../server/services/clearApplication');
+const services = require('../../server/services/services');
 
 let authDAO;
 let gameDAO;
@@ -20,7 +20,7 @@ beforeEach(() => {
     gameRequestDAO = new dataAccess.GameRequestDAO();
     userDAO = new dataAccess.UserDAO();
 
-    service = new ClearApplicationService(persistentData);
+    service = new services.ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO);
 });
 
 

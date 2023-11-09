@@ -2,14 +2,10 @@
 
 const LoginService = class {
     #authDAO;
-    #gameDAO;
-    #gameRequestDAO;
     #userDAO;
 
-    constructor(authDAO, gameDAO, gameRequestDAO, userDAO) {
+    constructor(authDAO, userDAO) {
         this.#authDAO = authDAO;
-        this.#gameDAO = gameDAO;
-        this.#gameRequestDAO = gameRequestDAO;
         this.#userDAO = userDAO;
     }
 

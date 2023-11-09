@@ -1,13 +1,11 @@
 'use strict';
 
 const JoinGameService = class {
-    #authDAO;
     #gameDAO;
     #gameRequestDAO;
     #userDAO;
 
-    constructor(authDAO, gameDAO, gameRequestDAO, userDAO) {
-        this.#authDAO = authDAO;
+    constructor(gameDAO, gameRequestDAO, userDAO) {
         this.#gameDAO = gameDAO;
         this.#gameRequestDAO = gameRequestDAO;
         this.#userDAO = userDAO;
