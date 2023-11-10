@@ -23,7 +23,7 @@ class JoinGameService {
     // No game + request: create game, delete request
     // No game + no req: create request
 
-    joinGame() {
+    joinGame(joinGameRequest) {
         // TODO! services
         console.log("Called joinGame()");
 
