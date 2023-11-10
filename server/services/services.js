@@ -1,10 +1,10 @@
 'use strict';
 
-const {ClearApplicationService} = require('./clearApplication');
-const {JoinGameService} = require('./joinGame');
-const {LoginService} = require('./login');
-const {LogoutService} = require('./logout');
-const {RegisterService} = require('./register');
+const {ClearApplicationService} = require('./clearApplicationService');
+const {JoinGameService} = require('./joinGameService');
+const {LoginService} = require('./loginService');
+const {LogoutService} = require('./logoutService');
+const {RegisterService} = require('./registerService');
 
 module.exports = {
     ClearApplicationService, JoinGameService, LoginService, LogoutService, RegisterService,
