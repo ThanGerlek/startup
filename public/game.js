@@ -114,13 +114,13 @@ async function getSubmitMoveResponse(gameboard, username, opponentUsername) {
         // TODO server: remove test code
         if (username === "board_test-bad-response") {
             console.log('Test: simulating receiving a malformed response');
-            response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
-        }
-        else if (username === "board_invalid-but-logged-in") {
+            response = {
+                value: 'blue', errorType: 'french fries', token: {tokenString: 'ur face', username: 'abraham lincoln'}
+            };
+        } else if (username === "board_invalid-but-logged-in") {
             console.log('Test: simulating a "logged in" user with an invalid username (account removed during gameplay?)');
             response = new ErrorResponse('invalidUser');
-        }
-        else if (username === "board_test-server-access-failure") {
+        } else if (username === "board_test-server-access-failure") {
             console.log('Test: simulating a server access failure');
             reject();
         }
@@ -146,8 +146,7 @@ function changeTurn() {
     console.log(`Move submitted. Changing turn`);
     window.game.changeTurn();
 
-    getTurnElement().textContent = localStorage.getItem(
-        game.isPlayerTurn() ? 'user' : 'opponentUsername');
+    getTurnElement().textContent = localStorage.getItem(game.isPlayerTurn() ? 'user' : 'opponentUsername');
 
     console.log(`[Not actually changing turn, since the database isn't implemented yet]`);
     //TODO. js: Actually change turns, with all the functional restrictions that entails; then when the user clicks submit again, change back to their turn without marking anything.
@@ -196,7 +195,7 @@ class ClientGame {
 
     submitMove() {
         // Check valid move (at least one piece must have been taken)
-        if(this.checkForValidMove()) {
+        if (this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
             submitMoveToServer(this.#gameBoard); // TODO add .then() to change turn locally
         } else {
