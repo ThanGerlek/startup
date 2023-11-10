@@ -2,7 +2,7 @@
 
 const {Board, DEFAULT_BOARD_DIMENSIONS} = require('../board.js');
 
-const {GameDAO, GameRequestDAO, UserDAO, BadRequestError, NoSuchItemError, DataAccessError} = require('../../server/dataAccess/dataAccess');
+const {GameDAO, GameRequestDAO, UserDAO, BadRequestError, NoSuchItemError} = require('../../server/dataAccess/dataAccess');
 const {Game} = require('../../server/models');
 const {JoinGameService} = require('../../server/services/services');
 const {JoinGameRequest} = require('../../server/http');

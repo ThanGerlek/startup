@@ -1,8 +1,5 @@
 'use strict';
 
-const request = require('supertest');
-const app = require('../../server');
-
 const {AuthDAO, UserDAO} = require('../../server/dataAccess/dataAccess');
 const {LogoutService} = require('../../server/services/services');
 const {UnauthorizedAccessError} = require("../../server/dataAccess/dataAccess");

@@ -1,8 +1,5 @@
 'use strict';
 
-const request = require('supertest');
-const app = require('../../server');
-
 const {AuthDAO, UserDAO, ValueAlreadyTakenError, BadRequestError} = require('../../server/dataAccess/dataAccess');
 const {User} = require("../../server/models");
 const {RegisterService} = require('../../server/services/services');

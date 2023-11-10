@@ -1,8 +1,5 @@
 'use strict';
 
-const request = require('supertest');
-const app = require('../../server');
-
 const {AuthDAO, GameDAO, GameRequestDAO, UserDAO, NoSuchItemError} = require('../../server/dataAccess/dataAccess');
 const {Board, Game, User} = require('../../server/models');
 const {ClearApplicationService} = require('../../server/services/services');
