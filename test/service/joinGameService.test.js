@@ -2,9 +2,6 @@
 
 const {Board, DEFAULT_BOARD_DIMENSIONS} = require('../board.js');
 
-const request = require('supertest');
-const app = require('../../server');
-
 const {GameDAO, GameRequestDAO, UserDAO, BadRequestError, NoSuchItemError, DataAccessError} = require('../../server/dataAccess/dataAccess');
 const {Game} = require('../../server/models');
 const {JoinGameService} = require('../../server/services/services');
@@ -46,9 +43,12 @@ join with invalid first player
 join with invalid second player
 join with same first and second player
 
-
-
 */
+
+test('test the test: game variable board and new Board() are different', () => {
+    expect(game.getBoard()).not.toBe(new Board(DEFAULT_BOARD_DIMENSIONS, null));
+});
+
 
 // invalid requests
 
@@ -69,13 +69,13 @@ test('join with same first and second player throws bad request error', () => {
 
 // no existing game or request
 
-test('no existing game or request: find request returns request', () => {
+test('joining with no existing game or request: find request returns request', () => {
     service.joinGame(firstJoinGameRequest);
     expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(true);
 });
 
 
-test('no existing game or request: find game does NOT return game', () => {
+test('joining with no existing game or request: find game does NOT return game', () => {
     service.joinGame(firstJoinGameRequest);
     expect(gameDAO.findGameID("user1", "user2")).toThrow(NoSuchItemError);
 });
@@ -83,7 +83,20 @@ test('no existing game or request: find game does NOT return game', () => {
 
 // existing request (no existing game)
 
-test('existing request (no existing game): find request does NOT return request', () => {
+test('joining with existing request (no existing game): join with same request twice does not remove request', () => {
+    service.joinGame(new JoinGameRequest("user1", "user2"));
+    service.joinGame(new JoinGameRequest("user1", "user2"));
+    expect(() => gameRequestDAO.hasGameRequest("user1", "user2")).toBe(true);
+});
+
+
+test('joining with existing request (no existing game): join with same request twice does not create game', () => {
+    service.joinGame(new JoinGameRequest("user1", "user2"));
+    service.joinGame(new JoinGameRequest("user1", "user2"));
+    expect(() => gameDAO.findGameID("user1", "user2")).toThrow(NoSuchItemError);
+});
+
+test('joining with existing request (no existing game): find request does NOT return request', () => {
     gameRequestDAO.insertGameRequest("user1", "user2");
 
     service.joinGame(secondJoinGameRequest);
@@ -92,7 +105,7 @@ test('existing request (no existing game): find request does NOT return request'
 });
 
 
-test('existing request (no existing game): find game does not throw', () => {
+test('joining with existing request (no existing game): find game does not throw NoSuchItem', () => {
     gameRequestDAO.insertGameRequest("user1", "user2");
 
     service.joinGame(secondJoinGameRequest);
@@ -101,7 +114,7 @@ test('existing request (no existing game): find game does not throw', () => {
 });
 
 
-test('existing request (no existing game): find game returns game with new board', () => {
+test('joining with existing request (no existing game): find game returns game with new board', () => {
     gameRequestDAO.insertGameRequest("user1", "user2");
 
     service.joinGame(secondJoinGameRequest);
@@ -111,7 +124,7 @@ test('existing request (no existing game): find game returns game with new board
 });
 
 
-test('existing request (no existing game): game usernames are correct', () => {
+test('joining with existing request (no existing game): game usernames are correct', () => {
     gameRequestDAO.insertGameRequest("user1", "user2");
 
     service.joinGame(secondJoinGameRequest);
@@ -121,7 +134,7 @@ test('existing request (no existing game): game usernames are correct', () => {
 });
 
 
-test('existing request (no existing game): first player has first turn', () => {
+test('joining with existing request (no existing game): first player has first turn', () => {
     gameRequestDAO.insertGameRequest("user1", "user2");
 
     service.joinGame(secondJoinGameRequest);
@@ -131,45 +144,26 @@ test('existing request (no existing game): first player has first turn', () => {
 });
 
 
-// existing game (no existing request)
+// existing game
 
-test('existing game (no existing request): find request does NOT return request', () => {
-    // TODO
+test('player 1 re-joining existing game does not throw', () => {
+    gameDAO.insertGame(game);
+
+    expect(() => service.joinGame(new JoinGameRequest("user1", "user2"))).not.toThrow();
 });
 
 
-test('existing game (no existing request): find game returns EXISTING game', () => {
-    // TODO
+test('player 1 re-joining existing game does not throw', () => {
+    gameDAO.insertGame(game);
+
+    expect(() => service.joinGame(new JoinGameRequest("user2", "user1"))).not.toThrow();
 });
 
 
-test('existing game (no existing request): game usernames are correct', () => {
-    // TODO
-});
+test('re-joining existing game does not change board state', () => {
+    gameDAO.insertGame(game);
 
+    service.joinGame(new JoinGameRequest("user1", "user2"));
 
-test('existing game (no existing request): swapping players changes who goes first', () => {
-    // TODO
-});
-
-
-// existing game and request
-
-test('existing game and request: find request does NOT return request', (done) => {
-    // TODO
-});
-
-
-test('existing game and request: find game returns EXISTING game', (done) => {
-    // TODO
-});
-
-
-test('existing game and request: game usernames are correct', (done) => {
-    // TODO
-});
-
-
-test('existing game and request: swapping players changes who goes first', (done) => {
-    // TODO
+    expect(gameDAO.findGame(gameID)).toBe(game);
 });
