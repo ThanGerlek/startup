@@ -1,10 +1,12 @@
 'use strict';
 
+const {Board, DEFAULT_BOARD_DIMENSIONS} = require('../board.js');
+
 const request = require('supertest');
 const app = require('../../server');
 
-const {GameDAO, GameRequestDAO, UserDAO, BadRequestError, NoSuchItemError} = require('../../server/dataAccess/dataAccess');
-const {Game, Board} = require('../../server/models');
+const {GameDAO, GameRequestDAO, UserDAO, BadRequestError, NoSuchItemError, DataAccessError} = require('../../server/dataAccess/dataAccess');
+const {Game} = require('../../server/models');
 const {JoinGameService} = require('../../server/services/services');
 const {JoinGameRequest} = require('../../server/http');
 
@@ -18,8 +20,9 @@ let service;
 
 const firstJoinGameRequest = new JoinGameRequest("user1", "user2");
 const secondJoinGameRequest = new JoinGameRequest("user2", "user1");
-let game = new Game(1, "user1", "user2");
-game.updateBoard(new Board().markTaken(0, 0));
+const board = new Board(DEFAULT_BOARD_DIMENSIONS, null);
+board.markTaken(0, 0);
+let game = new Game(1, "user1", "user2", board);
 
 beforeEach(() => {
     gameDAO = new GameDAO();
