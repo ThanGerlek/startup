@@ -69,11 +69,4 @@ let Game = class {
     }
 }
 
-let Board = class {
-    // TODO
-    constructor() {
-
-    }
-}
-
-module.exports = {User: User, Game: Game, AuthToken: AuthToken, Board: Board};
+module.exports = {User, Game, AuthToken};
