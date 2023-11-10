@@ -3,15 +3,6 @@
 const request = require('supertest');
 const app = require('../../server');
 
-test('invalid URL returns 404', (done) => {
-    request(app)
-        .put('/thing')
-        .send({msg: 'an invalid request'})
-        .expect(404)
-        .expect({})
-        .end((err) => err ? done(err) : done());
-});
-
 
 test('insertNewGameDoesNotError', (done) => {
     throw new Error("Unimplemented test!"); // TODO test

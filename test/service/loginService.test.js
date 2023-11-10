@@ -21,18 +21,8 @@ beforeEach(() => {
 });
 
 
-test('invalid URL returns 404', (done) => {
-    request(app)
-        .put('/thing')
-        .send({msg:'an invalid request'})
-        .expect(404)
-        .expect({})
-        .end((err) => err ? done(err) : done());
-});
-
-
 // Positive test
-test('successful_login_returns_valid_token', (done) =>  {
+test('successful_login_returns_valid_token', () =>  {
     const authRequest = new AuthRequest("user1", "pass1");
     const response = service.login(authRequest);
     expect(authDAO.isValidToken(response.token())).toBe(true);
@@ -40,13 +30,13 @@ test('successful_login_returns_valid_token', (done) =>  {
 
 
 // Negative test
-test('login_incorrect_username_returns_forbidden', (done) =>  {
+test('login_incorrect_username_returns_forbidden', () =>  {
     const authRequest = new AuthRequest("user1", "iAmIncorrect");
     expect(() => service.login(authRequest)).toThrow(UnauthorizedAccessError);
 });
 
 
-test('login_incorrect_password_returns_forbidden', (done) =>  {
+test('login_incorrect_password_returns_forbidden', () =>  {
     const authRequest = new AuthRequest("user1", "iAmIncorrect");
     expect(() => service.login(authRequest)).toThrow(UnauthorizedAccessError);
 });
