@@ -43,7 +43,7 @@ function setUpGame() {
     boardContainerElement.textContent = '';
 
     let isPlayerTurn = initializePlayerTurn();
-    window.game = new Game(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
+    window.game = new ClientGame(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
 }
 
 function initializePlayerTurn() {
@@ -341,7 +341,7 @@ class Board {
     }
 }
 
-class Game {
+class ClientGame {
     #isPlayerTurn;
     #gameBoard;
     #localBoard;
