@@ -12,7 +12,7 @@ function onSubmitButtonClick() {
         displayMessage('warn', "Woah! That's your friend's name! Please try something else.");
     } else {
         localStorage.setItem('opponentUsername', opponentUsername);
-        window.location.href = 'board.html';
+        window.location.href = 'game.html';
     }
 }
 

@@ -16,7 +16,7 @@ function onNevermindButtonClick() {
 }
 
 function redirectToBoard() {
-    window.location.href = "board.html";
+    window.location.href = "game.html";
 }
 
 function cancelRedirect()  {
