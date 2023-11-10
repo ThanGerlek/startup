@@ -7,16 +7,36 @@ let MessageResponse = class {
     constructor(message) {
         this.#message = message;
     }
+
+    get message() {
+        return this.#message;
+    }
 };
 
-let AuthResponse = class {
+let ErrorResponse = class extends MessageResponse {
+    #error;
+
+    constructor(error, message) {
+        super(message);
+        this.#error = error;
+    }
+
+    get error() {
+        return this.#error;
+    }
+};
+
+let AuthResponse = class extends MessageResponse {
     // register, login
-    #message;
     #token;
 
-    constructor(message, token) {
-        this.#message = message;
+    constructor(token) {
+        super(message);
         this.#token = token;
+    }
+
+    get token() {
+        return this.#token;
     }
 };
 
@@ -28,6 +48,14 @@ let AuthRequest = class {
         this.#username = username;
         this.#password = password;
     }
+
+    get username() {
+        return this.#username;
+    }
+
+    get password() {
+        return this.#password;
+    }
 };
 
 let JoinGameRequest = class {
@@ -38,11 +66,17 @@ let JoinGameRequest = class {
         this.#firstPlayerUsername = firstPlayerUsername;
         this.#secondPlayerUsername = secondPlayerUsername;
     }
+
+    get firstPlayerUsername() {
+        return this.#firstPlayerUsername;
+    }
+
+    get secondPlayerUsername() {
+        return this.#secondPlayerUsername;
+    }
+
 };
 
 module.exports = {
-    MessageResponse: MessageResponse,
-    AuthResponse: AuthResponse,
-    AuthRequest: AuthRequest,
-    JoinGameRequest: JoinGameRequest
+    MessageResponse, ErrorResponse, AuthResponse, AuthRequest, JoinGameRequest
 };
