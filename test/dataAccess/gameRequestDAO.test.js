@@ -1,6 +1,8 @@
 'use strict';
 
-import {BadRequestError, GameRequestDAO, UserDAO, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
+import {
+    BadRequestError, GameRequestDAO, NoSuchItemError, UserDAO, ValueAlreadyTakenError
+} from "../../server/dataAccess/dataAccess";
 import {User} from "../../server/models";
 
 let gameRequestDAO;
@@ -64,8 +66,8 @@ test('insert same request twice throws already taken error', () => {
 });
 
 
-test('remove nonexistent request does not error', () => {
-    expect(() => gameRequestDAO.removeGameRequest("user1", "user2")).not.toThrow();
+test('remove nonexistent request does not throw no such item error', () => {
+    expect(() => gameRequestDAO.removeGameRequest("user1", "user2")).not.toThrow(NoSuchItemError);
 });
 
 

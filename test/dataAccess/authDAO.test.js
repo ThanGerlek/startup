@@ -1,6 +1,6 @@
 'use strict';
 
-import {AuthDAO, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
+import {AuthDAO, NoSuchItemError, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
 
 let authDAO;
 
@@ -33,8 +33,8 @@ test('removedTokenIsNotValid', () => {
 });
 
 
-test('removingNonexistentTokenDoesNotThrow', () => {
-    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(ValueAlreadyTakenError);
+test('remove nonexistent token does not throw no such item error', () => {
+    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(NoSuchItemError());
 });
 
 
