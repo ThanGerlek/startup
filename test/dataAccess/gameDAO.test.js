@@ -21,8 +21,8 @@ const game2 = new Game(board2);
 game2.toggleTurn();
 
 beforeEach(() => {
-    gameDAO = new GameDAO();
     userDAO = new UserDAO();
+    gameDAO = new GameDAO(userDAO);
     userDAO.insertNewUser(user1);
     userDAO.insertNewUser(user2);
 });

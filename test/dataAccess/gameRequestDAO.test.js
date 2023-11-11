@@ -9,7 +9,6 @@ let gameRequestDAO;
 let userDAO;
 
 beforeEach(() => {
-    gameRequestDAO = new GameRequestDAO();
     userDAO = new UserDAO();
     gameRequestDAO = new GameRequestDAO(userDAO);
     userDAO.insertNewUser(new User("user1", "pass1"));
