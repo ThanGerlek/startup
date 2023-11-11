@@ -1,9 +1,9 @@
 'use strict';
 
-import {
+const {
     BadRequestError, GameRequestDAO, NoSuchItemError, UserDAO, ValueAlreadyTakenError
-} from "../../server/dataAccess/dataAccess";
-import {User} from "../../server/models";
+} = require('../../server/dataAccess/dataAccess');
+const {User} = require('../../server/models');
 
 let gameRequestDAO;
 let userDAO;

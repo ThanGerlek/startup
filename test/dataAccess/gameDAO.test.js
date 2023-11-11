@@ -1,10 +1,10 @@
 'use strict';
 
-import {
+const {
     GameDAO, UserDAO, NoSuchItemError, ValueAlreadyTakenError, BadRequestError
-} from '../../server/dataAccess/dataAccess';
-import {Game, User} from '../../server/models';
-import {Board, DEFAULT_BOARD_DIMENSIONS} from '../board';
+} = require('../../server/dataAccess/dataAccess');
+const {Game, User} = require('../../server/models');
+const {Board, DEFAULT_BOARD_DIMENSIONS} = require('../board');
 
 let gameDAO;
 let userDAO;

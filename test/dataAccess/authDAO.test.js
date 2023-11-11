@@ -1,6 +1,6 @@
 'use strict';
 
-import {AuthDAO, NoSuchItemError, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
+const {AuthDAO, NoSuchItemError, ValueAlreadyTakenError} = require("../../server/dataAccess/dataAccess");
 
 let authDAO;
 

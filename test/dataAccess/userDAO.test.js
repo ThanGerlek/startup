@@ -1,7 +1,7 @@
 'use strict';
 
-import {UserDAO, NoSuchItemError, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
-import {User} from "../../server/models";
+const {UserDAO, NoSuchItemError, ValueAlreadyTakenError} = require('../../server/dataAccess/dataAccess');
+const {User} = require('../../server/models');
 
 let userDAO;
 const user1 = new User("user1", "pass1");
