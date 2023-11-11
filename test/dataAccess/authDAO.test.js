@@ -1,66 +1,49 @@
 'use strict';
 
+import {AuthDAO, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
 
+let authDAO;
 
-test('addAuthTokenDoesNotError', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+beforeEach(() => {
+    authDAO = new AuthDAO();
 });
 
 
-test('addAuthTokenNonexistentUserErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('addSameTokenTwiceErrors', () => {
+    authDAO.addToken("1234");
+    expect(() => authDAO.addToken("1234")).toThrow(ValueAlreadyTakenError);
 });
 
 
-// addAuthToken negative test
-test('addSameTokenTwiceErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('addedTokenIsValid', () => {
+    authDAO.addToken("1234");
+    expect(authDAO.isValidToken("1234")).toBe(true);
 });
 
 
-test('addDifferentTokenStringSameUserDoesNotError', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('nonexistentTokenIsNotValid', () => {
+    expect(authDAO.isValidToken("iDoNotExist")).toBe(false);
 });
 
 
-// addAuthToken positive test
-// isValidToken positive test
-test('addedTokenIsValid', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('removedTokenIsNotValid', () => {
+    authDAO.addToken("1234");
+    authDAO.removeToken("1234");
+    expect(authDAO.isValidToken("1234")).toBe(false);
 });
 
 
-// isValidToken negative test
-test('nonexistentTokenIsNotValid', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('removingNonexistentTokenDoesNotThrow', () => {
+    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(ValueAlreadyTakenError);
 });
 
 
-// removeAuthToken positive test
-test('removedTokenIsNotValid', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
+test('clearedAuthTokensAreInvalid', () => {
+    authDAO.addToken("1234");
+    authDAO.addToken("5678");
 
+    authDAO.clearTokens();
 
-// removeAuthToken "negative" test
-test('removingNonexistentTokenDoesNotThrow', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-// clearAuthTokens positive test
-test('clearedAuthTokensAreInvalid', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-// getUsername positive test 
-test('getUsernameReturnsUsername', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-// getUsername negative test
-test('getUsernameOfInvalidTokenErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+    expect(authDAO.isValidToken("1234")).toBe(false);
+    expect(authDAO.isValidToken("5678")).toBe(false);
 });
