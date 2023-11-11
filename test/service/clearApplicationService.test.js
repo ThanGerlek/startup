@@ -1,8 +1,9 @@
 'use strict';
 
 const {AuthDAO, GameDAO, GameRequestDAO, UserDAO, NoSuchItemError} = require('../../server/dataAccess/dataAccess');
-const {Board, Game, User} = require('../../server/models');
+const {Game, User} = require('../../server/models');
 const {ClearApplicationService} = require('../../server/services/services');
+const {DEFAULT_BOARD_DIMENSIONS, Board} = require("../board");
 
 let authDAO;
 let gameDAO;
@@ -45,8 +46,8 @@ test('clearing_twice_does_not_throw', () => {
 
 
 test('getting_cleared_Games_errors', () => {
-    gameDAO.insertGame(new Game(1, "user1", "user2", new Board()));
-    gameDAO.insertGame(new Game(2, "user3", "user4", new Board()));
+    gameDAO.insertGame(new Game(1, "user1", "user2", new Board(DEFAULT_BOARD_DIMENSIONS, null)));
+    gameDAO.insertGame(new Game(2, "user3", "user4", new Board(DEFAULT_BOARD_DIMENSIONS, null)));
 
     service.clearApplication();
 
