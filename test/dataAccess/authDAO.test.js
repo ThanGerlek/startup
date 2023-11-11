@@ -34,7 +34,7 @@ test('removedTokenIsNotValid', () => {
 
 
 test('remove nonexistent token does not throw no such item error', () => {
-    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(NoSuchItemError());
+    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(NoSuchItemError);
 });
 
 
