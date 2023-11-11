@@ -2,7 +2,6 @@
 
 const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
 const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
-const models = require('./server/models');
 
 const express = require('express');
 const app = express();
@@ -16,7 +15,7 @@ app.use((req, res, next) => {
 
 
 // Clear application
-app.delete('/db', (req, res, next) => {
+app.delete('/db', (req, res) => {
     // TODO(db)!
     services.clearApplicationService.clearApplication();
     res.send({message: "Okay!"});
@@ -29,7 +28,7 @@ app.delete('/db', (req, res, next) => {
 
 
 // Register
-app.post('/user', (req, res, next) => {
+app.post('/user', (req, res) => {
     // TODO!
     services.registerService.register();
     res.send({message: "Okay!"});
@@ -45,7 +44,7 @@ app.post('/user', (req, res, next) => {
 
 
 //  Login
-app.post('/session', (req, res, next) => {
+app.post('/session', (req, res) => {
     // TODO!
     services.loginService.login();
     res.send({message: "Okay!"});
@@ -60,7 +59,7 @@ app.post('/session', (req, res, next) => {
 
 
 //  Logout
-app.delete('/session', (req, res, next) => {
+app.delete('/session', (req, res) => {
     // TODO!
     services.logoutService.logout();
     res.send({message: "Okay!"});
@@ -74,7 +73,7 @@ app.delete('/session', (req, res, next) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 //  Join Game
-app.post('/game', (req, res, next) => {
+app.post('/game', (req, res) => {
     // TODO!
     services.joinGameService.joinGame();
     res.send({message: "Okay!"});
