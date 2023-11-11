@@ -1,66 +1,85 @@
 'use strict';
 
+import {UserDAO, NoSuchItemError, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
+import {User} from "../../server/models";
 
+let userDAO;
+const user1 = new User("user1", "pass1");
+const user2 = new User("user2", "pass2");
 
-test('insertUserDoesNotError', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+beforeEach(() => {
+    userDAO = new UserDAO();
 });
 
 
-// insertNewUser negative test
-test('insertUsersWithSameUsernameErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert valid user does not throw', () => {
+    expect(() => userDAO.insertNewUser(user1)).not.toThrow();
 });
 
 
-// insertNewUser positive test
-test('getInsertedUserReturnsNonnull', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert users with same username throws already taken error', () => {
+    userDAO.insertNewUser(user1);
+    expect(() => userDAO.insertNewUser(new User("user1", "pass2"))).toThrow(ValueAlreadyTakenError);
 });
 
 
-// getUser positive test
-test('getInsertedUser_Returns_EqualUser', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert users with same password does not throw already taken error', () => {
+    userDAO.insertNewUser(user1);
+    expect(() => userDAO.insertNewUser(new User("user2", "pass1"))).not.toThrow(ValueAlreadyTakenError);
 });
 
 
-// getUser negative test
-test('getInvalidUser_throws_not_found_error', () => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('get inserted user returns nonnull', () => {
+    userDAO.insertNewUser(user1);
+    expect(userDAO.getUser("user1")).not.toBeNull();
 });
 
 
-// hasUser positive test
-test('hasInsertedUserReturnsTrue', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('get inserted user returns correct username and password', () => {
+    userDAO.insertNewUser(user1);
+
+    const fetchedUser = userDAO.getUser("user1");
+    expect(fetchedUser).toBe(user1);
 });
 
 
-// hasUser "negative" test
-test('hasNonexistentUserReturnsFalse', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('get invalid user throws no such item error', () => {
+    expect(() => userDAO.getUser("iDoNotExist")).toThrow(NoSuchItemError);
 });
 
 
-// removeUser positive test
-test('hasRemovedUserReturnsFalse', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has inserted user returns true', () => {
+    userDAO.insertNewUser(user1);
+    expect(userDAO.hasUser("user1")).toBe(true);
 });
 
 
-// removeUser "negative" test
-test('removeNonexistentUserDoesNotThrow', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has nonexistent user returns false', () => {
+    expect(userDAO.hasUser("iDoNotExist")).toBe(false);
 });
 
 
-// clearUsers positive test
-test('hasClearedUsersReturnsFalse', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has removed user returns false', () => {
+    userDAO.insertNewUser(user1);
+    userDAO.removeUser(user1);
+    expect(userDAO.hasUser("user1")).toBe(false);
 });
 
 
-test('clearEmptyDoesNotThrow', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('remove nonexistent user does not throw no such item error', () => {
+    expect(userDAO.removeUser("iDoNotExist")).not.toThrow(NoSuchItemError);
+});
+
+
+test('has cleared users returns false', () => {
+    userDAO.insertNewUser(user1);
+    userDAO.insertNewUser(user2);
+    userDAO.clearUsers();
+    expect(userDAO.hasUser("user1")).toBe(false);
+    expect(userDAO.hasUser("user2")).toBe(false);
+});
+
+
+test('clear empty does not throw no such item error', () => {
+    expect(() => userDAO.clearUsers()).not.toThrow(NoSuchItemError);
 });
