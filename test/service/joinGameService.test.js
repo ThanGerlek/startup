@@ -75,9 +75,9 @@ test('joining with no existing game or request: find request returns request', (
 });
 
 
-test('joining with no existing game or request: find game does NOT return game', () => {
+test('joining with no existing game or request: find game throws no such item error', () => {
     service.joinGame(firstJoinGameRequest);
-    expect(gameDAO.findGameID("user1", "user2")).toThrow(NoSuchItemError);
+    expect(gameDAO.findGame("user1", "user2")).toThrow(NoSuchItemError);
 });
 
 
@@ -93,7 +93,7 @@ test('joining with existing request (no existing game): join with same request t
 test('joining with existing request (no existing game): join with same request twice does not create game', () => {
     service.joinGame(new JoinGameRequest("user1", "user2"));
     service.joinGame(new JoinGameRequest("user1", "user2"));
-    expect(() => gameDAO.findGameID("user1", "user2")).toThrow(NoSuchItemError);
+    expect(() => gameDAO.findGame("user1", "user2")).toThrow(NoSuchItemError);
 });
 
 test('joining with existing request (no existing game): find request does NOT return request', () => {
@@ -110,7 +110,7 @@ test('joining with existing request (no existing game): find game does not throw
 
     service.joinGame(secondJoinGameRequest);
 
-    expect(gameDAO.findGameID("user1", "user2")).not.toThrow(NoSuchItemError);
+    expect(gameDAO.findGame("user1", "user2")).not.toThrow(NoSuchItemError);
 });
 
 
@@ -119,7 +119,7 @@ test('joining with existing request (no existing game): find game returns game w
 
     service.joinGame(secondJoinGameRequest);
 
-    const gameID = gameDAO.findGameID("user1", "user2");
+    const gameID = gameDAO.findGame("user1", "user2");
     expect(gameDAO.findGame(gameID).getBoard()).toBe(new Board());
 });
 
@@ -129,7 +129,7 @@ test('joining with existing request (no existing game): game usernames are corre
 
     service.joinGame(secondJoinGameRequest);
 
-    const gameID = gameDAO.findGameID("user1", "user2");
+    const gameID = gameDAO.findGame("user1", "user2");
     expect(gameDAO.findGame(gameID).getUsernames()).toBe(["user1", "user2"]);
 });
 
@@ -139,7 +139,7 @@ test('joining with existing request (no existing game): first player has first t
 
     service.joinGame(secondJoinGameRequest);
 
-    const gameID = gameDAO.findGameID("user1", "user2");
+    const gameID = gameDAO.findGame("user1", "user2");
     expect(gameDAO.findGame(gameID).playerTurn()).toBe("user1");
 });
 
