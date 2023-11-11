@@ -3,6 +3,9 @@
 const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
 const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
 
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+
 const express = require('express');
 const app = express();
 
@@ -28,7 +31,7 @@ app.delete('/db', (req, res) => {
 
 
 // Register
-app.post('/user', (req, res) => {
+app.post('/user', jsonParser, (req, res) => {
     // TODO!
     services.registerService.register();
     res.send({message: "Okay!"});
@@ -44,7 +47,7 @@ app.post('/user', (req, res) => {
 
 
 //  Login
-app.post('/session', (req, res) => {
+app.post('/session', jsonParser, (req, res) => {
     // TODO!
     services.loginService.login();
     res.send({message: "Okay!"});
@@ -73,7 +76,7 @@ app.delete('/session', (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 //  Join Game
-app.post('/game', (req, res) => {
+app.post('/game', jsonParser, (req, res) => {
     // TODO!
     services.joinGameService.joinGame();
     res.send({message: "Okay!"});
