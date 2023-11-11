@@ -86,7 +86,7 @@ test('joining with no existing game or request: find game throws no such item er
 test('joining with existing request (no existing game): join with same request twice does not remove request', () => {
     service.joinGame(new JoinGameRequest("user1", "user2"));
     service.joinGame(new JoinGameRequest("user1", "user2"));
-    expect(() => gameRequestDAO.hasGameRequest("user1", "user2")).toBe(true);
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(true);
 });
 
 
