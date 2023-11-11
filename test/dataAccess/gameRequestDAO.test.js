@@ -1,93 +1,105 @@
 'use strict';
 
+import {BadRequestError, GameRequestDAO, UserDAO, ValueAlreadyTakenError} from "../../server/dataAccess/dataAccess";
+import {User} from "../../server/models";
 
+let gameRequestDAO;
+let userDAO;
 
-test('insertNewGameDoesNotError', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+beforeEach(() => {
+    gameRequestDAO = new GameRequestDAO();
+    userDAO = new UserDAO();
+    userDAO.insertNewUser(new User("user1", "pass1"));
+    userDAO.insertNewUser(new User("user2", "pass2"));
+    userDAO.insertNewUser(new User("user3", "pass3"));
+    userDAO.insertNewUser(new User("user4", "pass4"));
 });
 
 
-// findGame positive test
-test('find_inserted_game_returns_nonnull', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert request does not error', () => {
+    expect(() => gameRequestDAO.insertGameRequest("user1", "user2")).not.toThrow();
 });
 
 
-// insertNewGame negative test
-test('insert_game_twice_with_same_gameID_throws_error', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has inserted request returns true', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(true);
 });
 
 
-// insertNewGame positive test
-test('findReturnsGameWithEqualBoard', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has inserted request with players in the opposite order still returns true', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    expect(gameRequestDAO.hasGameRequest("user2", "user1")).toBe(true);
 });
 
 
-test('findReturnsGameWithSameGameID', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has nonexistent request returns false', () => {
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(false);
 });
 
 
-test('findReturnsGameWithSameGameName', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has request with only first player correct returns false', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    expect(gameRequestDAO.hasGameRequest("user1", "user3")).toBe(false);
 });
 
 
-test('findReturnsGameWithSamePlayers', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has request with only second player correct returns false', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    expect(gameRequestDAO.hasGameRequest("user3", "user2")).toBe(false);
 });
 
 
-test('findReturnsGameWithSameNumberOfSpectators', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has removed request returns false', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    gameRequestDAO.removeGameRequest("user1", "user2");
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(false);
 });
 
 
-// findGame negative test
-test('findNonexistentGameErrors', () => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert same request twice throws already taken error', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    expect(() => gameRequestDAO.insertGameRequest("user1", "user2"))
+        .toThrow(ValueAlreadyTakenError);
 });
 
 
-// removeGame positive test
-test('findRemovedGameErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('remove nonexistent request does not error', () => {
+    expect(() => gameRequestDAO.removeGameRequest("user1", "user2")).not.toThrow();
 });
 
 
-// removeGame "negative" test
-test('removeNonexistentGameDoesNotThrow', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('remove request with invalid first player throws bad request error', () => {
+    expect(() => gameRequestDAO.removeGameRequest("iDoNotExist", "user2")).toThrow(BadRequestError);
 });
 
 
-// updateGameState positive test
-test('updateGameState_changes_board_state', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('remove request with invalid second player throws bad request error', () => {
+    expect(() => gameRequestDAO.removeGameRequest("user1", "iDoNotExist")).toThrow(BadRequestError);
 });
 
 
-// updateGameState negative test
-test('updateGameState_of_nonexistent_game_throws_error', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('has cleared games returns false', () => {
+    gameRequestDAO.insertGameRequest("user1", "user2");
+    gameRequestDAO.insertGameRequest("user3", "user4");
+
+    gameRequestDAO.clearGameRequests();
+
+    expect(gameRequestDAO.hasGameRequest("user1", "user2")).toBe(false);
+    expect(gameRequestDAO.hasGameRequest("user3", "user4")).toBe(false);
 });
 
 
-// clearGames positive test
-test('findClearedGamesErrors', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('clear empty does not error', () => {
+    expect(() => gameRequestDAO.clearGameRequests()).not.toThrow();
 });
 
 
-// clearGames "negative" test
-test('clearEmptyDoesNotThrow', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert request with invalid first player throws bad request error', () => {
+    expect(() => gameRequestDAO.insertGameRequest("iDoNotExist", "user2")).toThrow(BadRequestError);
 });
 
 
-// generateNewGameID positive test
-test('generateTwoGameIDsReturnsDifferentValues', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
+test('insert request with invalid second player throws bad request error', () => {
+    expect(() => gameRequestDAO.insertGameRequest("user1", "iDoNotExist")).toThrow(BadRequestError);
 });
