@@ -1,8 +1,10 @@
 'use strict'
 
+const {ErrorResponse} = require('./server/http')
+const {handleResponse} = require("./server/handler");
+
 const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
 const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
-const {ErrorResponse} = require('./server/http')
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -20,9 +22,10 @@ app.use((req, res, next) => {
 
 // Clear application
 app.delete('/db', (req, res) => {
-    // TODO(db)!
-    services.clearApplicationService.clearApplication();
-    res.send({message: "Okay!"});
+    // TODO test
+    handleResponse(res, () => {
+        return services.clearApplicationService.clearApplication();
+    });
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -33,9 +36,10 @@ app.delete('/db', (req, res) => {
 
 // Register
 app.post('/user', jsonParser, (req, res) => {
-    // TODO!
-    services.registerService.register();
-    res.send({message: "Okay!"});
+    // TODO test
+    handleResponse(res, () => {
+        return services.registerService.register();
+    });
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -49,9 +53,10 @@ app.post('/user', jsonParser, (req, res) => {
 
 //  Login
 app.post('/session', jsonParser, (req, res) => {
-    // TODO!
-    services.loginService.login();
-    res.send({message: "Okay!"});
+    // TODO test
+    handleResponse(res, () => {
+        return services.loginService.login();
+    });
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -81,9 +86,10 @@ app.use((req, res, next) => {
 
 //  Logout
 app.delete('/session', (req, res) => {
-    // TODO!
-    services.logoutService.logout();
-    res.send({message: "Okay!"});
+    // TODO test
+    handleResponse(res, () => {
+        return services.logoutService.logout();
+    });
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -95,9 +101,11 @@ app.delete('/session', (req, res) => {
 
 //  Join Game
 app.post('/game', jsonParser, (req, res) => {
-    // TODO!
-    services.joinGameService.joinGame();
-    res.send({message: "Okay!"});
+    // TODO test
+    handleResponse(res, () => {
+        return services.joinGameService.joinGame();
+
+    });
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
