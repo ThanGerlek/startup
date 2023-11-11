@@ -67,7 +67,7 @@ test('has removed user returns false', () => {
 
 
 test('remove nonexistent user does not throw no such item error', () => {
-    expect(userDAO.removeUser("iDoNotExist")).not.toThrow(NoSuchItemError);
+    expect(() => userDAO.removeUser("iDoNotExist")).not.toThrow(NoSuchItemError);
 });
 
 

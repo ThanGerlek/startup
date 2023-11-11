@@ -22,7 +22,7 @@ beforeEach(() => {
 test('successful_login_returns_valid_token', () =>  {
     const authRequest = new AuthRequest("user1", "pass1");
     const response = service.login(authRequest);
-    expect(authDAO.isValidToken(response.token())).toBe(true);
+    expect(authDAO.isValidToken(response.token)).toBe(true);
 });
 
 
