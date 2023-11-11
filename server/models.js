@@ -34,9 +34,9 @@ let Game = class {
     #board;
     #isFirstPlayerTurn;
 
-    constructor(board) {
+    constructor(board, isFirstPlayerTurn) {
         this.#board = board;
-        this.#isFirstPlayerTurn = true;
+        this.#isFirstPlayerTurn = isFirstPlayerTurn;
     }
 
     getBoard() {

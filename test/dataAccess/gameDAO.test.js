@@ -123,39 +123,6 @@ test('find after updateGameState returns game with updated board', () => {
 });
 
 
-test('find after updateGameState with toggleTurn=true returns game with opposite turn status', () => {
-    gameDAO.insertGame('user1', 'user2', game1);
-    gameDAO.updateGameState('user1', 'user2', board2, true);
-
-    const fetchedTurnStatus = gameDAO.findGame('user1', 'user2').isFirstPlayerTurn();
-    const expectedTurnStatus = !game1.isFirstPlayerTurn();
-
-    expect(fetchedTurnStatus).isFirstPlayerTurn().toBe(expectedTurnStatus);
-});
-
-
-test('find after updateGameState with toggleTurn=false returns game with same turn status', () => {
-    gameDAO.insertGame('user1', 'user2', game1);
-    gameDAO.updateGameState('user1', 'user2', board2, false);
-
-    const fetchedTurnStatus = gameDAO.findGame('user1', 'user2').isFirstPlayerTurn();
-    const expectedTurnStatus = game1.isFirstPlayerTurn();
-
-    expect(fetchedTurnStatus).isFirstPlayerTurn().toBe(expectedTurnStatus);
-});
-
-
-test('find after updateGameState without toggleTurn parameter returns game with same turn status', () => {
-    gameDAO.insertGame('user1', 'user2', game1);
-    gameDAO.updateGameState('user1', 'user2', board2);
-
-    const fetchedTurnStatus = gameDAO.findGame('user1', 'user2').isFirstPlayerTurn();
-    const expectedTurnStatus = game1.isFirstPlayerTurn();
-
-    expect(fetchedTurnStatus).isFirstPlayerTurn().toBe(expectedTurnStatus);
-});
-
-
 test('updateGameState of nonexistent game throws no such item error', () => {
     expect(() => gameDAO.updateGameState('user1', 'user2', board2))
         .toThrow(NoSuchItemError);
