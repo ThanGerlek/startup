@@ -1,9 +1,15 @@
 'use strict';
 
 // Auth Data Access
-// TODO! db
+// TODO test
 
 class AuthDAO {
+
+    #tokenList;
+
+    constructor() {
+        this.#tokenList = [];
+    }
 
     /**
      * Registers the given token as a valid token.
@@ -11,7 +17,7 @@ class AuthDAO {
      * @param token the AuthToken to register
      */
     addToken(token) {
-        // TODO
+        this.#tokenList.push(token);
     }
 
     /**
@@ -21,8 +27,7 @@ class AuthDAO {
      * @return true iff the given token is currently valid
      */
     isValidToken(token) {
-        // TODO
-        return true;
+        return this.#tokenList.includes(token);
     }
 
     /**
@@ -32,7 +37,10 @@ class AuthDAO {
      * @param token the token to invalidate
      */
     removeToken(token) {
-        // TODO
+        let index = this.#tokenList.indexOf(token);
+        if (index >= 0) {
+            this.#tokenList.splice(index, 1);
+        }
     }
 
     /**
@@ -40,7 +48,7 @@ class AuthDAO {
      * new tokens by re-authenticating.
      */
     clearTokens() {
-        // TODO
+        this.#tokenList = [];
     }
 }
 
