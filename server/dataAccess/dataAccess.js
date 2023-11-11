@@ -31,8 +31,12 @@ module.exports = {
     ValueAlreadyTakenError,
     UnauthorizedAccessError,
     getNewDAOs: function () {
+        const userDAO = new UserDAO();
         return {
-            authDAO: new AuthDAO(), gameDAO: new GameDAO(), gameRequestDAO: new GameRequestDAO(), userDAO: new UserDAO()
+            authDAO: new AuthDAO(),
+            gameDAO: new GameDAO(userDAO),
+            gameRequestDAO: new GameRequestDAO(userDAO),
+            userDAO: userDAO
         };
     }
 };

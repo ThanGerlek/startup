@@ -4,6 +4,11 @@
 // TODO! db
 
 class GameRequestDAO {
+    #userDAO;
+
+    constructor(userDAO) {
+        this.#userDAO = userDAO;
+    }
 
     /**
      * Inserts a GameRequest into the database.

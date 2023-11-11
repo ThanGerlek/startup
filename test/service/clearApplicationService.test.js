@@ -12,10 +12,10 @@ let userDAO;
 let service;
 
 beforeEach(() => {
-    authDAO = new AuthDAO();
-    gameDAO = new GameDAO();
-    gameRequestDAO = new GameRequestDAO();
     userDAO = new UserDAO();
+    authDAO = new AuthDAO();
+    gameDAO = new GameDAO(userDAO);
+    gameRequestDAO = new GameRequestDAO(userDAO);
 
     service = new ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO);
 });

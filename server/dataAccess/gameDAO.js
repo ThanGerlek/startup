@@ -4,6 +4,13 @@
 // TODO! db
 
 class GameDAO {
+    #userDAO;
+
+    constructor(userDAO) {
+        this.#gameList = [];
+        this.#userDAO = userDAO;
+    }
+
     /**
      * Inserts a game into the database.
      * @param game the game to insert

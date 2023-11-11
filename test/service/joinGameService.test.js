@@ -22,9 +22,9 @@ board.markTaken(0, 0);
 let game = new Game(1, "user1", "user2", board);
 
 beforeEach(() => {
-    gameDAO = new GameDAO();
-    gameRequestDAO = new GameRequestDAO();
     userDAO = new UserDAO();
+    gameDAO = new GameDAO(userDAO);
+    gameRequestDAO = new GameRequestDAO(userDAO);
 
     userDAO.insertNewUser("user1", "pass1");
     userDAO.insertNewUser("user2", "pass2");
