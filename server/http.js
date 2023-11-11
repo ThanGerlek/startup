@@ -16,7 +16,7 @@ let MessageResponse = class {
 let ErrorResponse = class extends MessageResponse {
     error;
 
-    constructor(error, message) {
+    constructor(message, error) {
         super(message);
         this.error = error;
     }
