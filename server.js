@@ -2,6 +2,7 @@
 
 const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
 const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
+const {ErrorResponse} = require('./server/http')
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -60,6 +61,23 @@ app.post('/session', jsonParser, (req, res) => {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`    |
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
+// TODO Move logic to handler?
+// TODO Apply authorization using a more selective mechanism
+//  Currently it just checks endpoints physically below this one.
+app.use((req, res, next) => {
+    if (!req.headers.authorization) {
+        res.status(401);
+        res.send(new ErrorResponse("No credentials provided"));
+    } else {
+        const token = req.headers.authorization;
+        if (!dataAccessObjects.authDAO.isValidToken(token)) {
+            res.status(401);
+            res.send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
+        } else {
+            next();
+        }
+    }
+});
 
 //  Logout
 app.delete('/session', (req, res) => {
