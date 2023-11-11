@@ -30,7 +30,7 @@ let AuthResponse = class extends MessageResponse {
     // register, login
     token;
 
-    constructor(token) {
+    constructor(message, token) {
         super(message);
         this.token = token;
     }
