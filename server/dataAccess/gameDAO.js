@@ -7,7 +7,6 @@ class GameDAO {
     /**
      * Inserts a game into the database.
      * @param game the game to insert
-     * @return the gameID of the inserted game
      */
     insertGame(game) {
         /* Failures
@@ -17,23 +16,13 @@ class GameDAO {
     }
 
     /**
-     * Returns the gameID of the game between the players if it exists, otherwise returns null
+     * Fetches the game between the given players from the database.
      *
-     * @param player1
-     * @param player2
-     */
-    findGameID(player1, player2) {
-        // TODO
-        return -1;
-    }
-
-    /**
-     * Fetches the game with the given ID from the database.
-     *
-     * @param gameID the ID of the game to fetch
+     * @param firstPlayer the username of one of the players in the game (order does not matter)
+     * @param secondPlayer the username of the other player in the game (order does not matter)
      * @return the fetched game
      */
-    findGame(gameID) {
+    findGame(firstPlayer, secondPlayer) {
         /* Failures
         can't access database
         game not found
@@ -45,10 +34,11 @@ class GameDAO {
     /**
      * Updates the game state of a game in the database to match the given version.
      *
-     * @param gameID the ID of the game to update
+     * @param firstPlayer the username of one of the players in the game (order does not matter)
+     * @param secondPlayer the username of the other player in the game (order does not matter)
      * @param game the updated version of the Game
      */
-    updateGameState(gameID, game) {
+    updateGameState(firstPlayer, secondPlayer, game) {
         /* Failures
         can't access database
         game not found
@@ -59,9 +49,10 @@ class GameDAO {
     /**
      * Removes a single game from the database.
      *
-     * @param gameID the ID of the Game to remove
+     * @param firstPlayer the username of one of the players in the game (order does not matter)
+     * @param secondPlayer the username of the other player in the game (order does not matter)
      */
-    removeGame(gameID) {
+    removeGame(firstPlayer, secondPlayer) {
         /* Failures
         can't access database
         game not found

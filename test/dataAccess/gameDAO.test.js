@@ -1,18 +1,5 @@
 'use strict';
 
-
-
-test('insertNewGameDoesNotError', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
-// findGame positive test
-test('find_inserted_game_returns_nonnull', (done) => {
-    throw new Error("Unimplemented test!"); // TODO test
-});
-
-
 // insertNewGame negative test
 test('insert_game_twice_with_same_gameID_throws_error', (done) => {
     throw new Error("Unimplemented test!"); // TODO test
@@ -45,6 +32,16 @@ test('findReturnsGameWithSameNumberOfSpectators', (done) => {
 });
 
 
+test('find game with players in the opposite order still returns equal board', () => {
+    // TODO test
+});
+
+
+test('find game with players in the opposite order returns correct turn status', () => {
+    // TODO test
+});
+
+
 // findGame negative test
 test('findNonexistentGameErrors', () => {
     throw new Error("Unimplemented test!"); // TODO test
@@ -71,6 +68,11 @@ test('updateGameState_changes_board_state', (done) => {
 
 // updateGameState negative test
 test('updateGameState_of_nonexistent_game_throws_error', (done) => {
+    throw new Error("Unimplemented test!"); // TODO test
+});
+
+
+test('updateGameState_of_removed_game_throws_error', () => {
     throw new Error("Unimplemented test!"); // TODO test
 });
 

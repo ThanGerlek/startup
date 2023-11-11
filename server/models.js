@@ -31,24 +31,12 @@ let AuthToken = class {
 }
 
 let Game = class {
-    #gameID;
-    #usernames;
     #board;
     #isFirstPlayerTurn;
 
-    constructor(gameID, playerOneUsername, playerTwoUsername, board) {
-        this.#gameID = gameID;
-        this.#usernames = [playerOneUsername, playerTwoUsername];
+    constructor(board) {
         this.#board = board;
         this.#isFirstPlayerTurn = true;
-    }
-
-    getGameID() {
-        return this.#gameID;
-    }
-
-    getUsernames() {
-        return [this.#usernames[0], this.#usernames[1]];
     }
 
     getBoard() {
@@ -59,9 +47,8 @@ let Game = class {
         this.#board = newBoard;
     }
 
-    playerTurn() {
-        const index = this.#isFirstPlayerTurn ? 0 : 1;
-        return this.#usernames[index];
+    isFirstPlayerTurn() {
+        return this.#isFirstPlayerTurn;
     }
 
     toggleTurn() {
