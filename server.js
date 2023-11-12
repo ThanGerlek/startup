@@ -84,6 +84,14 @@ app.use((req, res, next) => {
     }
 });
 
+// get stats
+app.get('/stats', jsonParser, (req, res) => {
+    // TODO test
+    handleResponse(res, () => {
+        return services.getStatsService.getStats(req.body);
+    })
+})
+
 //  Logout
 app.delete('/session', (req, res) => {
     // TODO test

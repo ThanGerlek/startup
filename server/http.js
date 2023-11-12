@@ -26,6 +26,25 @@ let ErrorResponse = class extends MessageResponse {
     }
 };
 
+let StatsResponse = class extends MessageResponse {
+    username;
+    stats;
+
+    constructor(message, username, stats) {
+        super(message);
+        this.username = username;
+        this.stats = stats;
+    }
+
+    get stats() {
+        return this.stats;
+    }
+
+    get username() {
+        return this.username;
+    }
+};
+
 let AuthResponse = class extends MessageResponse {
     // register, login
     token;

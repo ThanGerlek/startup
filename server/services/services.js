@@ -5,9 +5,10 @@ const {JoinGameService} = require('./joinGameService');
 const {LoginService} = require('./loginService');
 const {LogoutService} = require('./logoutService');
 const {RegisterService} = require('./registerService');
+const {GetStatsService} = require('./getStatsService');
 
 module.exports = {
-    ClearApplicationService, JoinGameService, LoginService, LogoutService, RegisterService,
+    ClearApplicationService, JoinGameService, LoginService, LogoutService, RegisterService, GetStatsService,
 
     getServicesFromDataSource: function (persistentData) {
         let authDAO = persistentData.authDAO;
@@ -21,6 +22,7 @@ module.exports = {
             loginService: new LoginService(authDAO, gameDAO, gameRequestDAO, userDAO),
             logoutService: new LogoutService(authDAO, gameDAO, gameRequestDAO, userDAO),
             registerService: new RegisterService(authDAO, gameDAO, gameRequestDAO, userDAO),
+            getStatsService: new GetStatsService(userDAO),
         }
     }
 };
