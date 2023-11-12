@@ -37,6 +37,9 @@ let AuthToken = class {
 let Game = class {
     #board;
     #isFirstPlayerTurn;
+    #firstPlayer;
+    #secondPlayer;
+    // TODO add/update usernames in server contexts (store both usernames AND turn)
 
     constructor(board, isFirstPlayerTurn) {
         this.#board = board;
@@ -55,8 +58,24 @@ let Game = class {
         return this.#isFirstPlayerTurn;
     }
 
+    playerTurn() {
+        if (this.isFirstPlayerTurn()) {
+            return this.#firstPlayer;
+        } else {
+            return this.#secondPlayer;
+        }
+    }
+
     toggleTurn() {
         this.#isFirstPlayerTurn = !this.#isFirstPlayerTurn;
+    }
+
+    firstPlayer() {
+        return this.#firstPlayer;
+    }
+
+    secondPlayer() {
+        return this.#secondPlayer;
     }
 }
 
