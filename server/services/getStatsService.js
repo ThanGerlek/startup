@@ -2,6 +2,8 @@
 
 const {StatsResponse} = require('../http');
 
+// TODO! GetStatsService tests!
+
 class GetStatsService {
     #userDAO;
 
