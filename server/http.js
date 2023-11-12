@@ -97,5 +97,5 @@ let JoinGameRequest = class {
 };
 
 module.exports = {
-    MessageResponse, ErrorResponse, AuthResponse, AuthRequest, JoinGameRequest
+    MessageResponse, ErrorResponse, StatsResponse, AuthResponse, AuthRequest, JoinGameRequest
 };
