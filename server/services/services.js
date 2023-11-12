@@ -18,10 +18,10 @@ module.exports = {
 
         return {
             clearApplicationService: new ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO),
-            joinGameService: new JoinGameService(authDAO, gameDAO, gameRequestDAO, userDAO),
-            loginService: new LoginService(authDAO, gameDAO, gameRequestDAO, userDAO),
-            logoutService: new LogoutService(authDAO, gameDAO, gameRequestDAO, userDAO),
-            registerService: new RegisterService(authDAO, gameDAO, gameRequestDAO, userDAO),
+            joinGameService: new JoinGameService(gameDAO, gameRequestDAO, userDAO),
+            loginService: new LoginService(authDAO, userDAO),
+            logoutService: new LogoutService(authDAO),
+            registerService: new RegisterService(authDAO, userDAO),
             getStatsService: new GetStatsService(userDAO),
         }
     }

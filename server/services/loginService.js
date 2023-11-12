@@ -11,7 +11,7 @@ class LoginService {
         this.#userDAO = userDAO;
     }
 
-    login() {
+    login(authRequest) {
         // TODO! services
         console.log("Called login()");
 

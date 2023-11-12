@@ -38,7 +38,7 @@ app.delete('/db', (req, res) => {
 app.post('/user', jsonParser, (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.registerService.register();
+        return services.registerService.register(req.body);
     });
 });
 // | **Request class**    | RegisterRequest                               |
@@ -55,7 +55,7 @@ app.post('/user', jsonParser, (req, res) => {
 app.post('/session', jsonParser, (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.loginService.login();
+        return services.loginService.login(req.body);
     });
 });
 // | **Request class**    | LoginRequest                                    |
@@ -70,6 +70,7 @@ app.post('/session', jsonParser, (req, res) => {
 // TODO Apply authorization using a more selective mechanism
 //  Currently it just checks endpoints physically below this one.
 app.use((req, res, next) => {
+    // TODO test
     if (!req.headers.authorization) {
         res.status(401);
         res.send(new ErrorResponse("No credentials provided"));
@@ -96,7 +97,7 @@ app.get('/stats', jsonParser, (req, res) => {
 app.delete('/session', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.logoutService.logout();
+        return services.logoutService.logout(req.headers.authorization);
     });
 });
 // | **Request class**    | N/A (no request body)                        |
@@ -111,7 +112,7 @@ app.delete('/session', (req, res) => {
 app.post('/game', jsonParser, (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.joinGameService.joinGame();
+        return services.joinGameService.joinGame(req.body);
 
     });
 });
