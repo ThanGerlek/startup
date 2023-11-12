@@ -31,7 +31,7 @@ async function getGameRequestResponse(senderUsername, receiverUsername) {
         authorization = JSON.parse(authorization).tokenString;
     }
 
-    fetch('https://gerleksgarage.click/game', {
+    fetch('https://startup.gerleksgarage.click/game', {
         method: 'PUT', body: JSON.stringify({
             playerOne: senderUsername, playerTwo: receiverUsername
         }), headers: {
