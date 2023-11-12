@@ -12,9 +12,8 @@ function onLoad() {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
-    let game = getGame();
-    game.submitMove();
-    if (game.isGameOver()) {
+    window.game.submitMove();
+    if (window.game.isGameOver()) {
         opponentWin();
     }
 
@@ -23,8 +22,7 @@ function onSubmitButtonClick() {
 
 function temp_testPlayerWin() {
     // TODO server: remove temp_testPlayerWin() and Game.temp_isGameOverForOpponent()
-    let game = getGame();
-    if (game.temp_isGameOverForOpponent()) {
+    if (window.game.temp_isGameOverForOpponent()) {
         playerWin();
     }
 }
@@ -32,7 +30,7 @@ function temp_testPlayerWin() {
 function onResetButtonClick() {
     console.log(`Reset button was clicked.`);
     clearMessageDisplay();
-    getGame().resetMove();
+    window.game.resetMove();
 }
 
 function setUpGame() {
@@ -68,16 +66,8 @@ function playerWin() {
     window.location.href = 'you-win.html';
 }
 
-function getGame() {
-    let game = window.game;
-    if (!game) {
-        throw new Error('Failed to get Game object');
-        // TODO? db: handle error? End game, or maybe re-query database?
-    }
-    return game;
-}
-
 async function submitMoveToServer(gameboard) {
+    // TODO ws
     clearMessageDisplay();
     setupWaitNotification(1000);
 
