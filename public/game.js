@@ -44,13 +44,17 @@ function setUpGame() {
 }
 
 function initializePlayerTurn() {
-    // TODO feat: allow choosing of who goes first
-    let opponentName = localStorage.getItem('opponentUsername');
-    if (!opponentName) { // TODO rmv test code
-        opponentName = "Bob Ross";
-    }
-    let isPlayerTurn = false;
-    document.getElementById('current-turn-username-box').textContent = opponentName;
+    const firstPlayer = window.game.firstPlayer();
+    const secondPlayer = window.game.secondPlayer();
+    const isFirstPlayerTurn = window.game.isFirstPlayerTurn();
+
+    const playerUsername = localStorage.getItem('user');
+    const opponentUsername = (firstPlayer === playerUsername) ? secondPlayer : firstPlayer;
+
+    const isPlayerTurn = (firstPlayer === playerUsername) && isFirstPlayerTurn;
+
+    document.getElementById('current-turn-username-box').textContent = isPlayerTurn ? playerUsername : opponentUsername;
+
     return isPlayerTurn;
 }
 
