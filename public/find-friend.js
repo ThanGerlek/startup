@@ -1,7 +1,7 @@
 'use strict';
 
-import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
- 
+import {setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay} from "./message-display.js";
+
 function onSubmitButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
@@ -16,7 +16,7 @@ async function submitGameRequest() {
     try {
         let response = await getGameRequestResponse(senderUsername, receiverUsername);
         cancelWaitNotification();
-        parseGameRequestResponse(response, receiverUsername);
+        parseGameRequestResponse(response);
     } catch (err) {
         // failed to connect to server
         let msg = `Failed to connect to the server. Make sure you're connected to the internet, or try again later.`;
@@ -26,65 +26,48 @@ async function submitGameRequest() {
 }
 
 async function getGameRequestResponse(senderUsername, receiverUsername) {
-    // Return artificial data
+    let authorization = localStorage.getItem('authtoken');
+    if (authorization) {
+        authorization = JSON.parse(authorization).tokenString;
+    }
 
-    return new Promise((resolve, reject) => {
-        console.log(`Simulating accessing server with game request.`);
-
-        let response = {};
-
-        if (receiverUsername === "") {
-            response = new ErrorResponse('invalidUser');
-        } else {
-            response = new HTTPResponse('200 OK');
-        }
-
-
-        // TODO server: remove test code
-        if (receiverUsername === "test-server-access-failure") {
-            console.log('Test: simulating a server access failure');
-            reject();
-        } else {
-
-            if (receiverUsername === "test-bad-response") {
-                console.log('Test: simulating receiving a malformed response');
-                response = {value: 'blue', errorType: 'french fries'};
-            }
-            
-            setTimeout(() => resolve(response), 2000);
-            // resolve(response);
-
-        }
-    });
+    fetch('https://gerleksgarage.click/game', {
+        method: 'PUT', body: JSON.stringify({
+            playerOne: senderUsername, playerTwo: receiverUsername
+        }), headers: {
+            'Content-type': 'application/json; charset=UTF-8', 'authorization': authorization,
+        },
+    }).then(response => response.json())
+        .then(response => console.log(response));
 }
 
-function parseGameRequestResponse(response, receiverUsername) {
-    // if successful, redirect to wait-for-friend, otherwise display error
-    if (response.value === '200 OK') {
-        setUpForConnection(response, receiverUsername);
-    } else if (isInvalidUserResponse(response)) {
-        displayMessage('warn', 'User not found.');
+function parseGameRequestResponse(response) {
+    if (!response.message) {
+        displayMessage('error', 'Failed to parse HTTP response. Please try again');
+    } else if (response.message !== "OK") {
+        displayMessage('warn', response.message);
+    } else if (response.game) {
+        beginGame(response);
     } else {
-        displayMessage('error', 'Failed to parse HTTP response!');
+        waitForFriend(response);
     }
 }
 
-function isInvalidUserResponse(response) {
-    return response.value === 'error' && response.errorType === 'invalidUser'; // temporary artificial implementation
+function beginGame(response) {
+    openWebSocketConnection(response);
+    window.game = response.game;
+    window.location.href = 'board.html';
 }
 
-function setUpForConnection(response, receiverUsername) {
+function waitForFriend(response, receiverUsername) {
     openWebSocketConnection(response);
     localStorage.setItem('opponentUsername', receiverUsername);
-    window.location.href = 'wait-for-friend.html?requestreceiveruser=' + receiverUsername;
-    //TODO! db: Warning: this^^^ means usernames MUST be URL-safe (no '?', no ' ', etc.)
-    //TODO server: Choose either localStorage or URL ? for sending username, but not both
+    window.location.href = 'wait-for-friend.html';
 }
 
 function openWebSocketConnection(response) {
-    console.log(`Simulating opening WebSocket connection.`);
+    console.log('Simulating opening WebSocket connection.');
     // TODO ws: implement WebSocket
 }
-
 
 document.getElementById('submit-game-request-button').addEventListener('click', () => onSubmitButtonClick());
