@@ -3,10 +3,14 @@
 let User = class {
     #username;
     #password;
+    stats;
 
     constructor(username, password) {
         this.#username = username;
         this.#password = password;
+        this.stats = {
+            wins: 0, losses: 0, games: 0,
+        };
     }
 
     username() {

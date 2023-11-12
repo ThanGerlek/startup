@@ -66,6 +66,18 @@ class UserDAO {
         */
     }
 
+    recordWin(username) {
+        let user = this.getUser(username);
+        user.stats.wins++;
+        user.stats.games++;
+    }
+
+    recordLoss(username) {
+        let user = this.getUser(username);
+        user.stats.wins++;
+        user.stats.games++;
+    }
+
 }
 
 module.exports = {UserDAO};
