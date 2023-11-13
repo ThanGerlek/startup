@@ -3,7 +3,7 @@
 // Game Data Access
 // TODO! db
 
-const {NoSuchItemError, BadRequestError} = require("./DataAccessErrors");
+const {NoSuchItemError, BadRequestError} = require("./dataAccessErrors");
 
 class GameDAO {
     #gameList;
