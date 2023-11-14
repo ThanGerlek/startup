@@ -1,7 +1,7 @@
 'use strict';
 
 const {AuthResponse, MessageResponse} = require('../http');
-const {UnauthorizedAccessError} = require("../dataAccess/dataAccess");
+const {UnauthorizedAccessError, NoSuchItemError} = require("../dataAccess/dataAccess");
 
 class LoginService {
     #authDAO;
@@ -23,7 +23,7 @@ class LoginService {
 
     #authenticate(username, password) {
         if (!this.#userDAO.hasUser(username)) { // TODO? Unneeded?
-            return new MessageResponse(`Invalid username: '${username}'`);
+            throw new NoSuchItemError(`Unrecognized username '${username}'`);
         }
 
         const user = this.#userDAO.getUser(username);
@@ -32,7 +32,7 @@ class LoginService {
             this.#authDAO.addToken(token);
             return new AuthResponse("Logged in.", token, username);
         } else {
-            return new UnauthorizedAccessError("Invalid credentials");
+            throw new UnauthorizedAccessError("Invalid credentials");
         }
     }
 
