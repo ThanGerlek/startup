@@ -18,7 +18,7 @@ async function authenticateLogin() {
     let hashedPassword = extractPassword();
     let username = extractUsername();
     try {
-        let response = await getAuthenticateLoginResponse(username, hashedPassword);
+        const response = await getAuthenticateLoginResponse(username, hashedPassword);
         cancelWaitNotification();
         parseLoginResponse(response);
     } catch (err) {
@@ -37,10 +37,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
                 'Content-type': 'application/json; charset=UTF-8'
             },
         });
-        const jsonResponse = await response.json(); // TODO Remove test code
-        const str = JSON.stringify(jsonResponse);
-        console.log(str);
-        return jsonResponse;
+        return await response.json();
     } catch (e) {
         throw e;
     }
