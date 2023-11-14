@@ -14,13 +14,13 @@ handleResponse = function (res, runService) {
         500 DataAccessError
         */
         if (e instanceof BadRequestError || e instanceof NoSuchItemError || e instanceof ValueAlreadyTakenError) {
-            res.send(400, new ErrorResponse(e.message, e));
+            res.status(400).send(new ErrorResponse(e.message, e));
         } else if (e instanceof UnauthorizedAccessError) {
-            res.send(403, new ErrorResponse(e.message, e));
+            res.status(403).send(new ErrorResponse(e.message, e));
         } else if (e instanceof DataAccessError) {
-            res.send(500, new ErrorResponse(e.message, e));
+            res.status(500).send(new ErrorResponse(e.message, e));
         } else {
-            res.send(500, new ErrorResponse(`Unrecognized server error`, e))
+            res.status(500).send(new ErrorResponse(`Unrecognized server error`, e))
         }
     }
 }
