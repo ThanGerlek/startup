@@ -14,14 +14,6 @@
   not.
 - Deliverables that do not include the above will not be graded.
 
-### HTML Deliverable
-
-- Default page: index.html
-- Header (not head): title, (description?), nav buttons
-- Footer: your name, GitHub repo link
-- Header and footer should be the same for all pages
-- [README.md](https://github.com/ThanGerlek/startup/blob/main/README.md) file: what you've done/not done from the rubric
-  items
 
 ## Personal Notes
 
@@ -130,7 +122,7 @@ p {
 
 @keyframes demo {
   from {
-    font-size: 0vh;
+    font-size: 0;
   }
   to {
     font-size: 20vh;
