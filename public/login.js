@@ -4,7 +4,9 @@
 
 // TODO server: change logout from a simple redirect to returning a completely different HTTP response
 
-import { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay } from "./message-display.js";
+// TODO js: replace custom isValidResponse() functions with predefined ones on JS's native Response object
+
+import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 
 function onLoginButtonClick() {
     clearMessageDisplay();
@@ -27,60 +29,37 @@ async function authenticateLogin() {
 }
 
 async function getAuthenticateLoginResponse(username, hashedPassword) {
-    // Return artificial data
-    
-    return new Promise((resolve, reject) => {
-        console.log(`Simulating accessing server. User: '${username}', hpass: '${hashedPassword}'`);
-
-        let response = {};
-
-        if (username === "") {
-            response = new ErrorResponse('invalidUser');
-        } else if (hashedPassword === hash("")) {
-            response = new ErrorResponse('incorrectPassword');
-        } else {
-            let token = {username: username, tokenString: 'pi/2'};
-            response = new AuthResponse(token);
-        }
-
-        // TODO server: remove test code
-        if (username === "test-bad-response") {
-            console.log('Test: simulating receiving a malformed response');
-            response = {value: 'blue', errorType: 'french fries',  token: {tokenString: 'ur face', username: 'abraham lincoln'}};
-        } else if (username === "test-server-access-failure") {
-            console.log('Test: simulating a server access failure');
-            reject();
-        }
-
-        setTimeout(() => resolve(response), 2000);
-        // resolve(response);
-    });
-}
-
-function parseLoginResponse(response) {
-    if (response.value === 'token') {
-        loginUser(response.token);
-    } else if (isInvalidUserResponse(response)) {
-        displayMessage('warn', 'Incorrect username.');
-    } else if (isIncorrectPasswordResponse(response)) {
-        displayMessage('warn',  'Incorrect password.');
-    } else {
-        displayMessage('error', 'Failed to parse HTTP response!');
+    try {
+        const response = await fetch('/session', {
+            method: 'POST', body: JSON.stringify({
+                username: username, password: hashedPassword
+            }), headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+        });
+        const jsonResponse = await response.json(); // TODO Remove test code
+        const str = JSON.stringify(jsonResponse);
+        console.log(str);
+        return jsonResponse;
+    } catch (e) {
+        throw e;
     }
 }
 
-function isInvalidUserResponse(response) {
-    return response.value === 'error' && response.errorType === 'invalidUser'; // temporary artificial implementation
-}
-
-function isIncorrectPasswordResponse(response) {
-    return response.value === 'error' && response.errorType === 'incorrectPassword'; // temporary artificial implementation    
+function parseLoginResponse(response) {
+    if (response.token) {
+        loginUser(response.token);
+    } else if (!response.message) {
+        displayMessage('error', 'Failed to parse HTTP response!');
+    } else {
+        displayMessage('warn', response.message);
+    }
 }
 
 function loginUser(token) {
     console.log(`Your token string is: '${token.tokenString}'`);
-    localStorage.setItem('authtoken', JSON.stringify(token));
-    localStorage.setItem('user', token.username);
+    localStorage.setItem('tokenString', JSON.stringify(token));
+    localStorage.setItem('username', token.username);
     displayMessage('info', 'Redirecting...');
     window.location.href = 'home.html';
 }
@@ -102,7 +81,7 @@ function hash(text) {
         return 0;
     }
 
-    return 42;
+    return text;
 }
 
 document.getElementById('login-button').addEventListener('click', () => {
