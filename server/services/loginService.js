@@ -1,6 +1,7 @@
 'use strict';
 
-const {AuthResponse} = require('../http');
+const {AuthResponse, MessageResponse} = require('../http');
+const {UnauthorizedAccessError} = require("../dataAccess/dataAccess");
 
 class LoginService {
     #authDAO;
@@ -12,10 +13,32 @@ class LoginService {
     }
 
     login(authRequest) {
-        // TODO! services
         console.log("Called login()");
 
-        return new AuthResponse("Logged in.", "1234");
+        const username = authRequest.username;
+        const password = authRequest.password;
+
+        return this.#authenticate(username, password);
+    }
+
+    #authenticate(username, password) {
+        if (!this.#userDAO.hasUser(username)) {
+            return new MessageResponse(`Invalid username: '${username}'`);
+        }
+
+        const user = this.#userDAO.getUser(username);
+        if (user.password() === password) {
+            const token = this.#generateToken();
+            this.#authDAO.addToken(token);
+            return new AuthResponse("Logged in.", token, username);
+        } else {
+            return new UnauthorizedAccessError("Invalid credentials");
+        }
+    }
+
+    #generateToken() {
+        // TODO! Replace with something cryptographically secure!
+        return Math.random() * 2749871491 + Math.random();
     }
 }
 
