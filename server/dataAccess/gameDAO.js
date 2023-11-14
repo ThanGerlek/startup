@@ -1,7 +1,8 @@
 'use strict';
 
 // Game Data Access
-// TODO! db
+// TODO! implement gameDAO
+// TODO db
 
 const {NoSuchItemError, BadRequestError} = require("./dataAccessErrors");
 

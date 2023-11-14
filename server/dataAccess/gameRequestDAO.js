@@ -1,7 +1,8 @@
 'use strict';
 
 // GameRequest Data Access
-// TODO! db
+// TODO! implement gameRequestDAO
+// TODO db
 
 class GameRequestDAO {
     #userDAO;

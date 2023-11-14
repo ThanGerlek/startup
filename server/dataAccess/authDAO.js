@@ -1,7 +1,7 @@
 'use strict';
 
 // Auth Data Access
-// TODO test
+// TODO db
 
 const {ValueAlreadyTakenError} = require("./dataAccessErrors");
 
