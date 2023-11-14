@@ -38,7 +38,7 @@ class LoginService {
 
     #generateToken() {
         // TODO! Replace with something cryptographically secure!
-        return Math.random() * 2749871491 + Math.random();
+        return JSON.stringify(Math.random() * 2749871491 + Math.random());
     }
 }
 
