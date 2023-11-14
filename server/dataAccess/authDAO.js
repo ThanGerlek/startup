@@ -3,6 +3,8 @@
 // Auth Data Access
 // TODO test
 
+const {ValueAlreadyTakenError} = require("./dataAccessErrors");
+
 class AuthDAO {
 
     #tokenList;
@@ -17,6 +19,9 @@ class AuthDAO {
      * @param token the AuthToken to register
      */
     addToken(token) {
+        if (this.isValidToken(token)) {
+            throw new ValueAlreadyTakenError("Failed to insert new token, token is already registered");
+        }
         this.#tokenList.push(token);
     }
 
