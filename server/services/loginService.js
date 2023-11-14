@@ -22,7 +22,7 @@ class LoginService {
     }
 
     #authenticate(username, password) {
-        if (!this.#userDAO.hasUser(username)) {
+        if (!this.#userDAO.hasUser(username)) { // TODO? Unneeded?
             return new MessageResponse(`Invalid username: '${username}'`);
         }
 

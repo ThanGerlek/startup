@@ -4,6 +4,8 @@ const {AuthResponse} = require('../http');
 const {ValueAlreadyTakenError} = require("../dataAccess/dataAccess");
 const {User} = require("../models");
 
+// TODO Username and password validation (no empty strings etc.)
+
 class RegisterService {
     #authDAO;
     #userDAO;
