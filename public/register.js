@@ -1,26 +1,24 @@
 'use strict';
 
-// TODO js: server: account creation
-
-// TODO server: change logout from a simple redirect to returning a completely different HTTP response
-
 // TODO js: replace custom isValidResponse() functions with predefined ones on JS's native Response object
+
+// TODO js: reduce duplicated code from login.js
 
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 
-function onLoginButtonClick() {
+function onRegisterButtonClick() {
     clearMessageDisplay();
     setupWaitNotification();
-    authenticateLogin(); // TODO Convert to use .then()
+    registerAccount(); // TODO Convert to use .then()
 }
 
-async function authenticateLogin() {
+async function registerAccount() {
     let hashedPassword = extractPassword();
     let username = extractUsername();
     try {
-        const response = await getAuthenticateLoginResponse(username, hashedPassword);
+        const response = await getRegisterAccountResponse(username, hashedPassword);
         cancelWaitNotification();
-        parseLoginResponse(response);
+        parseRegisterResponse(response);
     } catch (err) {
         cancelWaitNotification();
         let msg = `Failed to connect to the server. Make sure you're connected to the internet, or try again later.`;
@@ -28,9 +26,9 @@ async function authenticateLogin() {
     }
 }
 
-async function getAuthenticateLoginResponse(username, hashedPassword) {
+async function getRegisterAccountResponse(username, hashedPassword) {
     try {
-        const response = await fetch('/session', {
+        const response = await fetch('/user', {
             method: 'POST', body: JSON.stringify({
                 username: username, password: hashedPassword
             }), headers: {
@@ -43,7 +41,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
     }
 }
 
-function parseLoginResponse(response) {
+function parseRegisterResponse(response) {
     if (response.token) {
         loginUser(response.token, response.username);
     } else if (!response.message) {
@@ -81,10 +79,7 @@ function hash(text) {
     return text;
 }
 
-document.getElementById('login-button').addEventListener('click', () => {
-    authenticateToken(redirectToHomePage, onLoginButtonClick);
-    // TODO Convert to use .then()
-});
 document.getElementById('register-button').addEventListener('click', () => {
-    window.location.href = 'register.html';
+    authenticateToken(redirectToHomePage, onRegisterButtonClick);
+    // TODO Convert to use .then()
 });

@@ -27,12 +27,12 @@
 <main class="mx-3 flex-grow-1 d-flex flex-column justify-content-center align-items-center">
     <div>
         <h3>Welcome!</h3>
-        <p>Please log in to play.</p>
+        <p>Enter a username and password.</p>
     </div>
 
     <div class="d-flex flex-column align-items-center">
 
-        <!-- TODO. html: align user and pass text boxes (switch to grid design? flex-shrink?) -->
+        <!-- TODO. html: align text boxes (switch to grid design? flex-shrink?) -->
         <!-- TODO. html: labels and text boxes become left-aligned with a very thin screen (they also collapse at different points because they're slightly different widths) -->
         <div class="my-2 justify-content-between">
             <label for="usernameBox">Username:</label>
@@ -44,16 +44,14 @@
             <input type="password" id="passwordBox" name="pass">
         </div>
 
-        <button id="login-button" class="btn btn-success my-2">Login</button>
+<!--        TODO Add a second password box-->
 
-        <button id="register-button" class="btn btn-link my-2">Create account</button>
+        <button id="register-button" class="btn btn-success my-2">Create!</button>
 
         <div id="info_message" class="alert alert-info" style="display: none;"></div>
         <div id="warn_message" class="alert alert-warning" style="display: none;"></div>
         <div id="error_message" class="alert alert-danger" style="display: none;"></div>
     </div>
-
-    <!-- TODO. Add forgot password button -->
 
 </main>
 
@@ -66,7 +64,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<script src="login.js" type="module"></script>
+<script src="register.js" type="module"></script>
 <script src="main.js"></script>
 </body>
 
