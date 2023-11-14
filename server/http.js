@@ -48,13 +48,19 @@ let StatsResponse = class extends MessageResponse {
 let AuthResponse = class extends MessageResponse {
     // register, login
     token;
+    username;
 
-    constructor(message, token) {
+    constructor(message, token, username) {
         super(message);
         this.token = token;
+        this.username = username;
     }
 
     get token() {
+        return this.token;
+    }
+
+    get username() {
         return this.token;
     }
 };
