@@ -35,9 +35,9 @@ class RegisterService {
     }
 
     #requireUsernameAndPasswordValidation(username, password) {
-        if (username === '') throw new BadRequestError('Please enter a username.');
+        if (!username) throw new BadRequestError('Please enter a username.');
         // TODO! Sanitize against injection attacks
-        if (password === '') throw new BadRequestError('Please enter a password.');
+        if (!password) throw new BadRequestError('Please enter a password.');
         if (password.length < 12) throw new BadRequestError('Password must be at least 12 characters.');
         if (password === username) throw new BadRequestError('Username and password cannot match.');
     }
