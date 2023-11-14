@@ -3,7 +3,16 @@
 // User Data Access
 // TODO! db
 
+const {User} = require("../models");
+const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");
+
 class UserDAO {
+    #userList;
+
+    constructor() {
+        this.clearUsers();
+        // this.#userList = [new User("john", "1234")];
+    }
 
     /**
      * Adds a new User to the database.
@@ -15,6 +24,21 @@ class UserDAO {
         can't access database
         username already exists
         */
+        const username = user.username();
+        if (this.hasUser(username)) {
+            throw new ValueAlreadyTakenError(`Username already taken: '${username}'`)
+        } else {
+            this.#userList.push(user);
+        }
+    }
+
+    #getIndexOf(username) {
+        for (let i = 0; i < this.#userList.length; i++) {
+            if (this.#userList[i].username() === username) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -28,7 +52,12 @@ class UserDAO {
         can't access database
         user not found
         */
-        return null;
+        let index = this.#getIndexOf(username);
+        if (index < 0) {
+            throw new NoSuchItemError(`Username not found: '${username}'`);
+        } else {
+            return this.#userList[index];
+        }
     }
 
     /**
@@ -41,7 +70,8 @@ class UserDAO {
         /* Failures
         can't access database
         */
-        return false;
+        let index = this.#getIndexOf(username);
+        return index >= 0;
     }
 
     /**
@@ -54,6 +84,10 @@ class UserDAO {
         can't access database
         (if user DNE, just return)
         */
+        let index = this.#getIndexOf(user.username());
+        if (index >= 0) {
+            this.#userList.splice(index, 1);
+        }
     }
 
     /**
@@ -64,6 +98,7 @@ class UserDAO {
         can't access database
         (if no users, just return)
         */
+        this.#userList = [];
     }
 
     recordWin(username) {
