@@ -18,6 +18,18 @@ database interactions. Local play is fully supported (and online play is functio
   WebSocket communication (ex. during gameplay)
 - *Persistent data*: usernames, game states, authtokens, and other data is stored in the browser's localStorage
 
+## Web Services deliverable
+
+Account registration and login has been fully implemented (albeit not yet cryptographically securely) using login and
+register service endpoints. (Login information is persistent across browser sessions but not server restart.)
+
+Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a work in progress.
+
+- *HTTP service with Node.js and `express`*: All connections to the server pass through `express` endpoints.
+- *Frontend calls backend service endpoints*: Login and account registration use fully functional endpoints.
+- *Static middleware for frontend*: All public HTML and .js files are served using `express`.
+- *Calls to third party endpoints*: The "you lost" page shows a suitable inspirational quote.
+
 ## CSS deliverable
 
 I added CSS styling using Bootstrap on every page to create a simple but nice design that I'm happy with (although I'm
