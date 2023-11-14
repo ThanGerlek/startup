@@ -2,16 +2,8 @@
 
 // TODO Make main.js a proper module using export or something
 
-function loadFakeTokenData() {
-    localStorage.setItem('username', 'john');
-    let token = {username: 'john', tokenString: 'pi/2'};
-    localStorage.setItem('tokenString', JSON.stringify(token));
-}
-
-
 function logout() {
-    invalidateToken(getTokenStringFromLocalStorage());
-    clearStorage();
+    clearUserInfoFromLocalStorage();
     redirectToLoginPage();
 }
 
@@ -59,17 +51,9 @@ function parseAuthenticateTokenResponse(response, successAction, failureAction) 
         successAction();
     } else {
         console.log('Failed to authenticate existing token. Clearing token');
-        invalidateToken(response.token);
+        clearUserInfoFromLocalStorage();
         failureAction();
     }
-}
-
-function invalidateToken(token) {
-    clearUserInfoFromLocalStorage();
-}
-
-function clearStorage() {
-    localStorage.clear();
 }
 
 function getTokenStringFromLocalStorage() {
@@ -123,18 +107,5 @@ class ErrorResponse extends HTTPResponse {
 
     get errorType() {
         return this.#errorType;
-    }
-}
-
-class AuthResponse extends HTTPResponse {
-    #token;
-
-    constructor(token) {
-        super('token');
-        this.#token = token;
-    }
-
-    get token() {
-        return this.#token;
     }
 }

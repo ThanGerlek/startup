@@ -3,7 +3,6 @@
 // User Data Access
 // TODO! db
 
-const {User} = require("../models");
 const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");
 
 class UserDAO {

@@ -1,6 +1,6 @@
 'use strict';
 
-const {AuthResponse, MessageResponse} = require('../http');
+const {AuthResponse} = require('../http');
 const {UnauthorizedAccessError, NoSuchItemError} = require("../dataAccess/dataAccess");
 
 class LoginService {
