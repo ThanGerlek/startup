@@ -75,15 +75,11 @@ function clearStorage() {
     localStorage.clear();
 }
 
-function getAuthTokenFromLocalStorage() {
-    let serializedToken = localStorage.getItem('tokenString');
-    if (serializedToken) {
-        let token = JSON.parse(serializedToken);
-        let {username, tokenString} = token;
-        console.log(`Found AuthToken in local storage. Username: '${username}', token string: '${tokenString}'`);
-        if (username && tokenString) {
-            return token;
-        }
+function getTokenStringFromLocalStorage() {
+    let tokenString = localStorage.getItem('tokenString');
+    if (tokenString) {
+        console.log(`Found token string '${tokenString}' in local storage`);
+        return tokenString;
     }
     return null;
 }
