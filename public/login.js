@@ -48,7 +48,7 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
 
 function parseLoginResponse(response) {
     if (response.token) {
-        loginUser(response.token);
+        loginUser(response.token, response.username);
     } else if (!response.message) {
         displayMessage('error', 'Failed to parse HTTP response!');
     } else {
@@ -56,10 +56,10 @@ function parseLoginResponse(response) {
     }
 }
 
-function loginUser(token) {
-    console.log(`Your token string is: '${token.tokenString}'`);
-    localStorage.setItem('tokenString', JSON.stringify(token));
-    localStorage.setItem('username', token.username);
+function loginUser(tokenString, username) {
+    console.log(`Your token string is: '${tokenString}'`);
+    localStorage.setItem('tokenString', tokenString);
+    localStorage.setItem('username', username);
     displayMessage('info', 'Redirecting...');
     window.location.href = 'home.html';
 }
