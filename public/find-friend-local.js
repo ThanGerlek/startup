@@ -1,7 +1,7 @@
 'use strict';
 
-import { displayMessage } from "./message-display.js";
- 
+import {displayMessage} from "./message-display.js";
+
 function onSubmitButtonClick() {
     let playerUsername = localStorage.getItem('username');
     let opponentUsername = document.getElementById('otherUsernameBox').value;

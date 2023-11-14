@@ -16,7 +16,8 @@ function logout() {
 }
 
 async function silentAuthenticateToken() {
-    await authenticateToken(() => {}, redirectToLoginPage);
+    await authenticateToken(() => {
+    }, redirectToLoginPage);
 }
 
 async function authenticateToken(successAction, failureAction) {
@@ -102,11 +103,14 @@ function redirectToHomePage() {
 
 class HTTPResponse {
     #value;
+
     constructor(value) {
         this.#value = value;
     }
 
-    get value() {return this.#value;}
+    get value() {
+        return this.#value;
+    }
 }
 
 class OKResponse extends HTTPResponse {
@@ -117,18 +121,26 @@ class OKResponse extends HTTPResponse {
 
 class ErrorResponse extends HTTPResponse {
     #errorType;
+
     constructor(errorType) {
         super('error');
         this.#errorType = errorType;
     }
-    get errorType() {return this.#errorType;}
+
+    get errorType() {
+        return this.#errorType;
+    }
 }
 
 class AuthResponse extends HTTPResponse {
     #token;
+
     constructor(token) {
         super('token');
         this.#token = token;
     }
-    get token() {return this.#token;}
+
+    get token() {
+        return this.#token;
+    }
 }

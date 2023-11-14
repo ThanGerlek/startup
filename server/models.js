@@ -39,6 +39,7 @@ let Game = class {
     #isFirstPlayerTurn;
     #firstPlayer;
     #secondPlayer;
+
     // TODO add/update usernames in server contexts (store both usernames AND turn)
 
     constructor(board, isFirstPlayerTurn) {

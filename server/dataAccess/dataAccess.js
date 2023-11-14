@@ -2,7 +2,13 @@ const {AuthDAO} = require('./authDAO');
 const {GameDAO} = require('./gameDAO');
 const {GameRequestDAO} = require('./gameRequestDAO');
 const {UserDAO} = require('./userDAO');
-const {DataAccessError, BadRequestError, NoSuchItemError, UnauthorizedAccessError, ValueAlreadyTakenError} = require('./dataAccessErrors');
+const {
+    DataAccessError,
+    BadRequestError,
+    NoSuchItemError,
+    UnauthorizedAccessError,
+    ValueAlreadyTakenError
+} = require('./dataAccessErrors');
 
 module.exports = {
     AuthDAO,

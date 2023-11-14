@@ -2,8 +2,8 @@
 
 // TODO server: wait-for-friend.js
 
-    // let params = new URLSearchParams(location.search);
-    // let receiverUsername = params.get('requestreceiveruser');
+// let params = new URLSearchParams(location.search);
+// let receiverUsername = params.get('requestreceiveruser');
 
 function onLoad() {
     window.redirectTimeout = setTimeout(redirectToBoard, 5000);
@@ -19,7 +19,7 @@ function redirectToBoard() {
     window.location.href = "game.html";
 }
 
-function cancelRedirect()  {
+function cancelRedirect() {
     clearTimeout(window.redirectTimeout);
 }
 

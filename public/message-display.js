@@ -29,6 +29,7 @@ function clearMessageDisplay() {
         msgElement.style.display = 'none';
     });
 }
+
 function getMessageElement(msgType) {
     if (!(msgType === 'info' || msgType === 'warn' || msgType === 'error')) {
         throw new Error(`Invalid message element type '${msgType}' (must be one of 'info', 'warn', 'error')`)
@@ -43,4 +44,4 @@ function getMessageElement(msgType) {
     }
 }
 
-export { setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay, getMessageElement };
+export {setupWaitNotification, cancelWaitNotification, displayMessage, clearMessageDisplay, getMessageElement};
