@@ -3,9 +3,9 @@
 // TODO Make main.js a proper module using export or something
 
 function loadFakeTokenData() {
-    localStorage.setItem('user', 'john');
+    localStorage.setItem('username', 'john');
     let token = {username: 'john', tokenString: 'pi/2'};
-    localStorage.setItem('authtoken', JSON.stringify(token));
+    localStorage.setItem('tokenString', JSON.stringify(token));
 }
 
 
@@ -75,7 +75,7 @@ function clearStorage() {
 }
 
 function getAuthTokenFromLocalStorage() {
-    let serializedToken = localStorage.getItem('authtoken');
+    let serializedToken = localStorage.getItem('tokenString');
     if (serializedToken) {
         let token = JSON.parse(serializedToken);
         let {username, tokenString} = token;
@@ -88,8 +88,8 @@ function getAuthTokenFromLocalStorage() {
 }
 
 function clearUserInfoFromLocalStorage() {
-    localStorage.removeItem('authtoken');
-    localStorage.removeItem('user');
+    localStorage.removeItem('tokenString');
+    localStorage.removeItem('username');
 }
 
 function redirectToLoginPage() {

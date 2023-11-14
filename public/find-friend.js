@@ -9,7 +9,7 @@ function onSubmitButtonClick() {
 }
 
 async function submitGameRequest() {
-    let senderUsername = localStorage.getItem('user');
+    let senderUsername = localStorage.getItem('username');
     let receiverUsername = document.getElementById('otherUsernameBox').value;
     console.log(`Submitting game request from user '${senderUsername}' to user '${receiverUsername}'`);
 
@@ -26,7 +26,7 @@ async function submitGameRequest() {
 }
 
 async function getGameRequestResponse(senderUsername, receiverUsername) {
-    let authorization = localStorage.getItem('authtoken');
+    let authorization = localStorage.getItem('tokenString');
     if (authorization) {
         authorization = JSON.parse(authorization).tokenString;
     }

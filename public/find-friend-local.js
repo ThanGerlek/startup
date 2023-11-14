@@ -3,7 +3,7 @@
 import { displayMessage } from "./message-display.js";
  
 function onSubmitButtonClick() {
-    let playerUsername = localStorage.getItem('user');
+    let playerUsername = localStorage.getItem('username');
     let opponentUsername = document.getElementById('otherUsernameBox').value;
 
     if (opponentUsername === "") {

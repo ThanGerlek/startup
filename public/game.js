@@ -48,7 +48,7 @@ function initializePlayerTurn() {
     const secondPlayer = window.game.secondPlayer();
     const isFirstPlayerTurn = window.game.isFirstPlayerTurn();
 
-    const playerUsername = localStorage.getItem('user');
+    const playerUsername = localStorage.getItem('username');
     const opponentUsername = (firstPlayer === playerUsername) ? secondPlayer : firstPlayer;
 
     const isPlayerTurn = (firstPlayer === playerUsername) && isFirstPlayerTurn;
@@ -75,7 +75,7 @@ async function submitMoveToServer(gameboard) {
     clearMessageDisplay();
     setupWaitNotification(1000);
 
-    let username = localStorage.getItem('user');
+    let username = localStorage.getItem('username');
     let opponentUsername = localStorage.getItem('opponentUsername');
 
     try {
@@ -140,7 +140,7 @@ function changeTurn() {
     console.log(`Move submitted. Changing turn`);
     window.game.changeTurn();
 
-    getTurnElement().textContent = localStorage.getItem(game.isPlayerTurn() ? 'user' : 'opponentUsername');
+    getTurnElement().textContent = localStorage.getItem(game.isPlayerTurn() ? 'username' : 'opponentUsername');
 
     console.log(`[Not actually changing turn, since the database isn't implemented yet]`);
     //TODO. js: Actually change turns, with all the functional restrictions that entails; then when the user clicks submit again, change back to their turn without marking anything.
