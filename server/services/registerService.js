@@ -19,11 +19,10 @@ class RegisterService {
         const username = authRequest.username;
         const password = authRequest.password;
 
-        this.#requireUsernameAndPasswordValidation(username, password);
-
         if (this.#userDAO.hasUser(username)) {
             throw new ValueAlreadyTakenError(`Failed to register, username ${username} is already taken`);
         } else {
+            this.#requireUsernameAndPasswordValidation(username, password);
             const user = new User(username, password);
             this.#userDAO.insertNewUser(user);
 
