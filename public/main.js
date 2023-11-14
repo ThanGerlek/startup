@@ -10,7 +10,7 @@ function loadFakeTokenData() {
 
 
 function logout() {
-    invalidateToken(getAuthTokenFromLocalStorage());
+    invalidateToken(getTokenStringFromLocalStorage());
     clearStorage();
     redirectToLoginPage();
 }
@@ -21,7 +21,7 @@ async function silentAuthenticateToken() {
 }
 
 async function authenticateToken(successAction, failureAction) {
-    let existingToken = getAuthTokenFromLocalStorage();
+    let existingToken = getTokenStringFromLocalStorage();
     if (existingToken) {
         try {
             let response = await getAuthenticateTokenResponse(existingToken);
@@ -36,28 +36,26 @@ async function authenticateToken(successAction, failureAction) {
 }
 
 async function getAuthenticateTokenResponse(token) {
-    // Return artificial data
 
-    return new Promise((resolve, reject) => {
-        console.log(`Simulating accessing server to authenticate token. Token string: '${token.tokenString}'`);
+    // TODO Replace with real authentication
 
-        let response = {};
-
-        if (token.username === "") {
-            response = new ErrorResponse('invalidUser');
-        } else if (token.tokenString === "") {
-            response = new ErrorResponse('invalidTokenString');
-        } else {
-            response = new AuthResponse(token);
-        }
-
-        setTimeout(() => resolve(response), 2000);
-        // resolve(response);
-    });
+    try {
+        const response = await fetch('/session', {
+            method: 'GET', headers: {
+                'Content-type': 'application/json; charset=UTF-8', 'authorization': token,
+            },
+        });
+        return await response.json();
+    } catch (e) {
+        throw e;
+    }
 }
 
 function parseAuthenticateTokenResponse(response, successAction, failureAction) {
-    if (response.value === 'token') {
+
+    // TODO Replace with real authentication
+
+    if (response.message === 'OK') {
         successAction();
     } else {
         console.log('Failed to authenticate existing token. Clearing token');
@@ -68,7 +66,6 @@ function parseAuthenticateTokenResponse(response, successAction, failureAction) 
 
 function invalidateToken(token) {
     clearUserInfoFromLocalStorage();
-    // TODO server: Send message to server to invalidate the token
 }
 
 function clearStorage() {
@@ -109,6 +106,7 @@ class HTTPResponse {
     }
 }
 
+// TODO? Remove and replace with JS's native Response object
 class OKResponse extends HTTPResponse {
     constructor() {
         super('200 OK');

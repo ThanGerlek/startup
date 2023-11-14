@@ -85,13 +85,21 @@ app.use((req, res, next) => {
     }
 });
 
+//  Authenticate token
+// TODO Delete and replace with real authentication
+app.get('/session', jsonParser, (req, res) => {
+    handleResponse(res, () => {
+        return services.authenticateService.authenticateToken(req.headers.authorization);
+    });
+});
+
 // get stats
 app.get('/stats', jsonParser, (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.getStatsService.getStats(req.body);
     })
-})
+});
 
 //  Logout
 app.delete('/session', (req, res) => {
