@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO js: server: account creation
-
 // TODO server: change logout from a simple redirect to returning a completely different HTTP response
 
 // TODO js: replace custom isValidResponse() functions with predefined ones on JS's native Response object
