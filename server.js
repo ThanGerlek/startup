@@ -6,13 +6,11 @@ const {handleResponse} = require("./server/handler");
 const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
 const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
 
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-
 const express = require('express');
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.json());
 
 app.use((req, res, next) => {
     console.log(`req.originalUrl: '${req.originalUrl}', body: '${req.body}'`);
@@ -35,7 +33,7 @@ app.delete('/db', (req, res) => {
 
 
 // Register
-app.post('/user', jsonParser, (req, res) => {
+app.post('/user', (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.registerService.register(req.body);
@@ -52,7 +50,7 @@ app.post('/user', jsonParser, (req, res) => {
 
 
 //  Login
-app.post('/session', jsonParser, (req, res) => {
+app.post('/session', (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.loginService.login(req.body);
@@ -87,14 +85,14 @@ app.use((req, res, next) => {
 
 //  Authenticate token
 // TODO Delete and replace with real authentication
-app.get('/session', jsonParser, (req, res) => {
+app.get('/session', (req, res) => {
     handleResponse(res, () => {
         return services.authenticateService.authenticateToken(req.headers.authorization);
     });
 });
 
 // get stats
-app.get('/stats', jsonParser, (req, res) => {
+app.get('/stats', (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.getStatsService.getStats(req.body);
@@ -117,7 +115,7 @@ app.delete('/session', (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 //  Join Game
-app.post('/game', jsonParser, (req, res) => {
+app.post('/game', (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.joinGameService.joinGame(req.body);
