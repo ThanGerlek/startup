@@ -1,10 +1,8 @@
 'use strict';
 
 const {AuthResponse} = require('../http');
-const {ValueAlreadyTakenError} = require("../dataAccess/dataAccess");
+const {ValueAlreadyTakenError, BadRequestError} = require("../dataAccess/dataAccess");
 const {User} = require("../models");
-
-// TODO Username and password validation (no empty strings etc.)
 
 class RegisterService {
     #authDAO;
@@ -21,6 +19,8 @@ class RegisterService {
         const username = authRequest.username;
         const password = authRequest.password;
 
+        this.#requireUsernameAndPasswordValidation(username, password);
+
         if (this.#userDAO.hasUser(username)) {
             throw new ValueAlreadyTakenError(`Failed to register, username ${username} is already taken`);
         } else {
@@ -32,6 +32,14 @@ class RegisterService {
 
             return new AuthResponse(`Registered new user successfully`, token, username);
         }
+    }
+
+    #requireUsernameAndPasswordValidation(username, password) {
+        if (username === '') throw new BadRequestError('Please enter a username.');
+        // TODO! Sanitize against injection attacks
+        if (password === '') throw new BadRequestError('Please enter a password.');
+        if (password.length < 12) throw new BadRequestError('Password must be at least 12 characters.');
+        if (password === username) throw new BadRequestError('Username and password cannot match.');
     }
 
     // TODO remove duplicated code from loginService.js
