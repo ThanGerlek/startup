@@ -13,7 +13,7 @@ class GetStatsService {
 
     getStats(getStatsRequest) {
         console.log("Called getStats()");
-        const user = this.#userDAO.findUser(getStatsRequest.username)
+        const user = this.#userDAO.getUser(getStatsRequest.username)
 
         return new StatsResponse("Retrieved stats.", user.username(), user.stats);
     }
