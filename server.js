@@ -13,10 +13,9 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(`req.originalUrl: '${req.originalUrl}', body: '${req.body}'`);
+    console.log(`Received request: ${req.method} ${req.originalUrl} ${JSON.stringify(req.body)}`);
     next();
-})
-
+});
 
 // Clear application
 app.delete('/db', (req, res) => {
@@ -119,7 +118,6 @@ app.post('/game', (req, res) => {
     // TODO test
     handleResponse(res, () => {
         return services.joinGameService.joinGame(req.body);
-
     });
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
