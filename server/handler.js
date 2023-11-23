@@ -5,7 +5,7 @@ const {
 } = require("./dataAccess/dataAccess");
 const {ErrorResponse} = require("./http");
 
-handleResponse = function (res, runService) {
+const handleResponse = function (res, runService) {
     try {
         const response = runService();
         res.send(response);
