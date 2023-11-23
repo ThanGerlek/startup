@@ -33,7 +33,7 @@ class DataAccessManager {
         if (!this.#gameDAO) {
             this.#gameDAO = new GameDAO(this.#mongoDatabase, this.getUserDAO());
         }
-        return this.#authDAO;
+        return this.#gameDAO;
     }
 
     getGameRequestDAO() {
