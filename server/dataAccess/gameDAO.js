@@ -2,7 +2,6 @@
 
 // Game Data Access
 // TODO! implement gameDAO
-// TODO db
 
 const {NoSuchItemError, BadRequestError} = require("./dataAccessErrors");
 
@@ -10,7 +9,8 @@ class GameDAO {
     #gameList;
     #userDAO;
 
-    constructor(userDAO) {
+    constructor(mongoDatabase, userDAO) {
+        // TODO Use database
         this.#gameList = [];
         this.#userDAO = userDAO;
     }

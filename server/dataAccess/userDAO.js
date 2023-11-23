@@ -1,14 +1,14 @@
 'use strict';
 
 // User Data Access
-// TODO! db
 
 const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");
 
 class UserDAO {
     #userList;
 
-    constructor() {
+    constructor(mongoDatabase) {
+        // TODO use database
         this.clearUsers();
         // this.#userList = [new User("john", "1234")];
     }

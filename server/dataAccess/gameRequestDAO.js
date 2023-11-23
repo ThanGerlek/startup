@@ -2,12 +2,12 @@
 
 // GameRequest Data Access
 // TODO! implement gameRequestDAO
-// TODO db
 
 class GameRequestDAO {
     #userDAO;
 
-    constructor(userDAO) {
+    constructor(mongoDatabase, userDAO) {
+        // TODO Use database
         this.#userDAO = userDAO;
     }
 

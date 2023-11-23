@@ -4,13 +4,13 @@
 // TODO db
 
 const {ValueAlreadyTakenError} = require("./dataAccessErrors");
-const colName = 'auth';
+const dbConfig = require('../../dbConfig.json');
 
 class AuthDAO {
-    #database;
+    #collection;
 
-    constructor(database) {
-        this.#database = database;
+    constructor(mongoDatabase) {
+        this.#collection = mongoDatabase.collection(dbConfig.authCollectionName);
     }
 
     /**
@@ -21,15 +21,13 @@ class AuthDAO {
     async addToken(token) {
         const jsonToken = {tokenString: token};
 
-        await this.#database.queryDBCollection(colName, async col => {
-            const matchingTokens = await col.find(jsonToken).toArray();
-            if (matchingTokens.length === 0) {
-                console.log(`addToken(${token}): inserting now`);
-                col.insertOne(jsonToken);
-            } else {
-                throw new ValueAlreadyTakenError("Failed to insert new token, token is already registered");
-            }
-        });
+        const matchingTokens = await this.#collection.find(jsonToken).toArray();
+        if (matchingTokens.length === 0) {
+            console.log(`addToken(${token}): inserting now`);
+            await this.#collection.insertOne(jsonToken);
+        } else {
+            throw new ValueAlreadyTakenError("Failed to insert new token, token is already registered");
+        }
     }
 
     /**
@@ -41,12 +39,10 @@ class AuthDAO {
     async isValidToken(token) {
         const query = {tokenString: token};
         const options = {limit: 1};
-        return await this.#database.queryDBCollection(colName, async col => {
-            const cursor = col.find(query, options);
-            const results = await cursor.toArray();
-            console.log(`isValidToken(${token}): results = '${results}'`);
-            return results.length > 0;
-        });
+        const cursor = await this.#collection.find(query, options);
+        const results = await cursor.toArray();
+        console.log(`isValidToken(${token}): results = '${results}'`);
+        return results.length > 0;
     }
 
     /**
@@ -57,7 +53,7 @@ class AuthDAO {
      */
     async removeToken(token) {
         const query = {tokenString: token};
-        await this.#database.queryDBCollection(colName, col => col.deleteMany(query));
+        await this.#collection.deleteMany(query);
     }
 
     /**
@@ -66,7 +62,7 @@ class AuthDAO {
      */
     async clearTokens() {
         const query = {};
-        await this.#database.queryDBCollection(colName, col => col.deleteMany(query));
+        await this.#collection.deleteMany(query);
     }
 }
 
