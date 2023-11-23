@@ -1,49 +1,74 @@
 'use strict';
 
-const {AuthDAO, NoSuchItemError, ValueAlreadyTakenError} = require("../../server/dataAccess/dataAccess");
+const {AuthDAO, ValueAlreadyTakenError} = require("../../server/dataAccess/dataAccess");
+const {Database} = require("../../server/dataAccess/database");
 
+let db;
 let authDAO;
 
-beforeEach(() => {
-    authDAO = new AuthDAO();
+
+beforeAll(async () => {
+    db = new Database();
+    authDAO = new AuthDAO(db);
+    await db.connect();
+});
+
+beforeEach(async () => {
+    await authDAO.clearTokens();
+});
+
+afterAll(async () => {
+    await authDAO.clearTokens();
+    // await db.disconnect();
 });
 
 
-test('addSameTokenTwiceErrors', () => {
-    authDAO.addToken("1234");
-    expect(() => authDAO.addToken("1234")).toThrow(ValueAlreadyTakenError);
+/**
+ * Used to avoid race conditions in testing.
+ */
+async function delay(milliseconds) {
+    if (!milliseconds) milliseconds = 1000;
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+
+test('add same token twice rejects with ValueAlreadyTakenError', async () => {
+    await authDAO.addToken('1234');
+
+    await expect(() => authDAO.addToken('1234')).rejects.toBeInstanceOf(ValueAlreadyTakenError);
 });
 
 
-test('addedTokenIsValid', () => {
-    authDAO.addToken("1234");
-    expect(authDAO.isValidToken("1234")).toBe(true);
+test('added token is valid', async () => {
+    await authDAO.addToken("2345");
+    await delay();
+    expect(await authDAO.isValidToken("2345")).toBe(true);
 });
 
 
-test('nonexistentTokenIsNotValid', () => {
-    expect(authDAO.isValidToken("iDoNotExist")).toBe(false);
+test('nonexistent token is not valid', async () => {
+    expect(await authDAO.isValidToken("iDoNotExist")).toBe(false);
 });
 
 
-test('removedTokenIsNotValid', () => {
-    authDAO.addToken("1234");
-    authDAO.removeToken("1234");
-    expect(authDAO.isValidToken("1234")).toBe(false);
+test('removed token is not valid', async () => {
+    await authDAO.addToken("3456");
+
+    await authDAO.removeToken("3456");
+
+    await delay();
+    expect(await authDAO.isValidToken("3456")).toBe(false);
 });
 
 
-test('remove nonexistent token does not throw no such item error', () => {
-    expect(() => authDAO.removeToken("iDoNotExist")).not.toThrow(NoSuchItemError);
+test('remove nonexistent token resolves successfully', () => {
+    return authDAO.removeToken("iDoNotExist");
 });
 
 
-test('clearedAuthTokensAreInvalid', () => {
-    authDAO.addToken("1234");
-    authDAO.addToken("5678");
-
-    authDAO.clearTokens();
-
-    expect(authDAO.isValidToken("1234")).toBe(false);
-    expect(authDAO.isValidToken("5678")).toBe(false);
+test('cleared token is invalid', async () => {
+    await authDAO.addToken("4567");
+    await authDAO.clearTokens();
+    await delay();
+    expect(await authDAO.isValidToken("4567")).toBe(false);
 });
