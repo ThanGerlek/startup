@@ -9,22 +9,11 @@ const {GetStatsService} = require('./getStatsService');
 const {AuthenticateService} = require('./authenticateService');
 
 module.exports = {
-    ClearApplicationService, JoinGameService, LoginService, LogoutService, RegisterService, GetStatsService, AuthenticateService,
-
-    getServicesFromDataSource: function (persistentData) {
-        let authDAO = persistentData.authDAO;
-        let gameDAO = persistentData.gameDAO;
-        let gameRequestDAO = persistentData.gameRequestDAO;
-        let userDAO = persistentData.userDAO;
-
-        return {
-            clearApplicationService: new ClearApplicationService(authDAO, gameDAO, gameRequestDAO, userDAO),
-            joinGameService: new JoinGameService(gameDAO, gameRequestDAO, userDAO),
-            loginService: new LoginService(authDAO, userDAO),
-            logoutService: new LogoutService(authDAO),
-            registerService: new RegisterService(authDAO, userDAO),
-            getStatsService: new GetStatsService(userDAO),
-            authenticateService: new AuthenticateService(authDAO),
-        }
-    }
+    ClearApplicationService,
+    JoinGameService,
+    LoginService,
+    LogoutService,
+    RegisterService,
+    GetStatsService,
+    AuthenticateService,
 };

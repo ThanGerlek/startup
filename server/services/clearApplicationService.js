@@ -8,11 +8,11 @@ class ClearApplicationService {
     #gameRequestDAO;
     #userDAO;
 
-    constructor(authDAO, gameDAO, gameRequestDAO, userDAO) {
-        this.#authDAO = authDAO;
-        this.#gameDAO = gameDAO;
-        this.#gameRequestDAO = gameRequestDAO;
-        this.#userDAO = userDAO;
+    constructor(dataAccessManager) {
+        this.#authDAO = dataAccessManager.getAuthDAO();
+        this.#gameDAO = dataAccessManager.getGameDAO();
+        this.#gameRequestDAO = dataAccessManager.getGameRequestDAO();
+        this.#userDAO = dataAccessManager.getUserDAO();
     }
 
     clearApplication() {

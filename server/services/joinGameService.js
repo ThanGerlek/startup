@@ -7,10 +7,10 @@ class JoinGameService {
     #gameRequestDAO;
     #userDAO;
 
-    constructor(gameDAO, gameRequestDAO, userDAO) {
-        this.#gameDAO = gameDAO;
-        this.#gameRequestDAO = gameRequestDAO;
-        this.#userDAO = userDAO;
+    constructor(dataAccessManager) {
+        this.#gameDAO = dataAccessManager.getGameDAO();
+        this.#gameRequestDAO = dataAccessManager.getGameRequestDAO();
+        this.#userDAO = dataAccessManager.getUserDAO();
     }
 
     // If a game with the specified players exists, joins the game and

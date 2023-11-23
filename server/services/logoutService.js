@@ -5,8 +5,8 @@ const {MessageResponse} = require('../http');
 class LogoutService {
     #authDAO;
 
-    constructor(authDAO) {
-        this.#authDAO = authDAO;
+    constructor(dataAccessManager) {
+        this.#authDAO = dataAccessManager.getAuthDAO();
     }
 
     logout() {

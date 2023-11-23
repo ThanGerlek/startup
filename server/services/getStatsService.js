@@ -7,8 +7,8 @@ const {StatsResponse} = require('../http');
 class GetStatsService {
     #userDAO;
 
-    constructor(userDAO) {
-        this.#userDAO = userDAO;
+    constructor(dataAccessManager) {
+        this.#userDAO = dataAccessManager.getUserDAO();
     }
 
     getStats(getStatsRequest) {

@@ -3,8 +3,8 @@
 const {ErrorResponse} = require('./server/http')
 const {handleResponse} = require("./server/handler");
 
-const dataAccessObjects = require('./server/dataAccess/dataAccess').getNewDAOs();
-const services = require('./server/services/services').getServicesFromDataSource(dataAccessObjects);
+const {DataAccessManager} = require('./server/dataAccess/dataAccess');
+const services = require('./server/services/services');
 
 const express = require('express');
 const app = express();
@@ -21,7 +21,9 @@ app.use((req, res, next) => {
 app.delete('/db', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.clearApplicationService.clearApplication();
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.ClearApplicationService(dataAccessManager);
+        return service.clearApplication();
     });
 });
 // | **Request class**    | N/A (no request body)                                          |
@@ -35,7 +37,9 @@ app.delete('/db', (req, res) => {
 app.post('/user', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.registerService.register(req.body);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.RegisterService(dataAccessManager);
+        return service.register(req.body);
     });
 });
 // | **Request class**    | RegisterRequest                               |
@@ -52,7 +56,9 @@ app.post('/user', (req, res) => {
 app.post('/session', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.loginService.login(req.body);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.LoginService(dataAccessManager);
+        return service.login(req.body);
     });
 });
 // | **Request class**    | LoginRequest                                    |
@@ -66,14 +72,15 @@ app.post('/session', (req, res) => {
 // TODO Move logic to handler?
 // TODO Apply authorization using a more selective mechanism
 //  Currently it just checks endpoints physically below this one.
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     // TODO test
     if (!req.headers.authorization) {
         res.status(401);
         res.send(new ErrorResponse("No credentials provided"));
     } else {
         const token = req.headers.authorization;
-        if (!dataAccessObjects.authDAO.isValidToken(token)) {
+        const authDAO = new DataAccessManager().getAuthDAO();
+        if (!(await authDAO.isValidToken(token))) {
             res.status(401);
             res.send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
         } else {
@@ -86,7 +93,9 @@ app.use((req, res, next) => {
 // TODO Delete and replace with real authentication
 app.get('/session', (req, res) => {
     handleResponse(res, () => {
-        return services.authenticateService.authenticateToken(req.headers.authorization);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.AuthenticateService(dataAccessManager);
+        return service.authenticateToken(req.headers.authorization);
     });
 });
 
@@ -94,7 +103,9 @@ app.get('/session', (req, res) => {
 app.get('/stats', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.getStatsService.getStats(req.body);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.GetStatsService(dataAccessManager);
+        return service.getStats(req.body);
     })
 });
 
@@ -102,7 +113,9 @@ app.get('/stats', (req, res) => {
 app.delete('/session', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.logoutService.logout(req.headers.authorization);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.LogoutService(dataAccessManager);
+        return service.logout(req.headers.authorization);
     });
 });
 // | **Request class**    | N/A (no request body)                        |
@@ -117,7 +130,9 @@ app.delete('/session', (req, res) => {
 app.post('/game', (req, res) => {
     // TODO test
     handleResponse(res, () => {
-        return services.joinGameService.joinGame(req.body);
+        const dataAccessManager = new DataAccessManager();
+        const service = new services.JoinGameService(dataAccessManager);
+        return service.joinGame(req.body);
     });
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |

@@ -8,8 +8,8 @@ const {UnauthorizedAccessError} = require("../dataAccess/dataAccess");
 class AuthenticateService {
     #authDAO;
 
-    constructor(authDAO) {
-        this.#authDAO = authDAO;
+    constructor(dataAccessManager) {
+        this.#authDAO = dataAccessManager.getAuthDAO();
     }
 
     authenticateToken(tokenString) {

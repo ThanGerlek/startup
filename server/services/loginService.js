@@ -7,9 +7,9 @@ class LoginService {
     #authDAO;
     #userDAO;
 
-    constructor(authDAO, userDAO) {
-        this.#authDAO = authDAO;
-        this.#userDAO = userDAO;
+    constructor(dataAccessManager) {
+        this.#authDAO = dataAccessManager.getAuthDAO();
+        this.#userDAO = dataAccessManager.getUserDAO();
     }
 
     login(authRequest) {
