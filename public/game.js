@@ -1,3 +1,5 @@
+'use strict';
+
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 import {Board, DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
 

@@ -1,3 +1,5 @@
+'use strict';
+
 document.addEventListener('DOMContentLoaded', () => silentAuthenticateToken());
 document.getElementById('logout-button').addEventListener('click', () => logout());
 
