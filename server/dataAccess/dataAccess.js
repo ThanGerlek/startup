@@ -19,12 +19,7 @@ class DataAccessManager {
     #userDAO;
 
     constructor(mongoDatabase) {
-        if (!mongoDatabase) {
-            const client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
-            this.#mongoDatabase = client.db(config.dbName);
-        } else {
-            this.#mongoDatabase = mongoDatabase;
-        }
+        this.#mongoDatabase = mongoDatabase;
     }
 
     getAuthDAO() {

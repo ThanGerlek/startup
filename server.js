@@ -4,6 +4,8 @@ const {ErrorResponse} = require('./server/http')
 const {handleResponse} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
+const {MongoClient} = require("mongodb");
+const config = require("./dbConfig.json");
 const services = require('./server/services/services');
 
 const express = require('express');
@@ -17,13 +19,32 @@ app.use((req, res, next) => {
     next();
 });
 
+
+function mongoURL() {
+    return `mongodb+srv://${config.username}:${config.password}@${config.hostname}`;
+}
+
+
+async function connectToDatabaseAndRun(callback) {
+    const client = new MongoClient(mongoURL());
+    await client.connect();
+    try {
+        const db = client.db(config.dbName);
+        const dataAccessManager = new DataAccessManager(db);
+        return callback(dataAccessManager);
+    } finally {
+        await client.disconnect();
+    }
+}
+
 // Clear application
 app.delete('/db', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.ClearApplicationService(dataAccessManager);
-        return service.clearApplication();
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.ClearApplicationService(dataAccessManager);
+            return service.clearApplication();
+        });
     });
 });
 // | **Request class**    | N/A (no request body)                                          |
@@ -36,10 +57,11 @@ app.delete('/db', (req, res) => {
 // Register
 app.post('/user', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.RegisterService(dataAccessManager);
-        return service.register(req.body);
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.RegisterService(dataAccessManager);
+            return service.register(req.body);
+        });
     });
 });
 // | **Request class**    | RegisterRequest                               |
@@ -55,10 +77,11 @@ app.post('/user', (req, res) => {
 //  Login
 app.post('/session', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.LoginService(dataAccessManager);
-        return service.login(req.body);
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.LoginService(dataAccessManager);
+            return service.login(req.body);
+        });
     });
 });
 // | **Request class**    | LoginRequest                                    |
@@ -72,50 +95,65 @@ app.post('/session', (req, res) => {
 // TODO Move logic to handler?
 // TODO Apply authorization using a more selective mechanism
 //  Currently it just checks endpoints physically below this one.
+// TODO? recycle DB connection?
 app.use(async (req, res, next) => {
     // TODO test
     if (!req.headers.authorization) {
-        res.status(401);
-        res.send(new ErrorResponse("No credentials provided"));
-    } else {
-        const token = req.headers.authorization;
-        const authDAO = new DataAccessManager().getAuthDAO();
-        if (!(await authDAO.isValidToken(token))) {
-            res.status(401);
-            res.send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
-        } else {
-            next();
-        }
+        res.status(401).send(new ErrorResponse("No credentials provided"));
+        return;
     }
+
+    const token = req.headers.authorization;
+
+    const client = new MongoClient(mongoURL());
+    await client.connect();
+    try {
+        const db = client.db(config.dbName);
+        const authDAO = new DataAccessManager(db).getAuthDAO();
+        const isValid = await authDAO.isValidToken(token);
+
+        if (!isValid) {
+            res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
+            return;
+        }
+
+    } finally {
+        client.close();
+    }
+
+    next();
 });
 
 //  Authenticate token
 // TODO Delete and replace with real authentication
 app.get('/session', (req, res) => {
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.AuthenticateService(dataAccessManager);
-        return service.authenticateToken(req.headers.authorization);
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.AuthenticateService(dataAccessManager);
+            return service.authenticateToken(req.headers.authorization);
+        });
     });
 });
 
 // get stats
 app.get('/stats', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.GetStatsService(dataAccessManager);
-        return service.getStats(req.body);
-    })
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.GetStatsService(dataAccessManager);
+            return service.getStats(req.body);
+        })
+    });
 });
 
 //  Logout
 app.delete('/session', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.LogoutService(dataAccessManager);
-        return service.logout(req.headers.authorization);
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.LogoutService(dataAccessManager);
+            return service.logout(req.headers.authorization);
+        });
     });
 });
 // | **Request class**    | N/A (no request body)                        |
@@ -129,10 +167,11 @@ app.delete('/session', (req, res) => {
 //  Join Game
 app.post('/game', (req, res) => {
     // TODO test
-    handleResponse(res, () => {
-        const dataAccessManager = new DataAccessManager();
-        const service = new services.JoinGameService(dataAccessManager);
-        return service.joinGame(req.body);
+    handleResponse(res, async () => {
+        await connectToDatabaseAndRun((dataAccessManager) => {
+            const service = new services.JoinGameService(dataAccessManager);
+            return service.joinGame(req.body);
+        });
     });
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
