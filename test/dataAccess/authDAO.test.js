@@ -1,16 +1,18 @@
 'use strict';
 
-const {AuthDAO, ValueAlreadyTakenError} = require("../../server/dataAccess/dataAccess");
-const {Database} = require("../../server/dataAccess/database");
+const {ValueAlreadyTakenError, DataAccessManager} = require("../../server/dataAccess/dataAccess");
+const {MongoClient} = require("mongodb");
+const config = require("../../dbConfig.json");
 
-let db;
+let client;
 let authDAO;
 
 
 beforeAll(async () => {
-    db = new Database();
-    authDAO = new AuthDAO(db);
-    await db.connect();
+    client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
+    await client.connect();
+    const dataAccessManager = new DataAccessManager(client.db(config.dbName));
+    authDAO = dataAccessManager.getAuthDAO();
 });
 
 beforeEach(async () => {
@@ -19,7 +21,7 @@ beforeEach(async () => {
 
 afterAll(async () => {
     await authDAO.clearTokens();
-    // await db.disconnect();
+    await client.close();
 });
 
 

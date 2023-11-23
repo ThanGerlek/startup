@@ -1,20 +1,38 @@
 'use strict';
 
 const {
-    BadRequestError, GameRequestDAO, NoSuchItemError, UserDAO, ValueAlreadyTakenError
+    BadRequestError, NoSuchItemError, ValueAlreadyTakenError, DataAccessManager
 } = require('../../server/dataAccess/dataAccess');
 const {User} = require('../../server/models');
+const {MongoClient} = require("mongodb");
+const config = require("../../dbConfig.json");
 
+let client;
 let gameRequestDAO;
 let userDAO;
 
-beforeEach(() => {
-    userDAO = new UserDAO();
-    gameRequestDAO = new GameRequestDAO(userDAO);
+
+beforeAll(async () => {
+    client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
+    await client.connect();
+    const dataAccessManager = new DataAccessManager(client.db(config.dbName));
+    gameRequestDAO = dataAccessManager.getGameRequestDAO();
+    userDAO = dataAccessManager.getUserDAO();
+});
+
+beforeEach(async () => {
+    await gameRequestDAO.clearGameRequests();
+    await userDAO.clearUsers();
     userDAO.insertNewUser(new User("user1", "pass1"));
     userDAO.insertNewUser(new User("user2", "pass2"));
     userDAO.insertNewUser(new User("user3", "pass3"));
     userDAO.insertNewUser(new User("user4", "pass4"));
+});
+
+afterAll(async () => {
+    await gameRequestDAO.clearGameRequests();
+    await userDAO.clearUsers();
+    await client.close();
 });
 
 

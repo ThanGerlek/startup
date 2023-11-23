@@ -1,14 +1,31 @@
 'use strict';
 
-const {UserDAO, NoSuchItemError, ValueAlreadyTakenError} = require('../../server/dataAccess/dataAccess');
+const {
+    NoSuchItemError, ValueAlreadyTakenError, DataAccessManager
+} = require('../../server/dataAccess/dataAccess');
 const {User} = require('../../server/models');
+const {MongoClient} = require("mongodb");
+const config = require("../../dbConfig.json");
 
+let client;
 let userDAO;
 const user1 = new User("user1", "pass1");
 const user2 = new User("user2", "pass2");
 
-beforeEach(() => {
-    userDAO = new UserDAO();
+beforeAll(async () => {
+    client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
+    await client.connect();
+    const dataAccessManager = new DataAccessManager(client.db(config.dbName));
+    userDAO = dataAccessManager.getUserDAO();
+});
+
+beforeEach(async () => {
+    await userDAO.clearUsers();
+});
+
+afterAll(async () => {
+    await userDAO.clearUsers();
+    await client.close();
 });
 
 
