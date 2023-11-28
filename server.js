@@ -43,7 +43,8 @@ app.delete('/db', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
-            return service.clearApplication();
+            const response = service.clearApplication();
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
@@ -62,7 +63,8 @@ app.post('/user', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
-            return service.register(req.body);
+            const response = service.register(req.body);
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
@@ -84,7 +86,8 @@ app.post('/session', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
-            return service.login(req.body);
+             const response = service.login(req.body);
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
@@ -136,7 +139,8 @@ app.get('/session', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.AuthenticateService(dataAccessManager);
-            return service.authenticateToken(req.headers.authorization);
+             const response = service.authenticateToken(req.headers.authorization);
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
@@ -149,7 +153,8 @@ app.get('/stats', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetStatsService(dataAccessManager);
-            return service.getStats(req.body);
+             const response = service.getStats(req.body);
+            res.send(response);
         })
     } catch (e) {
         handleResponseError(res, e);
@@ -162,7 +167,8 @@ app.delete('/session', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
-            return service.logout(req.headers.authorization);
+             const response = service.logout(req.headers.authorization);
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
@@ -182,7 +188,8 @@ app.post('/game', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
-            return service.joinGame(req.body);
+            const response = service.joinGame(req.body);
+            res.send(response);
         });
     } catch (e) {
         handleResponseError(res, e);
