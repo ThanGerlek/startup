@@ -1,7 +1,7 @@
 'use strict'
 
 const {ErrorResponse} = require('./server/http')
-const {handleResponse} = require("./server/handler");
+const {handleResponseError} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
 const {MongoClient} = require("mongodb");
@@ -40,12 +40,14 @@ async function connectToDatabaseAndRun(callback) {
 // Clear application
 app.delete('/db', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
             return service.clearApplication();
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
@@ -57,12 +59,14 @@ app.delete('/db', async (req, res) => {
 // Register
 app.post('/user', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
             return service.register(req.body);
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 // | **Request class**    | RegisterRequest                               |
 // | **Response class**   | AuthResponse                                  |
@@ -77,12 +81,14 @@ app.post('/user', async (req, res) => {
 //  Login
 app.post('/session', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
             return service.login(req.body);
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 // | **Request class**    | LoginRequest                                    |
 // | **Response class**   | AuthResponse                                    |
@@ -127,34 +133,40 @@ app.use(async (req, res, next) => {
 //  Authenticate token
 // TODO Delete and replace with real authentication
 app.get('/session', async (req, res) => {
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.AuthenticateService(dataAccessManager);
             return service.authenticateToken(req.headers.authorization);
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 
 // get stats
 app.get('/stats', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetStatsService(dataAccessManager);
             return service.getStats(req.body);
         })
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 
 //  Logout
 app.delete('/session', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
             return service.logout(req.headers.authorization);
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
@@ -167,12 +179,14 @@ app.delete('/session', async (req, res) => {
 //  Join Game
 app.post('/game', async (req, res) => {
     // TODO test
-    await handleResponse(res, async () => {
+    try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
             return service.joinGame(req.body);
         });
-    });
+    } catch (e) {
+        handleResponseError(res, e);
+    }
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
