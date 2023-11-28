@@ -3,14 +3,13 @@
 // User Data Access
 
 const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");
+const dbConfig = require("../../dbConfig.json");
 
 class UserDAO {
-    #userList;
+    #collection;
 
     constructor(mongoDatabase) {
-        // TODO use database
-        this.clearUsers();
-        // this.#userList = [new User("john", "1234")];
+        this.#collection = mongoDatabase.collection(dbConfig.userCollectionName);
     }
 
     /**
@@ -18,26 +17,17 @@ class UserDAO {
      *
      * @param user the User to insert
      */
-    insertNewUser(user) {
+    async insertNewUser(user) {
         /* Failures
         can't access database
         username already exists
         */
         const username = user.username();
-        if (this.hasUser(username)) {
+        if (await this.hasUser(username)) {
             throw new ValueAlreadyTakenError(`Username already taken: '${username}'`)
         } else {
-            this.#userList.push(user);
+            await this.#collection.insertOne(user);
         }
-    }
-
-    #getIndexOf(username) {
-        for (let i = 0; i < this.#userList.length; i++) {
-            if (this.#userList[i].username() === username) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     /**
@@ -46,16 +36,17 @@ class UserDAO {
      * @param username the username of the User to fetch
      * @return the fetched User
      */
-    getUser(username) {
+    async getUser(username) {
         /* Failures
         can't access database
         user not found
         */
-        let index = this.#getIndexOf(username);
-        if (index < 0) {
+        const query = {username: username};
+        const matchingUsers = await this.#collection.find(query).toArray();
+        if (matchingUsers.length === 0) {
             throw new NoSuchItemError(`Username not found: '${username}'`);
         } else {
-            return this.#userList[index];
+            return matchingUsers[0];
         }
     }
 
@@ -65,12 +56,13 @@ class UserDAO {
      * @param username the username of the User to fetch
      * @return true if the User was found, false otherwise
      */
-    hasUser(username) {
+    async hasUser(username) {
         /* Failures
         can't access database
         */
-        let index = this.#getIndexOf(username);
-        return index >= 0;
+        const query = {username: username};
+        const matchingUsers = await this.#collection.find(query).toArray();
+        return matchingUsers.length > 0;
     }
 
     /**
@@ -78,38 +70,45 @@ class UserDAO {
      *
      * @param user the user to remove
      */
-    removeUser(user) {
+    async removeUser(user) {
         /* Failures
         can't access database
         (if user DNE, just return)
         */
-        let index = this.#getIndexOf(user.username());
-        if (index >= 0) {
-            this.#userList.splice(index, 1);
-        }
+        const query = {username: user.username()};
+        await this.#collection.deleteMany(query);
     }
 
     /**
      * Removes every user from the database.
      */
-    clearUsers() {
+    async clearUsers() {
         /* Failures
         can't access database
         (if no users, just return)
         */
-        this.#userList = [];
+        const query = {};
+        await this.#collection.deleteMany(query);
     }
 
-    recordWin(username) {
-        let user = this.getUser(username);
-        user.stats.wins++;
-        user.stats.games++;
+    async recordWin(username) {
+        // TODO Test
+        const user = await this.getUser(username);
+        const newStats = {wins: user.stats.wins + 1, games: user.stats.games + 1};
+        const userUpdates = {stats: newStats};
+
+        const query = {username: username};
+        await this.#collection.updateOne(query, userUpdates);
     }
 
-    recordLoss(username) {
-        let user = this.getUser(username);
-        user.stats.wins++;
-        user.stats.games++;
+    async recordLoss(username) {
+        // TODO Test
+        const user = await this.getUser(username);
+        const newStats = {losses: user.stats.losses + 1, games: user.stats.games + 1};
+        const userUpdates = {stats: newStats};
+
+        const query = {username: username};
+        await this.#collection.updateOne(query, userUpdates);
     }
 
 }
