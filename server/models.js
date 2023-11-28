@@ -1,36 +1,24 @@
 'use strict';
 
 let User = class {
-    #username;
-    #password;
+    username;
+    password;
     stats;
 
     constructor(username, password) {
-        this.#username = username;
-        this.#password = password;
+        this.username = username;
+        this.password = password;
         this.stats = {
             wins: 0, losses: 0, games: 0,
         };
     }
-
-    username() {
-        return this.#username;
-    }
-
-    password() {
-        return this.#password;
-    }
 }
 
 let AuthToken = class {
-    #token;
+    token;
 
     constructor(token) {
-        this.#token = token;
-    }
-
-    token() {
-        return this.#token;
+        this.token = token;
     }
 }
 

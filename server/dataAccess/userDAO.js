@@ -75,7 +75,7 @@ class UserDAO {
         can't access database
         (if user DNE, just return)
         */
-        const query = {username: user.username()};
+        const query = {username: user.username};
         await this.#collection.deleteMany(query);
     }
 

@@ -27,7 +27,7 @@ class LoginService {
         }
 
         const user = this.#userDAO.getUser(username);
-        if (user.password() === password) {
+        if (user.password === password) {
             const token = this.#generateToken();
             this.#authDAO.addToken(token);
             return new AuthResponse("Logged in.", token, username);
