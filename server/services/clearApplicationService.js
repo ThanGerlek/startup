@@ -15,12 +15,12 @@ class ClearApplicationService {
         this.#userDAO = dataAccessManager.getUserDAO();
     }
 
-    clearApplication() {
+    async clearApplication() {
         console.log("Called clearApplication()");
-        this.#authDAO.clearTokens();
+        await this.#authDAO.clearTokens();
         this.#gameDAO.clearGames();
         this.#gameRequestDAO.clearGameRequests();
-        this.#userDAO.clearUsers();
+        await this.#userDAO.clearUsers();
 
         return new MessageResponse("Cleared application.");
     }

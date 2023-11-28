@@ -21,15 +21,15 @@ class LoginService {
         return this.#authenticate(username, password);
     }
 
-    #authenticate(username, password) {
-        if (!this.#userDAO.hasUser(username)) { // TODO? Unneeded?
+    async #authenticate(username, password) {
+        if (!(await this.#userDAO.hasUser(username))) { // TODO? Unneeded?
             throw new NoSuchItemError(`Unrecognized username '${username}'`);
         }
 
         const user = this.#userDAO.getUser(username);
         if (user.password === password) {
             const token = this.#generateToken();
-            this.#authDAO.addToken(token);
+            await this.#authDAO.addToken(token);
             return new AuthResponse("Logged in.", token, username);
         } else {
             throw new UnauthorizedAccessError("Invalid credentials");

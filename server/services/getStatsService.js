@@ -11,9 +11,9 @@ class GetStatsService {
         this.#userDAO = dataAccessManager.getUserDAO();
     }
 
-    getStats(getStatsRequest) {
+    async getStats(getStatsRequest) {
         console.log("Called getStats()");
-        const user = this.#userDAO.getUser(getStatsRequest.username)
+        const user = await this.#userDAO.getUser(getStatsRequest.username)
 
         return new StatsResponse("Retrieved stats.", user.username(), user.stats);
     }

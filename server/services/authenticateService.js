@@ -12,10 +12,10 @@ class AuthenticateService {
         this.#authDAO = dataAccessManager.getAuthDAO();
     }
 
-    authenticateToken(tokenString) {
+    async authenticateToken(tokenString) {
         console.log("Called authenticate()");
 
-        if (this.#authDAO.isValidToken(tokenString)) {
+        if (await this.#authDAO.isValidToken(tokenString)) {
             return new MessageResponse(`OK`);
         } else {
             throw new UnauthorizedAccessError(`Failed to authenticate, provided token was invalid`);

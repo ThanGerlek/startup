@@ -41,9 +41,9 @@ async function connectToDatabaseAndRun(callback) {
 app.delete('/db', async (req, res) => {
     // TODO test
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
-            const response = service.clearApplication();
+            const response = await service.clearApplication();
             res.send(response);
         });
     } catch (e) {
@@ -61,9 +61,9 @@ app.delete('/db', async (req, res) => {
 app.post('/user', async (req, res) => {
     // TODO test
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
-            const response = service.register(req.body);
+            const response = await service.register(req.body);
             res.send(response);
         });
     } catch (e) {
@@ -84,9 +84,9 @@ app.post('/user', async (req, res) => {
 app.post('/session', async (req, res) => {
     // TODO test
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
-             const response = service.login(req.body);
+            const response = await service.login(req.body);
             res.send(response);
         });
     } catch (e) {
@@ -137,9 +137,9 @@ app.use(async (req, res, next) => {
 // TODO Delete and replace with real authentication
 app.get('/session', async (req, res) => {
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.AuthenticateService(dataAccessManager);
-             const response = service.authenticateToken(req.headers.authorization);
+            const response = await service.authenticateToken(req.headers.authorization);
             res.send(response);
         });
     } catch (e) {
@@ -165,9 +165,9 @@ app.get('/stats', async (req, res) => {
 app.delete('/session', async (req, res) => {
     // TODO test
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
-             const response = service.logout(req.headers.authorization);
+            const response = await service.logout(req.headers.authorization);
             res.send(response);
         });
     } catch (e) {
@@ -186,9 +186,9 @@ app.delete('/session', async (req, res) => {
 app.post('/game', async (req, res) => {
     // TODO test
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
-            const response = service.joinGame(req.body);
+            const response = await service.joinGame(req.body);
             res.send(response);
         });
     } catch (e) {

@@ -13,21 +13,21 @@ class RegisterService {
         this.#userDAO = dataAccessManager.getUserDAO();
     }
 
-    register(authRequest) {
+    async register(authRequest) {
         console.log("Called register()");
 
         const username = authRequest.username;
         const password = authRequest.password;
 
-        if (this.#userDAO.hasUser(username)) {
+        if (await this.#userDAO.hasUser(username)) {
             throw new ValueAlreadyTakenError(`Failed to register, username ${username} is already taken`);
         } else {
             this.#requireUsernameAndPasswordValidation(username, password);
             const user = new User(username, password);
-            this.#userDAO.insertNewUser(user);
+            await this.#userDAO.insertNewUser(user);
 
             const token = this.#generateToken();
-            this.#authDAO.addToken(token);
+            await this.#authDAO.addToken(token);
 
             return new AuthResponse(`Registered new user successfully`, token, username);
         }
