@@ -1,7 +1,6 @@
 'use strict';
 
 // Auth Data Access
-// TODO db
 
 const {ValueAlreadyTakenError} = require("./dataAccessErrors");
 const dbConfig = require('../../dbConfig.json');
