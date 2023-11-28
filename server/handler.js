@@ -11,6 +11,7 @@ function handleResponseError(res, e) {
     403 UnauthorizedAccessError
     500 DataAccessError
     */
+    console.log(`Error thrown: ${e.message}`);
     if (e instanceof BadRequestError || e instanceof NoSuchItemError || e instanceof ValueAlreadyTakenError) {
         res.status(400).send(new ErrorResponse(e.message, e));
     } else if (e instanceof UnauthorizedAccessError) {
