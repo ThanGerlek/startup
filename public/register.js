@@ -83,3 +83,6 @@ document.getElementById('register-button').addEventListener('click', () => {
     authenticateToken(redirectToHomePage, onRegisterButtonClick);
     // TODO Convert to use .then()
 });
+document.getElementById('login-button').addEventListener('click', () => {
+    window.location.href = 'login.html';
+});
