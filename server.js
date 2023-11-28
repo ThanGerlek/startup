@@ -38,9 +38,9 @@ async function connectToDatabaseAndRun(callback) {
 }
 
 // Clear application
-app.delete('/db', (req, res) => {
+app.delete('/db', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
             return service.clearApplication();
@@ -55,9 +55,9 @@ app.delete('/db', (req, res) => {
 
 
 // Register
-app.post('/user', (req, res) => {
+app.post('/user', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
             return service.register(req.body);
@@ -75,9 +75,9 @@ app.post('/user', (req, res) => {
 
 
 //  Login
-app.post('/session', (req, res) => {
+app.post('/session', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
             return service.login(req.body);
@@ -126,8 +126,8 @@ app.use(async (req, res, next) => {
 
 //  Authenticate token
 // TODO Delete and replace with real authentication
-app.get('/session', (req, res) => {
-    handleResponse(res, async () => {
+app.get('/session', async (req, res) => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.AuthenticateService(dataAccessManager);
             return service.authenticateToken(req.headers.authorization);
@@ -136,9 +136,9 @@ app.get('/session', (req, res) => {
 });
 
 // get stats
-app.get('/stats', (req, res) => {
+app.get('/stats', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetStatsService(dataAccessManager);
             return service.getStats(req.body);
@@ -147,9 +147,9 @@ app.get('/stats', (req, res) => {
 });
 
 //  Logout
-app.delete('/session', (req, res) => {
+app.delete('/session', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
             return service.logout(req.headers.authorization);
@@ -165,9 +165,9 @@ app.delete('/session', (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 //  Join Game
-app.post('/game', (req, res) => {
+app.post('/game', async (req, res) => {
     // TODO test
-    handleResponse(res, async () => {
+    await handleResponse(res, async () => {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
             return service.joinGame(req.body);

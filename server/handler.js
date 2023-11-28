@@ -5,9 +5,9 @@ const {
 } = require("./dataAccess/dataAccess");
 const {ErrorResponse} = require("./http");
 
-const handleResponse = function (res, runService) {
+const handleResponse = async function (res, runService) {
     try {
-        const response = runService();
+        const response = await runService();
         res.send(response);
     } catch (e) {
         /*
