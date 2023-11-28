@@ -33,7 +33,7 @@ async function connectToDatabaseAndRun(callback) {
         const dataAccessManager = new DataAccessManager(db);
         return callback(dataAccessManager);
     } finally {
-        await client.disconnect();
+        await client.close();
     }
 }
 
@@ -118,7 +118,7 @@ app.use(async (req, res, next) => {
         }
 
     } finally {
-        client.close();
+        await client.close();
     }
 
     next();
