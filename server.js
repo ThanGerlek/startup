@@ -101,9 +101,10 @@ secureRouter.use(security.requireAuthCookie);
 secureRouter.get('/user/:username', async (req, res) => {
     try {
         await database.connectAndRun((dataAccessManager) => {
+            const username = req.params.username;
+            const tokenString = security.getAuthCookie(req);
             const service = new services.GetUserDataService(dataAccessManager);
-            const response = service.getUserData(req.body);
-            // TODO check correct username
+            const response = service.getUserData(username, tokenString);
             res.send(response);
         })
     } catch (e) {
