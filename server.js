@@ -101,10 +101,6 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`    |
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
-// TODO Move logic to handler?
-// TODO Apply authorization using a more selective mechanism
-//  Currently it just checks endpoints physically below this one.
-// TODO? recycle DB connection?
 app.use(async (req, res, next) => {
     // TODO test
     if (!req.headers.authorization) {
@@ -133,19 +129,6 @@ app.use(async (req, res, next) => {
     next();
 });
 
-//  Authenticate token
-// TODO Delete and replace with real authentication
-app.get('/session', async (req, res) => {
-    try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
-            const service = new services.AuthenticateService(dataAccessManager);
-            const response = await service.authenticateToken(req.headers.authorization);
-            res.send(response);
-        });
-    } catch (e) {
-        handleResponseError(res, e);
-    }
-});
 
 // get stats
 app.get('/stats', async (req, res) => {

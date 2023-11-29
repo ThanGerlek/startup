@@ -6,7 +6,6 @@ const {LoginService} = require('./loginService');
 const {LogoutService} = require('./logoutService');
 const {RegisterService} = require('./registerService');
 const {GetStatsService} = require('./getStatsService');
-const {AuthenticateService} = require('./authenticateService');
 
 module.exports = {
     ClearApplicationService,
@@ -15,5 +14,4 @@ module.exports = {
     LogoutService,
     RegisterService,
     GetStatsService,
-    AuthenticateService,
 };
