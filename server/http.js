@@ -26,18 +26,24 @@ let ErrorResponse = class extends MessageResponse {
     }
 };
 
-let StatsResponse = class extends MessageResponse {
+let UserDataResponse = class extends MessageResponse {
     username;
+    authenticated;
     stats;
 
-    constructor(message, username, stats) {
+    constructor(message, username, authenticated, stats) {
         super(message);
         this.username = username;
+        this.authenticated = authenticated;
         this.stats = stats;
     }
 
     get stats() {
         return this.stats;
+    }
+
+    get authenticated() {
+        return this.authenticated;
     }
 
     get username() {
@@ -103,5 +109,5 @@ let JoinGameRequest = class {
 };
 
 module.exports = {
-    MessageResponse, ErrorResponse, StatsResponse, AuthResponse, AuthRequest, JoinGameRequest
+    MessageResponse, ErrorResponse, UserDataResponse, AuthResponse, AuthRequest, JoinGameRequest
 };
