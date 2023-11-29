@@ -7,6 +7,7 @@ const {ErrorResponse, MessageResponse} = require('./server/http');
 const {handleResponseError} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
+const security = require('./server/security');
 const config = require("./config.json");
 const services = require('./server/services/services');
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-    console.log(`Received request: ${req.method} ${req.originalUrl} ${JSON.stringify(req.body)}`);
+    let safeBody = security.stripSecureInfo(req.body);
+    console.log(`Received request: ${req.method} ${req.originalUrl} ${JSON.stringify(safeBody)}`);
     next();
 });
 
