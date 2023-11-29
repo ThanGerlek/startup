@@ -3,7 +3,7 @@
 // Auth Data Access
 
 const {ValueAlreadyTakenError} = require("./dataAccessErrors");
-const dbConfig = require('../../dbConfig.json').database;
+const dbConfig = require('../../dbConfig.json');
 
 class AuthDAO {
     #collection;

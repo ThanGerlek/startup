@@ -2,16 +2,16 @@
 
 const {ValueAlreadyTakenError, DataAccessManager} = require("../../server/dataAccess/dataAccess");
 const {MongoClient} = require("mongodb");
-const dbConfig = require("../../dbConfig.json");
+const config = require("../../dbConfig.json");
 
 let client;
 let authDAO;
 
 
 beforeAll(async () => {
-    client = new MongoClient(`mongodb+srv://${dbConfig.username}:${dbConfig.password}@${dbConfig.hostname}`);
+    client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
     await client.connect();
-    const dataAccessManager = new DataAccessManager(client.db(dbConfig.dbName));
+    const dataAccessManager = new DataAccessManager(client.db(config.dbName));
     authDAO = dataAccessManager.getAuthDAO();
 });
 

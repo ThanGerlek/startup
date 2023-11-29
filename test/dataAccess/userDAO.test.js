@@ -5,7 +5,7 @@ const {
 } = require('../../server/dataAccess/dataAccess');
 const {User} = require('../../server/models');
 const {MongoClient} = require("mongodb");
-const dbConfig = require("../../dbConfig.json");
+const config = require("../../dbConfig.json");
 
 let client;
 let userDAO;
@@ -13,9 +13,9 @@ const user1 = new User("user1", "pass1");
 const user2 = new User("user2", "pass2");
 
 beforeAll(async () => {
-    client = new MongoClient(`mongodb+srv://${dbConfig.username}:${dbConfig.password}@${dbConfig.hostname}`);
+    client = new MongoClient(`mongodb+srv://${config.username}:${config.password}@${config.hostname}`);
     await client.connect();
-    const dataAccessManager = new DataAccessManager(client.db(dbConfig.dbName));
+    const dataAccessManager = new DataAccessManager(client.db(config.dbName));
     userDAO = dataAccessManager.getUserDAO();
 });
 
