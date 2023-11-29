@@ -26,9 +26,9 @@ class LoginService {
 
         const user = await this.#userDAO.getUser(username);
         if (await bcrypt.compare(password, user.hash)) {
-            const token = uuid.v4();
-            await this.#authDAO.addToken(token);
-            return new AuthResponse("Logged in.", token, username);
+            const tokenString = uuid.v4();
+            await this.#authDAO.addToken(tokenString, username);
+            return new AuthResponse("Logged in.", tokenString, username);
         } else {
             throw new UnauthorizedAccessError("Invalid credentials");
         }

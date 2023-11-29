@@ -15,10 +15,12 @@ let User = class {
 }
 
 let AuthToken = class {
-    token;
+    tokenString;
+    username;
 
-    constructor(token) {
-        this.token = token;
+    constructor(tokenString, username) {
+        this.tokenString = tokenString;
+        this.username = username;
     }
 }
 

@@ -33,10 +33,10 @@ class RegisterService {
                 await this.#userDAO.insertNewUser(user);
             });
 
-            const token = uuid.v4();
-            await this.#authDAO.addToken(token);
+            const tokenString = uuid.v4();
+            await this.#authDAO.addToken(tokenString, username);
 
-            return new AuthResponse(`Registered new user successfully`, token, username);
+            return new AuthResponse(`Registered new user successfully`, tokenString, username);
         }
     }
 

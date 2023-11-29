@@ -2,7 +2,8 @@
 
 // Auth Data Access
 
-const {ValueAlreadyTakenError} = require("./dataAccessErrors");
+const {ValueAlreadyTakenError, BadRequestError} = require("./dataAccessErrors");
+const {AuthToken} = require("../models");
 const dbConfig = require('../../config.json').database;
 
 class AuthDAO {
@@ -13,43 +14,58 @@ class AuthDAO {
     }
 
     /**
-     * Registers the given token as a valid token.
+     * Registers the given token string as a valid token for the given user.
      *
-     * @param token the AuthToken to register
+     * @param tokenString the token string to register
+     * @param username the username to associate with the token
      */
-    async addToken(token) {
-        const jsonToken = {tokenString: token};
-
-        const matchingTokens = await this.#collection.find(jsonToken).toArray();
+    async addToken(tokenString, username) {
+        const authToken = new AuthToken(tokenString, username);
+        const matchingTokens = await this.#collection.find(authToken).toArray();
         if (matchingTokens.length === 0) {
-            await this.#collection.insertOne(jsonToken);
+            await this.#collection.insertOne(authToken);
         } else {
             throw new ValueAlreadyTakenError("Failed to insert new token, token is already registered");
         }
     }
 
     /**
-     * Checks if the given token is currently valid.
+     * Checks if the given token string is currently valid.
      *
-     * @param token the token to validate
+     * @param tokenString the token to validate
      * @return true iff the given token is currently valid
      */
-    async isValidToken(token) {
-        const query = {tokenString: token};
-        const options = {limit: 1};
-        const cursor = await this.#collection.find(query, options);
+    async isValidToken(tokenString) {
+        const query = {tokenString: tokenString};
+        const cursor = await this.#collection.find(query);
         const results = await cursor.toArray();
         return results.length > 0;
     }
 
     /**
-     * Invalidates the given token. Future calls requiring authorization for the given user will need to
+     * Returns the username associated with the given token string.
+     *
+     * @param tokenString the token to validate
+     * @return true iff the given token is currently valid
+     */
+    async getUsernameFromTokenString(tokenString) {
+        const query = {tokenString: tokenString};
+        const cursor = await this.#collection.find(query);
+        const results = await cursor.toArray();
+        if (results.length === 0) {
+            throw new BadRequestError("Failed to find user, provided token is invalid");
+        }
+        return results[0].username;
+    }
+
+    /**
+     * Invalidates the given token string. Future calls requiring authorization for the given user will need to
      * generate a new token by re-authenticating.
      *
-     * @param token the token to invalidate
+     * @param tokenString the token to invalidate
      */
-    async removeToken(token) {
-        const query = {tokenString: token};
+    async removeToken(tokenString) {
+        const query = {tokenString: tokenString};
         await this.#collection.deleteMany(query);
     }
 
@@ -58,8 +74,7 @@ class AuthDAO {
      * new tokens by re-authenticating.
      */
     async clearTokens() {
-        const query = {};
-        await this.#collection.deleteMany(query);
+        await this.#collection.deleteMany({});
     }
 }
 
