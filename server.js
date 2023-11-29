@@ -113,6 +113,22 @@ secureRouter.get('/user/:username', async (req, res) => {
 });
 
 
+// Endpoint: Get Current User Data
+secureRouter.get('/me', async (req, res) => {
+    try {
+        await database.connectAndRun((dataAccessManager) => {
+            const tokenString = security.getAuthCookie(req);
+            const service = new services.GetUserDataService(dataAccessManager);
+            const response = service.getUserData(tokenString);
+            // TODO check correct username
+            res.send(response);
+        })
+    } catch (e) {
+        handler.handleResponseError(res, e);
+    }
+});
+
+
 //  Endpoint: Logout
 secureRouter.delete('/session', async (req, res) => {
     try {
