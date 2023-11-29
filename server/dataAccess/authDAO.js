@@ -22,7 +22,6 @@ class AuthDAO {
 
         const matchingTokens = await this.#collection.find(jsonToken).toArray();
         if (matchingTokens.length === 0) {
-            console.log(`addToken(${token}): inserting now`);
             await this.#collection.insertOne(jsonToken);
         } else {
             throw new ValueAlreadyTakenError("Failed to insert new token, token is already registered");
@@ -40,7 +39,6 @@ class AuthDAO {
         const options = {limit: 1};
         const cursor = await this.#collection.find(query, options);
         const results = await cursor.toArray();
-        console.log(`isValidToken(${token}): results = '${results}'`);
         return results.length > 0;
     }
 
