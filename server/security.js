@@ -11,7 +11,7 @@ function setAuthCookie(res, token) {
 }
 
 function getAuthCookie(req) {
-    return req[config.cookie.authCookieName];
+    return req.cookies[config.cookie.authCookieName];
 }
 
 function clearAuthCookie(res) {
@@ -40,8 +40,8 @@ async function requireAuthCookie(req, res, next) {
     if (isValid) {
         next();
     } else {
-        res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
         res.clearCookie(config.cookie.authCookieName);
+        res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
     }
 }
 
