@@ -1,10 +1,12 @@
 'use strict'
 
+const {MongoClient} = require("mongodb");
+const cookieParser = require('cookie-parser');
+
 const {ErrorResponse} = require('./server/http')
 const {handleResponseError} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
-const {MongoClient} = require("mongodb");
 const config = require("./dbConfig.json");
 const services = require('./server/services/services');
 
@@ -13,6 +15,7 @@ const app = express();
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
     console.log(`Received request: ${req.method} ${req.originalUrl} ${JSON.stringify(req.body)}`);
