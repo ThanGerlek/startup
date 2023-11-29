@@ -129,14 +129,12 @@ app.use(async (req, res, next) => {
     next();
 });
 
-
-// get stats
-app.get('/stats', async (req, res) => {
-    // TODO test
+// get user data
+app.get('/user/:username', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
-            const service = new services.GetStatsService(dataAccessManager);
-            const response = service.getStats(req.body);
+            const service = new services.GetUserDataService(dataAccessManager);
+            const response = service.getUserData(req.body);
             res.send(response);
         })
     } catch (e) {

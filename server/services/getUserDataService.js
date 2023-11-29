@@ -2,16 +2,18 @@
 
 const {StatsResponse} = require('../http');
 
-// TODO! GetStatsService tests!
+// TODO! GetUserDataService tests!
 
-class GetStatsService {
+class GetUserDataService {
     #userDAO;
+    #authDAO;
 
     constructor(dataAccessManager) {
         this.#userDAO = dataAccessManager.getUserDAO();
+        this.#authDAO = dataAccessManager.getAuthDAO();
     }
 
-    async getStats(getStatsRequest) {
+    async getUserData() {
         console.log("Called getStats()");
         const user = await this.#userDAO.getUser(getStatsRequest.username)
 
@@ -19,7 +21,7 @@ class GetStatsService {
     }
 }
 
-module.exports = {GetStatsService};
+module.exports = {GetStatsService: GetUserDataService};
 
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
