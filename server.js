@@ -3,7 +3,7 @@
 const {MongoClient} = require("mongodb");
 const cookieParser = require('cookie-parser');
 
-const {ErrorResponse} = require('./server/http')
+const {ErrorResponse, MessageResponse} = require('./server/http');
 const {handleResponseError} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
@@ -40,6 +40,20 @@ async function connectToDatabaseAndRun(callback) {
     }
 }
 
+function setAuthCookie(res, token) {
+    res.cookie(config.cookie.authCookieName, token, {
+        sameSite: 'strict', httpOnly: true, secure: true
+    });
+}
+
+function clearAuthCookie(res) {
+    res.clearCookie(config.cookie.authCookieName);
+}
+
+function getAuthCookie(req) {
+    return req.cookies[config.cookie.authCookieName];
+}
+
 // Clear application
 app.delete('/db', async (req, res) => {
     try {
@@ -64,18 +78,19 @@ app.post('/user', async (req, res) => {
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
-            const response = await service.register(req.body);
-            res.send(response);
+            const authResponse = await service.register(req.body);
+            setAuthCookie(res, authResponse.token);
+            res.send(new MessageResponse(authResponse.message));
         });
     } catch (e) {
         handleResponseError(res, e);
     }
 });
 // | **Request class**    | RegisterRequest                               |
-// | **Response class**   | AuthResponse                                  |
+// | **Response class**   | MessageResponse                               |
 // | **Description**      | Register a new user.                          |
 // | **Body**             | `{ "username":"", "password":"" }`            |
-// | **Success response** | [200] `{ "username":"", "token":"" }`         |
+// | **Success response** | [200]                                         |
 // | **Failure response** | [400] `{ "message": "Error: bad request" }`   |
 // | **Failure response** | [403] `{ "message": "Error: already taken" }` |
 // | **Failure response** | [500] `{ "message": "Error: description" }`   |
@@ -86,18 +101,19 @@ app.post('/session', async (req, res) => {
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
-            const response = await service.login(req.body);
-            res.send(response);
+            const authResponse = await service.login(req.body);
+            setAuthCookie(res, authResponse.token);
+            res.send(new MessageResponse(authResponse.message));
         });
     } catch (e) {
         handleResponseError(res, e);
     }
 });
 // | **Request class**    | LoginRequest                                    |
-// | **Response class**   | AuthResponse                                    |
+// | **Response class**   | MessageResponse                                 |
 // | **Description**      | Logs in an existing user (returns a new token). |
 // | **Body**             | `{ "username":"", "password":"" }`              |
-// | **Success response** | [200] `{ "username":"", "token":"" }`           |
+// | **Success response** | [200]                                           |
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`    |
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
@@ -147,6 +163,7 @@ app.delete('/session', async (req, res) => {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
             const response = await service.logout(req.headers.authorization);
+            clearAuthCookie(res);
             res.send(response);
         });
     } catch (e) {
@@ -156,7 +173,7 @@ app.delete('/session', async (req, res) => {
 // | **Request class**    | N/A (no request body)                        |
 // | **Response class**   | MessageResponse                              |
 // | **Description**      | Logs out the user represented by the token.  |
-// | **Headers**          | `authorization: <token>`                     |
+// | **Cookies**          | `authorization: <token>`                     |
 // | **Success response** | [200]                                        |
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }` |
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
@@ -176,7 +193,7 @@ app.post('/game', async (req, res) => {
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
 // | **Response class**   | MessageResponse                                                                                                                                                                            |
 // | **Description**      | If a game with the specified players exists, joins the game. Otherwise, if a game request exists, a new (empty) game is created and WS requests are sent. Otherwise, a request is created. |
-// | **Headers**          | `authorization: <authToken>`                                                                                                                                                               |
+// | **Cookies**          | `authorization: <authToken>`                                                                                                                                                               |
 // | **Body**             | `{ "player":"playerName", "opponent": "opponentName", "firstPlayer": "playerName" }`                                                                                                       |
 // | **Success response** | [200] `{ "message": "OK", "board": <boardState> }`                                                                                                                                         |
 // | **Failure response** | [400] `{ "message": "Error: bad request" }`                                                                                                                                                |
