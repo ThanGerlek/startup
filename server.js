@@ -99,11 +99,11 @@ secureRouter.use(security.requireAuthCookie);
 // Endpoint: Get User Data
 secureRouter.get('/user/:username', async (req, res) => {
     try {
-        await database.connectAndRun((dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const username = req.params.username;
             const tokenString = security.getAuthCookie(req);
             const service = new services.GetUserDataService(dataAccessManager);
-            const response = service.getUserData(username, tokenString);
+            const response = await service.getUserData(tokenString, username);
             res.send(response);
         })
     } catch (e) {
@@ -115,10 +115,10 @@ secureRouter.get('/user/:username', async (req, res) => {
 // Endpoint: Get Current User Data
 secureRouter.get('/me', async (req, res) => {
     try {
-        await database.connectAndRun((dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const tokenString = security.getAuthCookie(req);
             const service = new services.GetUserDataService(dataAccessManager);
-            const response = service.getUserData(tokenString);
+            const response = await service.getUserData(tokenString);
             res.send(response);
         });
     } catch (e) {
