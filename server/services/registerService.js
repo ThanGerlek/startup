@@ -28,16 +28,25 @@ class RegisterService {
         } else {
             this.#requireUsernameAndPasswordValidation(username, password);
 
-            bcrypt.hash(password, cryptConfig.saltRounds, async (err, hash) => {
-                const user = new User(username, hash);
-                await this.#userDAO.insertNewUser(user);
-            });
+            this.#hashAndStoreCredentials(username, password);
 
-            const tokenString = uuid.v4();
-            await this.#authDAO.addToken(tokenString, username);
+            const tokenString = await this.#generateTokenString(username);
 
             return new AuthResponse(`Registered new user successfully`, tokenString, username);
         }
+    }
+
+    async #generateTokenString(username) {
+        const tokenString = uuid.v4();
+        await this.#authDAO.addToken(tokenString, username);
+        return tokenString;
+    }
+
+    #hashAndStoreCredentials(username, password) {
+        bcrypt.hash(password, cryptConfig.saltRounds, async (err, hash) => {
+            const user = new User(username, hash);
+            await this.#userDAO.insertNewUser(user);
+        });
     }
 
     #requireUsernameAndPasswordValidation(username, password) {
