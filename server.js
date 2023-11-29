@@ -134,8 +134,8 @@ secureRouter.delete('/session', async (req, res) => {
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
-            const response = await service.logout(req.headers.authorization);
-            res.clearCookie(config.cookie.authCookieName);
+            const response = await service.logout(security.getAuthCookie(req));
+            security.clearAuthCookie(res);
             res.send(response);
         });
     } catch (e) {

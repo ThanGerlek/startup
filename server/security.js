@@ -10,6 +10,14 @@ function setAuthCookie(res, token) {
     });
 }
 
+function getAuthCookie(req) {
+    return req[config.cookie.authCookieName];
+}
+
+function clearAuthCookie(res) {
+    res.clearCookie(config.cookie.authCookieName);
+}
+
 function stripSecureInfo(obj) {
     const safeObj = JSON.parse(JSON.stringify(obj))
     delete safeObj.password;
@@ -17,7 +25,7 @@ function stripSecureInfo(obj) {
 }
 
 async function requireAuthCookie(req, res, next) {
-    const tokenString = req.cookies[config.cookie.authCookieName];
+    const tokenString = getAuthCookie(req);
     if (!tokenString) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
         return;
@@ -36,4 +44,4 @@ async function requireAuthCookie(req, res, next) {
     }
 }
 
-module.exports = {setAuthCookie, stripSecureInfo, requireAuthCookie};
+module.exports = {clearAuthCookie, setAuthCookie, getAuthCookie, requireAuthCookie, stripSecureInfo};
