@@ -48,16 +48,6 @@ class RegisterService {
         if (password === username) throw new BadRequestError('Username and password cannot match.');
     }
 
-    // TODO remove duplicated code from loginService.js
 }
 
 module.exports = {RegisterService};
-
-// | **Request class**    | RegisterRequest                               |
-// | **Response class**   | AuthResponse                                  |
-// | **Description**      | Register a new user.                          |
-// | **Body**             | `{ "username":"", "password":"" }`            |
-// | **Success response** | [200] `{ "username":"", "token":"" }`         |
-// | **Failure response** | [400] `{ "message": "Error: bad request" }`   |
-// | **Failure response** | [403] `{ "message": "Error: already taken" }` |
-// | **Failure response** | [500] `{ "message": "Error: description" }`   |
