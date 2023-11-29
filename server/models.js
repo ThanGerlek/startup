@@ -2,12 +2,12 @@
 
 let User = class {
     username;
-    password;
+    hash;
     stats;
 
-    constructor(username, password) {
+    constructor(username, hash) {
         this.username = username;
-        this.password = password;
+        this.hash = hash;
         this.stats = {
             wins: 0, losses: 0, games: 0,
         };
