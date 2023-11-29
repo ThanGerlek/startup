@@ -64,25 +64,13 @@ function extractUsername() {
 }
 
 function extractPassword() {
-    let hashedPassword = hash(document.getElementById('passwordBox').value);
+    let password = document.getElementById('passwordBox').value;
     document.getElementById('passwordBox').value = '';
-    return hashedPassword;
+    return password;
 }
 
-function hash(text) {
-    // TODO auth: pull in a secure hashing algorithm
-    console.warn('Warning: password hashing is unimplemented!');
-    if (text === "") {
-        return 0;
-    }
 
-    return text;
-}
-
-document.getElementById('register-button').addEventListener('click', () => {
-    authenticateToken(redirectToHomePage, onRegisterButtonClick);
-    // TODO Convert to use .then()
-});
+document.getElementById('register-button').addEventListener('click', onRegisterButtonClick);
 document.getElementById('login-button').addEventListener('click', () => {
     window.location.href = 'login.html';
 });

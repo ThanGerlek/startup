@@ -16,4 +16,4 @@ function onSubmitButtonClick() {
     }
 }
 
-document.getElementById('submit-game-request-button').addEventListener('click', () => onSubmitButtonClick());
+document.getElementById('submit-game-request-button').addEventListener('click', onSubmitButtonClick);
