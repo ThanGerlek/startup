@@ -7,7 +7,7 @@ const {ErrorResponse} = require('./server/http')
 const {handleResponseError} = require("./server/handler");
 
 const {DataAccessManager} = require('./server/dataAccess/dataAccess');
-const config = require("./dbConfig.json");
+const config = require("./config.json");
 const services = require('./server/services/services');
 
 const express = require('express');
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 
 function mongoURL() {
-    return `mongodb+srv://${config.username}:${config.password}@${config.hostname}`;
+    return `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.hostname}`;
 }
 
 
@@ -32,7 +32,7 @@ async function connectToDatabaseAndRun(callback) {
     const client = new MongoClient(mongoURL());
     await client.connect();
     try {
-        const db = client.db(config.dbName);
+        const db = client.db(config.database.dbName);
         const dataAccessManager = new DataAccessManager(db);
         return callback(dataAccessManager);
     } finally {
@@ -112,7 +112,7 @@ app.use(async (req, res, next) => {
     const client = new MongoClient(mongoURL());
     await client.connect();
     try {
-        const db = client.db(config.dbName);
+        const db = client.db(config.database.dbName);
         const authDAO = new DataAccessManager(db).getAuthDAO();
         const isValid = await authDAO.isValidToken(token);
 

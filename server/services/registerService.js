@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt');
 const uuid = require("uuid");
-const config = require('../../dbConfig.json');
+const cryptConfig = require('../../config.json').crypt;
 
 const {AuthResponse} = require('../http');
 const {ValueAlreadyTakenError, BadRequestError} = require("../dataAccess/dataAccess");
@@ -28,7 +28,7 @@ class RegisterService {
         } else {
             this.#requireUsernameAndPasswordValidation(username, password);
 
-            bcrypt.hash(password, config.saltRounds, async (err, hash) => {
+            bcrypt.hash(password, cryptConfig.saltRounds, async (err, hash) => {
                 const user = new User(username, hash);
                 await this.#userDAO.insertNewUser(user);
             });
