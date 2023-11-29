@@ -1,5 +1,9 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
+const uuid = require("uuid");
+const config = require('../../dbConfig.json');
+
 const {AuthResponse} = require('../http');
 const {ValueAlreadyTakenError, BadRequestError} = require("../dataAccess/dataAccess");
 const {User} = require("../models");
@@ -23,10 +27,13 @@ class RegisterService {
             throw new ValueAlreadyTakenError(`Failed to register, username ${username} is already taken`);
         } else {
             this.#requireUsernameAndPasswordValidation(username, password);
-            const user = new User(username, password);
-            await this.#userDAO.insertNewUser(user);
 
-            const token = this.#generateToken();
+            bcrypt.hash(password, config.saltRounds, async (err, hash) => {
+                const user = new User(username, hash);
+                await this.#userDAO.insertNewUser(user);
+            });
+
+            const token = uuid.v4();
             await this.#authDAO.addToken(token);
 
             return new AuthResponse(`Registered new user successfully`, token, username);
@@ -42,10 +49,6 @@ class RegisterService {
     }
 
     // TODO remove duplicated code from loginService.js
-    #generateToken() {
-        // TODO! Replace with something cryptographically secure!
-        return JSON.stringify(Math.random() * 2749871491 + Math.random());
-    }
 }
 
 module.exports = {RegisterService};
