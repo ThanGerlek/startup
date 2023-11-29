@@ -39,7 +39,6 @@ async function connectToDatabaseAndRun(callback) {
 
 // Clear application
 app.delete('/db', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
@@ -59,7 +58,6 @@ app.delete('/db', async (req, res) => {
 
 // Register
 app.post('/user', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
@@ -82,7 +80,6 @@ app.post('/user', async (req, res) => {
 
 //  Login
 app.post('/session', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
@@ -102,7 +99,6 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
 app.use(async (req, res, next) => {
-    // TODO test
     if (!req.headers.authorization) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
         return;
@@ -132,7 +128,6 @@ app.use(async (req, res, next) => {
 
 // get stats
 app.get('/stats', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetStatsService(dataAccessManager);
@@ -146,7 +141,6 @@ app.get('/stats', async (req, res) => {
 
 //  Logout
 app.delete('/session', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
@@ -167,7 +161,6 @@ app.delete('/session', async (req, res) => {
 
 //  Join Game
 app.post('/game', async (req, res) => {
-    // TODO test
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
