@@ -2,7 +2,6 @@
 
 const cookieParser = require('cookie-parser');
 
-const config = require("./config.json");
 const database = require('./server/database');
 const handler = require('./server/handler');
 const security = require('./server/security');
@@ -120,9 +119,8 @@ secureRouter.get('/me', async (req, res) => {
             const tokenString = security.getAuthCookie(req);
             const service = new services.GetUserDataService(dataAccessManager);
             const response = service.getUserData(tokenString);
-            // TODO check correct username
             res.send(response);
-        })
+        });
     } catch (e) {
         handler.handleResponseError(res, e);
     }
