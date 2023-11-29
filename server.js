@@ -52,15 +52,15 @@ app.post('/user', async (req, res) => {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
             const authResponse = await service.register(req.body);
-            res.send(new MessageResponse(authResponse.message));
             security.setAuthCookie(res, authResponse.token);
+            res.send(security.stripSecureInfo(authResponse));
         });
     } catch (e) {
         handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | RegisterRequest                               |
-// | **Response class**   | MessageResponse                               |
+// | **Response class**   | AuthResponse (stripped)                       |
 // | **Description**      | Register a new user.                          |
 // | **Body**             | `{ "username":"", "password":"" }`            |
 // | **Success response** | [200]                                         |
@@ -75,15 +75,15 @@ app.post('/session', async (req, res) => {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
             const authResponse = await service.login(req.body);
-            res.send(new MessageResponse(authResponse.message));
             security.setAuthCookie(res, authResponse.token);
+            res.send(security.stripSecureInfo(authResponse));
         });
     } catch (e) {
         handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | LoginRequest                                    |
-// | **Response class**   | MessageResponse                                 |
+// | **Response class**   | AuthResponse (stripped)                         |
 // | **Description**      | Logs in an existing user (returns a new token). |
 // | **Body**             | `{ "username":"", "password":"" }`              |
 // | **Success response** | [200]                                           |
