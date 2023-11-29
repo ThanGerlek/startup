@@ -119,7 +119,11 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
 
-app.use(async (req, res, next) => {
+const secureRouter = Express.Router();
+app.use(secureRouter);
+
+
+secureRouter.use(async (req, res, next) => {
     if (!req.headers.authorization) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
         return;
@@ -148,11 +152,12 @@ app.use(async (req, res, next) => {
 
 
 // get user data
-app.get('/user/:username', async (req, res) => {
+secureRouter.get('/user/:username', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetUserDataService(dataAccessManager);
             const response = service.getUserData(req.body);
+            // TODO check correct username
             res.send(response);
         })
     } catch (e) {
@@ -162,7 +167,7 @@ app.get('/user/:username', async (req, res) => {
 
 
 //  Logout
-app.delete('/session', async (req, res) => {
+secureRouter.delete('/session', async (req, res) => {
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
@@ -184,7 +189,7 @@ app.delete('/session', async (req, res) => {
 
 
 //  Join Game
-app.post('/game', async (req, res) => {
+secureRouter.post('/game', async (req, res) => {
     try {
         await connectToDatabaseAndRun(async (dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
