@@ -14,26 +14,19 @@ class LoginService {
         this.#userDAO = dataAccessManager.getUserDAO();
     }
 
-    login(authRequest) {
+    async login(authRequest) {
         console.log("Called login()");
 
         const username = authRequest.username;
         const password = authRequest.password;
 
-        return this.#authenticate(username, password);
-    }
-
-    async #authenticate(username, password) {
         if (!(await this.#userDAO.hasUser(username))) { // TODO? Unneeded?
             throw new NoSuchItemError(`Unrecognized username '${username}'`);
         }
 
         const user = await this.#userDAO.getUser(username);
-        let token;
-        bcrypt.compare(password, user.hash, async (err, result) => {
-            token = (result) ? uuid.v4() : null;
-        });
-        if (token) {
+        if (await bcrypt.compare(password, user.hash)) {
+            const token = uuid.v4();
             await this.#authDAO.addToken(token);
             return new AuthResponse("Logged in.", token, username);
         } else {
