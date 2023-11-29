@@ -1,5 +1,26 @@
 # NIM Player
 
+## Database deliverable
+
+Registered users and currently valid auth tokens persistently using MongoDB. This required a rewrite of essentially
+everything except the HTML (no two of callbacks, jest, and async functions work well together, and trying to manage all
+three simultaneously was a nightmare), which is a large part of why this deliverable is late. The other reason is that
+I bit off more than I could chew--I've decided to only support local play for now. (Also the board doesn't currently
+load. I'm working on that.)
+
+- *MongoDB Atlas database*: Check.
+- *Endpoints for data*: Check. Register, login, authenticateToken, and logout all access mongo.
+- *Stores data in MongoDB* Check. User data and authentication tokens are stored persistently.
+
+P.S. for the grader: it might be too late to change, but I was marked down on the Web Services deliverable because
+the grader couldn't verify that I had working third-party service calls. (They were there, just not easily accessible
+from the home screen.) However, if you click
+[this link](https://startup.gerleksgarage.click/you-lose.html) after logging in, it will take you straight to that page.
+You'll get a new quote every time you refresh.
+[This](https://github.com/ThanGerlek/startup/commit/bdaed92fc62afefd74f460bf89b2c627263968ba) is the commit on GitHub
+so you can verify a) that it was there on 11 November when I submitted the deliverable and b) I haven't made any commits
+to the file since then, so how it works now is how it worked at the time.
+
 ## JavaScript deliverable
 
 Most of the basic features are implemented in JavaScript, with artificial data being generated and returned to simulate
