@@ -153,7 +153,7 @@ app.get('/stats', async (req, res) => {
     try {
         await connectToDatabaseAndRun((dataAccessManager) => {
             const service = new services.GetStatsService(dataAccessManager);
-             const response = service.getStats(req.body);
+            const response = service.getStats(req.body);
             res.send(response);
         })
     } catch (e) {
