@@ -7,19 +7,25 @@ const {ErrorResponse} = require("./http");
 
 function handleResponseError(res, e) {
     /*
-    400 BadRequestError, NoSuchItemError, ValueAlreadyTakenError
-    403 UnauthorizedAccessError
+    400 BadRequestError
+    401 UnauthorizedAccessError (technically "unauthenticated"; 403 would be "unauthorized")
+    404 NoSuchItemError
+    409 ValueAlreadyTakenError
     500 DataAccessError
     */
-    console.log(`Error thrown: ${e.message}`);
-    if (e instanceof BadRequestError || e instanceof NoSuchItemError || e instanceof ValueAlreadyTakenError) {
+    console.log(`[Error] ${e.message}`);
+    if (e instanceof BadRequestError) {
         res.status(400).send(new ErrorResponse(e.message, e));
     } else if (e instanceof UnauthorizedAccessError) {
-        res.status(403).send(new ErrorResponse(e.message, e));
+        res.status(401).send(new ErrorResponse(e.message, e));
+    } else if (e instanceof NoSuchItemError) {
+        res.status(404).send(new ErrorResponse(e.message, e));
+    } else if (e instanceof ValueAlreadyTakenError) {
+        res.status(409).send(new ErrorResponse(e.message, e));
     } else if (e instanceof DataAccessError) {
         res.status(500).send(new ErrorResponse(e.message, e));
     } else {
-        res.status(500).send(new ErrorResponse(`Unrecognized server error`, e))
+        res.status(500).send(new ErrorResponse(`Unrecognized server error: ${e.message}`, e))
     }
 }
 
