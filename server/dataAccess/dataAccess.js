@@ -7,8 +7,6 @@ const {UserDAO} = require('./userDAO');
 const {
     DataAccessError, BadRequestError, NoSuchItemError, UnauthorizedAccessError, ValueAlreadyTakenError
 } = require('./dataAccessErrors');
-const {MongoClient} = require("mongodb");
-const config = require("../../dbConfig.json");
 
 
 class DataAccessManager {
