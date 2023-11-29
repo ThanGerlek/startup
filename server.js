@@ -1,23 +1,25 @@
 'use strict'
 
-const {MongoClient} = require("mongodb");
 const cookieParser = require('cookie-parser');
 
-const {ErrorResponse, MessageResponse} = require('./server/http');
-const {handleResponseError} = require("./server/handler");
-
-const {DataAccessManager} = require('./server/dataAccess/dataAccess');
-const security = require('./server/security');
 const config = require("./config.json");
+const database = require('./server/database');
+const handler = require('./server/handler');
+const security = require('./server/security');
 const services = require('./server/services/services');
 
+// Load express router
 const express = require('express');
 const app = express();
 
-app.use(express.static('public'));
+// Load middleware
 app.use(express.json());
 app.use(cookieParser());
 
+// Provide static pages
+app.use(express.static('public'));
+
+// Log requests
 app.use((req, res, next) => {
     let safeBody = security.stripSecureInfo(req.body);
     console.log(`Received request: ${req.method} ${req.originalUrl} ${JSON.stringify(safeBody)}`);
@@ -25,48 +27,16 @@ app.use((req, res, next) => {
 });
 
 
-function mongoURL() {
-    return `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.hostname}`;
-}
-
-
-async function connectToDatabaseAndRun(callback) {
-    const client = new MongoClient(mongoURL());
-    await client.connect();
-    try {
-        const db = client.db(config.database.dbName);
-        const dataAccessManager = new DataAccessManager(db);
-        return callback(dataAccessManager);
-    } finally {
-        // await client.close();
-    }
-}
-
-function setAuthCookie(res, token) {
-    res.cookie(config.cookie.authCookieName, token, {
-        sameSite: 'strict', httpOnly: true, secure: true
-    });
-}
-
-function clearAuthCookie(res) {
-    res.clearCookie(config.cookie.authCookieName);
-}
-
-function getAuthCookie(req) {
-    return req.cookies[config.cookie.authCookieName];
-}
-
-
-// Clear application
+// Endpoint: Clear application
 app.delete('/db', async (req, res) => {
     try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
             const response = await service.clearApplication();
             res.send(response);
         });
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | N/A (no request body)                                          |
@@ -76,17 +46,17 @@ app.delete('/db', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`                    |
 
 
-// Register
+// Endpoint: Register
 app.post('/user', async (req, res) => {
     try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
             const authResponse = await service.register(req.body);
-            setAuthCookie(res, authResponse.token);
             res.send(new MessageResponse(authResponse.message));
+            security.setAuthCookie(res, authResponse.token);
         });
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | RegisterRequest                               |
@@ -99,17 +69,17 @@ app.post('/user', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`   |
 
 
-//  Login
+//  Endpoint: Login
 app.post('/session', async (req, res) => {
     try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
             const authResponse = await service.login(req.body);
-            setAuthCookie(res, authResponse.token);
             res.send(new MessageResponse(authResponse.message));
+            security.setAuthCookie(res, authResponse.token);
         });
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | LoginRequest                                    |
@@ -121,58 +91,38 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
 
+// Require valid auth token for secureRouter endpoints
 const secureRouter = express.Router();
 app.use(secureRouter);
+secureRouter.use(security.requireAuthCookie);
 
 
-// Require valid auth token
-secureRouter.use(async (req, res, next) => {
-    const tokenString = getAuthCookie(req);
-    if (!tokenString) {
-        res.status(401).send(new ErrorResponse("No credentials provided"));
-        return;
-    }
-
-    const isValid = await connectToDatabaseAndRun((dataAccessManager) => {
-        const authDAO = dataAccessManager.getAuthDAO();
-        return authDAO.isValidToken(tokenString);
-    });
-
-    if (isValid) {
-        next();
-    } else {
-        res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
-        clearAuthCookie(res);
-    }
-});
-
-
-// get user data
+// Endpoint: Get User Data
 secureRouter.get('/user/:username', async (req, res) => {
     try {
-        await connectToDatabaseAndRun((dataAccessManager) => {
+        await database.connectAndRun((dataAccessManager) => {
             const service = new services.GetUserDataService(dataAccessManager);
             const response = service.getUserData(req.body);
             // TODO check correct username
             res.send(response);
         })
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 
 
-//  Logout
+//  Endpoint: Logout
 secureRouter.delete('/session', async (req, res) => {
     try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
             const response = await service.logout(req.headers.authorization);
-            clearAuthCookie(res);
+            res.clearCookie(config.cookie.authCookieName);
             res.send(response);
         });
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | N/A (no request body)                        |
@@ -184,16 +134,16 @@ secureRouter.delete('/session', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
 
 
-//  Join Game
+//  Endpoint: Join Game
 secureRouter.post('/game', async (req, res) => {
     try {
-        await connectToDatabaseAndRun(async (dataAccessManager) => {
+        await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);
             const response = await service.joinGame(req.body);
             res.send(response);
         });
     } catch (e) {
-        handleResponseError(res, e);
+        handler.handleResponseError(res, e);
     }
 });
 // | **Request class**    | JoinGameRequest                                                                                                                                                                            |
