@@ -2,6 +2,8 @@
 
 const {AuthResponse} = require('../http');
 const {UnauthorizedAccessError, NoSuchItemError} = require("../dataAccess/dataAccess");
+const bcrypt = require('bcrypt')
+const uuid = require('uuid');
 
 class LoginService {
     #authDAO;
@@ -27,18 +29,16 @@ class LoginService {
         }
 
         const user = await this.#userDAO.getUser(username);
-        if (user.password === password) {
-            const token = this.#generateToken();
+        let token;
+        bcrypt.compare(password, user.hash, async (err, result) => {
+            token = (result) ? uuid.v4() : null;
+        });
+        if (token) {
             await this.#authDAO.addToken(token);
             return new AuthResponse("Logged in.", token, username);
         } else {
             throw new UnauthorizedAccessError("Invalid credentials");
         }
-    }
-
-    #generateToken() {
-        // TODO! Replace with something cryptographically secure!
-        return JSON.stringify(Math.random() * 2749871491 + Math.random());
     }
 }
 
