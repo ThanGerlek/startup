@@ -1,6 +1,6 @@
 'use strict';
 
-const {StatsResponse} = require('../http');
+const {UserDataResponse} = require('../http');
 
 // TODO! GetUserDataService tests!
 
@@ -13,15 +13,18 @@ class GetUserDataService {
         this.#authDAO = dataAccessManager.getAuthDAO();
     }
 
-    async getUserData() {
-        console.log("Called getStats()");
-        const user = await this.#userDAO.getUser(getStatsRequest.username)
+    async getUserData(username, tokenString) {
+        console.log("Called getUserData()");
+        const user = await this.#userDAO.getUser(username);
 
-        return new StatsResponse("Retrieved stats.", user.username, user.stats);
+        const authenticatedUsername = await this.#authDAO.getUsernameFromTokenString(tokenString);
+
+        const authenticated = username === authenticatedUsername;
+        return new UserDataResponse("Retrieved user data.", user.username, authenticated, user.stats);
     }
 }
 
-module.exports = {GetStatsService: GetUserDataService};
+module.exports = {GetUserDataService};
 
 // | **Request class**    | N/A (no request body)                                          |
 // | **Response class**   | MessageResponse                                                |
