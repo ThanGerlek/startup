@@ -22,7 +22,7 @@ class UserDAO {
         can't access database
         username already exists
         */
-        const username = user.username();
+        const username = user.username;
         if (await this.hasUser(username)) {
             throw new ValueAlreadyTakenError(`Username already taken: '${username}'`)
         } else {
