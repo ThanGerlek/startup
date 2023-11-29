@@ -54,6 +54,7 @@ function getAuthCookie(req) {
     return req.cookies[config.cookie.authCookieName];
 }
 
+
 // Clear application
 app.delete('/db', async (req, res) => {
     try {
@@ -117,6 +118,7 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`    |
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
+
 app.use(async (req, res, next) => {
     if (!req.headers.authorization) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
@@ -144,6 +146,7 @@ app.use(async (req, res, next) => {
     next();
 });
 
+
 // get user data
 app.get('/user/:username', async (req, res) => {
     try {
@@ -156,6 +159,7 @@ app.get('/user/:username', async (req, res) => {
         handleResponseError(res, e);
     }
 });
+
 
 //  Logout
 app.delete('/session', async (req, res) => {
@@ -177,6 +181,7 @@ app.delete('/session', async (req, res) => {
 // | **Success response** | [200]                                        |
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }` |
 // | **Failure response** | [500] `{ "message": "Error: description" }`  |
+
 
 //  Join Game
 app.post('/game', async (req, res) => {
@@ -200,5 +205,6 @@ app.post('/game', async (req, res) => {
 // | **Failure response** | [401] `{ "message": "Error: unauthorized" }`                                                                                                                                               |
 // | **Failure response** | [403] `{ "message": "Error: already taken" }`                                                                                                                                              |
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
+
 
 module.exports = app;
