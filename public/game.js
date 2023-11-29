@@ -8,7 +8,6 @@ import {Board, DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
 
 function onLoad() {
     //TODO server: test for server connection?
-    silentAuthenticateToken(); // TODO convert to use .then()
     setUpGame();
 }
 

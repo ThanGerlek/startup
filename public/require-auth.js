@@ -1,6 +1,7 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', () => silentAuthenticateToken());
-document.getElementById('logout-button').addEventListener('click', () => logout());
+document.getElementById('logout-button').addEventListener('click', () => {
+    window.location.replace('login.html');
+});
 
-// TODO. style: currently requires main. Add import or remove dependency
+// TODO add restrictions

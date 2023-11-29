@@ -1,3 +1,5 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', () => authenticateToken(redirectToHomePage, redirectToLoginPage));
+document.addEventListener('DOMContentLoaded', () => {
+    window.location.replace('home.html');
+});
