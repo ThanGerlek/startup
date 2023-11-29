@@ -16,16 +16,14 @@ class GetUserDataService {
     async getUserData(tokenString, username) {
         console.log("Called getUserData()");
 
-        let authenticated;
+        const authenticatedUsername = await this.#authDAO.getUsernameFromTokenString(tokenString);
         if (!username) {
-            username = await this.#userDAO.getUsernameFromTokenString(tokenString);
-            authenticated = true;
-        } else {
-            const authenticatedUsername = await this.#authDAO.getUsernameFromTokenString(tokenString);
-            authenticated = username === authenticatedUsername;
+            username = authenticatedUsername;
         }
 
+        const authenticated = username === authenticatedUsername;
         const user = await this.#userDAO.getUser(username);
+
         return new UserDataResponse("Retrieved user data.", user.username, authenticated, user.stats);
     }
 }
