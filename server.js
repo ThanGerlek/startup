@@ -119,35 +119,29 @@ app.post('/session', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`     |
 
 
-const secureRouter = Express.Router();
+const secureRouter = express.Router();
 app.use(secureRouter);
 
 
+// Require valid auth token
 secureRouter.use(async (req, res, next) => {
-    if (!req.headers.authorization) {
+    const tokenString = getAuthCookie(req);
+    if (!tokenString) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
         return;
     }
 
-    const token = req.headers.authorization;
+    const isValid = await connectToDatabaseAndRun((dataAccessManager) => {
+        const authDAO = dataAccessManager.getAuthDAO();
+        return authDAO.isValidToken(tokenString);
+    });
 
-    const client = new MongoClient(mongoURL());
-    await client.connect();
-    try {
-        const db = client.db(config.database.dbName);
-        const authDAO = new DataAccessManager(db).getAuthDAO();
-        const isValid = await authDAO.isValidToken(token);
-
-        if (!isValid) {
-            res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
-            return;
-        }
-
-    } finally {
-        await client.close();
+    if (isValid) {
+        next();
+    } else {
+        res.status(401).send(new ErrorResponse("Could not authenticate; an invalid token was provided"));
+        clearAuthCookie(res);
     }
-
-    next();
 });
 
 
