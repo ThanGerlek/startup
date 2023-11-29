@@ -15,7 +15,7 @@ class GetStatsService {
         console.log("Called getStats()");
         const user = await this.#userDAO.getUser(getStatsRequest.username)
 
-        return new StatsResponse("Retrieved stats.", user.username(), user.stats);
+        return new StatsResponse("Retrieved stats.", user.username, user.stats);
     }
 }
 

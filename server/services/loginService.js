@@ -26,7 +26,7 @@ class LoginService {
             throw new NoSuchItemError(`Unrecognized username '${username}'`);
         }
 
-        const user = this.#userDAO.getUser(username);
+        const user = await this.#userDAO.getUser(username);
         if (user.password === password) {
             const token = this.#generateToken();
             await this.#authDAO.addToken(token);
