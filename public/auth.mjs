@@ -4,10 +4,6 @@
 
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 
-function onLoginButtonClick() {
-    onAuthenticateButtonClick('/session');
-}
-
 export function onAuthenticateButtonClick(apiPath) {
     clearMessageDisplay();
     setupWaitNotification();
@@ -70,8 +66,3 @@ function extractPassword() {
     document.getElementById('passwordBox').value = '';
     return password;
 }
-
-document.getElementById('login-button').addEventListener('click', onLoginButtonClick);
-document.getElementById('register-button').addEventListener('click', () => {
-    window.location.href = 'register.html';
-});
