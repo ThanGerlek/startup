@@ -1,5 +1,19 @@
 # NIM Player
 
+## Login deliverable
+
+- *Supports registration and authentication*: Check.
+- *Stores credentials in MongoDB*: Check. All passwords are salted and hashed.
+- *Restricts application functionality based on authentication*: Check. See below.
+
+Note 1: The easiest ways to confirm restricted functionality are that
+[the home page](https://startup.gerleksgarage.click/home) redirects back to login and
+[this](https://startup.gerleksgarage.click/me) getCurrentUserData API call fails when logged out.
+
+Note 2: there's currently a bug where alerts on the register page don't show up, so it won't warn you if you try to
+register an invalid username or password. Just make sure neither is empty, they're not the same, and the password is at
+least 12 characters.
+
 ## Database deliverable
 
 Registered users and currently valid auth tokens persistently using MongoDB. This required a rewrite of essentially
