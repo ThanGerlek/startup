@@ -7,7 +7,7 @@
 - *Restricts application functionality based on authentication*: Check. See below.
 
 Note 1: The easiest ways to confirm restricted functionality are that
-[the home page](https://startup.gerleksgarage.click/home) redirects back to login and
+[the home page](https://startup.gerleksgarage.click/home.html) redirects back to login and
 [this](https://startup.gerleksgarage.click/me) getCurrentUserData API call fails when logged out.
 
 Note 2: there's currently a bug where alerts on the register page don't show up, so it won't warn you if you try to
