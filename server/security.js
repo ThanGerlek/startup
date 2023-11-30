@@ -19,9 +19,13 @@ function clearAuthCookie(res) {
 }
 
 function stripSecureInfo(obj) {
+    const secureKeys = ['password', 'token'];
     const safeObj = JSON.parse(JSON.stringify(obj))
-    delete safeObj.password;
-    delete safeObj.token;
+    for (let key of secureKeys) {
+        if (safeObj[key]) {
+            safeObj[key] = 'X';
+        }
+    }
     return safeObj;
 }
 
