@@ -2,23 +2,26 @@
 
 // TODO server: change logout from a simple redirect to returning a completely different HTTP response
 
-// TODO js: replace custom isValidResponse() functions with predefined ones on JS's native Response object
-
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 
 function onLoginButtonClick() {
-    clearMessageDisplay();
-    setupWaitNotification();
-    authenticateLogin(); // TODO Convert to use .then()
+    onAuthenticateButtonClick('/session');
 }
 
-async function authenticateLogin() {
-    let hashedPassword = extractPassword();
+export function onAuthenticateButtonClick(apiPath) {
+    clearMessageDisplay();
+    setupWaitNotification();
+    authenticate(apiPath);
+}
+
+
+async function authenticate(apiPath) {
+    let password = extractPassword();
     let username = extractUsername();
     try {
-        const response = await getAuthenticateLoginResponse(username, hashedPassword);
+        const response = await getAuthenticateResponse(username, password, apiPath);
         cancelWaitNotification();
-        parseLoginResponse(response);
+        parseResponse(response);
     } catch (err) {
         cancelWaitNotification();
         let msg = `Failed to connect to the server. Make sure you're connected to the internet, or try again later.`;
@@ -26,11 +29,11 @@ async function authenticateLogin() {
     }
 }
 
-async function getAuthenticateLoginResponse(username, hashedPassword) {
+async function getAuthenticateResponse(username, password, apiPath) {
     try {
-        const response = await fetch('/session', {
+        const response = await fetch(apiPath, {
             method: 'POST', body: JSON.stringify({
-                username: username, password: hashedPassword
+                username: username, password: password
             }), headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             },
@@ -41,9 +44,9 @@ async function getAuthenticateLoginResponse(username, hashedPassword) {
     }
 }
 
-function parseLoginResponse(response) {
-    if (response.token) {
-        loginUser(response.token, response.username);
+function parseResponse(response) {
+    if (response.username) {
+        loginUser(response.username);
     } else if (!response.message) {
         displayMessage('error', 'Failed to parse HTTP response!');
     } else {
@@ -51,9 +54,8 @@ function parseLoginResponse(response) {
     }
 }
 
-function loginUser(tokenString, username) {
-    console.log(`Your token string is: '${tokenString}'`);
-    localStorage.setItem('tokenString', tokenString);
+function loginUser(username) {
+    console.log(`Authenticated user: '${username}'`);
     localStorage.setItem('username', username);
     displayMessage('info', 'Redirecting...');
     window.location.href = 'home.html';
