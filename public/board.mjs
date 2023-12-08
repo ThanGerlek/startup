@@ -140,15 +140,17 @@ class Board {
     #rows;
     #boardContainerElement;
 
-    constructor(boardDimensions, boardContainerElement) {
-        this.#rows = [];
+    constructor(boardArray, boardContainerElement) {
         this.#boardContainerElement = boardContainerElement;
+        this.#initRows(boardArray);
+        this.fromArray(boardArray);
+    }
 
-        let numRows = boardDimensions.length;
-        for (let i = 0; i < numRows; i++) {
-            let rowSize = boardDimensions[i];
-            this.addNewRow(rowSize);
-        }
+    #initRows(boardArray) {
+        this.#rows = [];
+        boardArray.forEach(rowArray => {
+            this.addNewRow(rowArray.length);
+        });
     }
 
     numPiecesLeft() {

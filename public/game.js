@@ -41,7 +41,9 @@ function setUpGame() {
     boardContainerElement.textContent = '';
 
     let isPlayerTurn = initializePlayerTurn();
-    window.game = new ClientGame(boardContainerElement, DEFAULT_BOARD_DIMENSIONS, isPlayerTurn);
+    // TODO gameData
+    const gameData = {};
+    clientGame = new ClientGame(boardContainerElement, gameData);
 }
 
 function initializePlayerTurn() {
@@ -165,10 +167,10 @@ class ClientGame {
     #localBoard;
     #rowBeingEdited;
 
-    constructor(boardContainerElement, boardDimensions, isPlayerTurn) {
-        this.#isPlayerTurn = isPlayerTurn;
-        this.#gameBoard = new Board(boardDimensions, null); // TODO? style: Replace 1-param constructor with a subclass of Board
-        this.#localBoard = new Board(boardDimensions, boardContainerElement);
+    constructor(boardContainerElement, gameData) {
+        this.#isPlayerTurn = gameData.isPlayerTurn;
+        this.#gameBoard = new Board(gameData.board, null); // TODO? style: Replace 1-param constructor with a subclass of Board
+        this.#localBoard = new Board(gameData.board, boardContainerElement);
         this.#rowBeingEdited = null;
     }
 
