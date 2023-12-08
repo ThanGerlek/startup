@@ -1,6 +1,6 @@
 'use strict';
 
-import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
+import {clearMessageDisplay, displayMessage} from "./message-display.js";
 import {Board} from "./board.mjs";
 
 import {getSocketConnection} from "./wsClient.mjs";
