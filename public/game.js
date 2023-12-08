@@ -46,23 +46,9 @@ function setUpGame() {
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
 
-    let isPlayerTurn = initializePlayerTurn();
     clientGame = new ClientGame(boardContainerElement, gameData);
-}
 
-function initializePlayerTurn() {
-    const firstPlayer = window.game.firstPlayer();
-    const secondPlayer = window.game.secondPlayer();
-    const isFirstPlayerTurn = window.game.isFirstPlayerTurn();
-
-    const playerUsername = localStorage.getItem('username');
-    const opponentUsername = (firstPlayer === playerUsername) ? secondPlayer : firstPlayer;
-
-    const isPlayerTurn = (firstPlayer === playerUsername) && isFirstPlayerTurn;
-
-    document.getElementById('current-turn-username-box').textContent = isPlayerTurn ? playerUsername : opponentUsername;
-
-    return isPlayerTurn;
+    updateCurrentPlayerText();
 }
 
 function opponentWin() {
@@ -145,13 +131,9 @@ function parseSubmitMoveResponse(response) {
 }
 
 function changeTurn() {
-    console.log(`Move submitted. Changing turn`);
-    window.game.changeTurn();
-
-    getTurnElement().textContent = localStorage.getItem(game.isPlayerTurn() ? 'username' : 'opponentUsername');
-
-    console.log(`[Not actually changing turn, since the database isn't implemented yet]`);
-    //TODO. js: Actually change turns, with all the functional restrictions that entails; then when the user clicks submit again, change back to their turn without marking anything.
+    console.log(`Changing turn`);
+    clientGame.changeTurn();
+    updateCurrentPlayerText();
 }
 
 function isInvalidUserResponse(response) {
@@ -162,8 +144,8 @@ function isOKResponse(response) {
     return response.value === '200 OK'; // temporary artificial implementation
 }
 
-function getTurnElement() {
-    return document.getElementById('current-turn-username-box');
+function updateCurrentPlayerText() {
+    document.getElementById('current-turn-username-box').textContent = clientGame.getCurrentPlayer();
 }
 
 class ClientGame {
@@ -189,6 +171,10 @@ class ClientGame {
 
     isPlayerTurn() {
         return this.#isPlayerTurn;
+    }
+
+    getCurrentPlayer() {
+        return this.#isPlayerTurn ? this.#playerUsername : this.#opponentUsername;
     }
 
     changeTurn() {
