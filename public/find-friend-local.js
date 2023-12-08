@@ -24,6 +24,7 @@ function storeNewGame(playerUsername, opponentUsername) {
         opponentUsername: opponentUsername,
         isPlayerTurn: true, // TODO allow switching who goes first
         board: generateNewBoardArray(),
+        gameType: 'local',
     };
     localStorage.setItem('game', JSON.stringify(gameData));
 }

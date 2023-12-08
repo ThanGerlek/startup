@@ -66,6 +66,10 @@ function playerWin() {
 }
 
 async function submitMoveToServer(gameData) {
+    if (gameData.gameType === 'local') {
+        return;
+    }
+
     clearMessageDisplay();
     setupWaitNotification(1000);
 
@@ -151,6 +155,7 @@ function updateCurrentPlayerText() {
 }
 
 class ClientGame {
+    #gameType;
     #playerUsername;
     #opponentUsername;
     #isPlayerTurn;
@@ -161,6 +166,7 @@ class ClientGame {
     #rowBeingEdited;
 
     constructor(boardContainerElement, gameData) {
+        this.#gameType = gameData.gameType;
         this.#playerUsername = gameData.playerUsername;
         this.#opponentUsername = gameData.opponentUsername;
         this.#isPlayerTurn = gameData.isPlayerTurn;
@@ -227,6 +233,7 @@ class ClientGame {
             opponentUsername: this.#opponentUsername,
             isPlayerTurn: this.#isPlayerTurn,
             board: this.#gameBoard.toArray(),
+            gameType: this.#gameType,
         };
     }
 }
