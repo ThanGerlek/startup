@@ -1,13 +1,16 @@
 'use strict';
 
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
-import {Board, DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
+import {Board} from "./board.mjs";
+
+import {getSocketConnection} from "./wsClient.mjs";
 
 // don't initialize until page load
+let socket = null;
 let clientGame = null;
 
 function onLoad() {
-    //TODO server: test for server connection?
+    socket = getSocketConnection();
     setUpGame();
 }
 
@@ -53,7 +56,6 @@ function setUpGame() {
 
 function opponentWin() {
     console.log('Opponent win');
-    // TODO ws: close connection? (on win or loss)
     window.location.href = 'you-lose.html';
     // TODO db: update player stats (on win or loss)
 }
