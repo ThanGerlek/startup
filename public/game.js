@@ -23,6 +23,7 @@ function onSubmitButtonClick() {
     }
     clientGame.submitMove();
 
+    localStorage.setItem('game', JSON.stringify(clientGame.getGameData()));
     if (clientGame.gameType() === 'remote') {
         submitMoveToServer(clientGame.getGameData());
     }
@@ -209,7 +210,6 @@ class ClientGame {
         if (this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
             this.changeTurn();
-            localStorage.setItem('game', JSON.stringify(this.getGameData()));
         } else {
             displayMessage('warn', 'Invalid move! You must select at least one match, and they all must be from the same row.');
             this.resetMove();
