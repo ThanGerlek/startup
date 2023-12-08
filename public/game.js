@@ -204,6 +204,8 @@ class ClientGame {
         if (this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
             submitMoveToServer(this.getGameData()); // TODO add .then() to change turn locally
+            this.changeTurn();
+            localStorage.setItem('game', JSON.stringify(this.getGameData()));
         } else {
             displayMessage('warn', 'Invalid move! You must select at least one match, and they all must be from the same row.');
             this.resetMove();
