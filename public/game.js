@@ -22,6 +22,11 @@ function onSubmitButtonClick() {
         return;
     }
     clientGame.submitMove();
+
+    if (clientGame.gameType === 'remote') {
+        submitMoveToServer(clientGame.getGameData());
+    }
+
     if (clientGame.isGameOver()) {
         if (clientGame.isPlayerTurn()) {
             playerWin();
@@ -203,7 +208,6 @@ class ClientGame {
         // Check valid move (at least one piece must have been taken)
         if (this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
-            submitMoveToServer(this.getGameData()); // TODO add .then() to change turn locally
             this.changeTurn();
             localStorage.setItem('game', JSON.stringify(this.getGameData()));
         } else {
