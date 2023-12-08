@@ -23,16 +23,13 @@ function onSubmitButtonClick() {
     }
     clientGame.submitMove();
     if (clientGame.isGameOver()) {
-        opponentWin();
-    }
-
-    temp_testPlayerWin();
-}
-
-function temp_testPlayerWin() {
-    // TODO server: remove temp_testPlayerWin() and Game.temp_isGameOverForOpponent()
-    if (clientGame.temp_isGameOverForOpponent()) {
-        playerWin();
+        if (clientGame.isPlayerTurn()) {
+            playerWin();
+        } else {
+            opponentWin();
+        }
+    } else {
+        updateCurrentPlayerText();
     }
 }
 
@@ -200,10 +197,6 @@ class ClientGame {
 
     isGameOver() {
         return this.#gameBoard.numPiecesLeft() === 0;
-    }
-
-    temp_isGameOverForOpponent() {
-        return this.#gameBoard.numPiecesLeft() === 1;
     }
 
     submitMove() {
