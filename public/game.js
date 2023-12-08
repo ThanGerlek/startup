@@ -3,8 +3,8 @@
 import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
 import {Board, DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
 
-// TODO. Add persistence across page reloads
-// Store the actual board state in localStorage, and deserialize into window.game upon page load?
+// don't initialize until page load
+let clientGame = null;
 
 function onLoad() {
     //TODO server: test for server connection?
@@ -13,8 +13,8 @@ function onLoad() {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
-    window.game.submitMove();
-    if (window.game.isGameOver()) {
+    clientGame.submitMove();
+    if (clientGame.isGameOver()) {
         opponentWin();
     }
 
@@ -23,7 +23,7 @@ function onSubmitButtonClick() {
 
 function temp_testPlayerWin() {
     // TODO server: remove temp_testPlayerWin() and Game.temp_isGameOverForOpponent()
-    if (window.game.temp_isGameOverForOpponent()) {
+    if (clientGame.temp_isGameOverForOpponent()) {
         playerWin();
     }
 }
@@ -31,18 +31,22 @@ function temp_testPlayerWin() {
 function onResetButtonClick() {
     console.log(`Reset button was clicked.`);
     clearMessageDisplay();
-    window.game.resetMove();
+    clientGame.resetMove();
 }
 
 function setUpGame() {
     console.log('Setting up Game');
 
+    const gameJson = localStorage.getItem('game');
+    if (!gameJson) {
+        throw new Error("Could not find gameData in localStorage");
+    }
+    const gameData = JSON.parse(gameJson);
+
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
 
     let isPlayerTurn = initializePlayerTurn();
-    // TODO gameData
-    const gameData = {};
     clientGame = new ClientGame(boardContainerElement, gameData);
 }
 
@@ -73,16 +77,17 @@ function playerWin() {
     window.location.href = 'you-win.html';
 }
 
-async function submitMoveToServer(gameboard) {
-    // TODO ws
+async function submitMoveToServer(gameData) {
     clearMessageDisplay();
     setupWaitNotification(1000);
+
+    localStorage.setItem('game', JSON.stringify(gameData));
 
     let username = localStorage.getItem('username');
     let opponentUsername = localStorage.getItem('opponentUsername');
 
     try {
-        let response = await getSubmitMoveResponse(gameboard, username, opponentUsername);
+        let response = await getSubmitMoveResponse(gameData, username, opponentUsername);
         cancelWaitNotification();
         parseSubmitMoveResponse(response);
     } catch (err) {
@@ -93,7 +98,7 @@ async function submitMoveToServer(gameboard) {
     }
 }
 
-async function getSubmitMoveResponse(gameboard, username, opponentUsername) {
+async function getSubmitMoveResponse(gameData, username, opponentUsername) {
     // Return artificial data
 
     return new Promise((resolve, reject) => {
@@ -162,15 +167,23 @@ function getTurnElement() {
 }
 
 class ClientGame {
+    #playerUsername;
+    #opponentUsername;
     #isPlayerTurn;
+
     #gameBoard;
     #localBoard;
+
     #rowBeingEdited;
 
     constructor(boardContainerElement, gameData) {
+        this.#playerUsername = gameData.playerUsername;
+        this.#opponentUsername = gameData.opponentUsername;
         this.#isPlayerTurn = gameData.isPlayerTurn;
+
         this.#gameBoard = new Board(gameData.board, null); // TODO? style: Replace 1-param constructor with a subclass of Board
         this.#localBoard = new Board(gameData.board, boardContainerElement);
+
         this.#rowBeingEdited = null;
     }
 
@@ -194,7 +207,7 @@ class ClientGame {
         // Check valid move (at least one piece must have been taken)
         if (this.checkForValidMove()) {
             this.#gameBoard.copyStateFrom(this.#localBoard);
-            submitMoveToServer(this.#gameBoard); // TODO add .then() to change turn locally
+            submitMoveToServer(this.getGameData()); // TODO add .then() to change turn locally
         } else {
             displayMessage('warn', 'Invalid move! You must select at least one match, and they all must be from the same row.');
             this.resetMove();
@@ -218,6 +231,15 @@ class ClientGame {
         }
 
         return numEditedRows === 1;
+    }
+
+    getGameData() {
+        return {
+            playerUsername: this.#playerUsername,
+            opponentUsername: this.#opponentUsername,
+            isPlayerTurn: this.#isPlayerTurn,
+            board: this.#gameBoard.toArray(),
+        };
     }
 }
 
