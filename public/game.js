@@ -16,6 +16,11 @@ function onLoad() {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
+    clearMessageDisplay();
+    if (clientGame.gameType() !== 'local' && !clientGame.isPlayerTurn()) {
+        displayMessage('error', "It's not your turn!");
+        return;
+    }
     clientGame.submitMove();
     if (clientGame.isGameOver()) {
         opponentWin();
@@ -175,6 +180,10 @@ class ClientGame {
         this.#localBoard = new Board(gameData.board, boardContainerElement);
 
         this.#rowBeingEdited = null;
+    }
+
+    gameType() {
+        return this.#gameType;
     }
 
     isPlayerTurn() {
