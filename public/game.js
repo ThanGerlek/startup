@@ -23,7 +23,7 @@ function onSubmitButtonClick() {
     }
     clientGame.submitMove();
 
-    if (clientGame.gameType === 'remote') {
+    if (clientGame.gameType() === 'remote') {
         submitMoveToServer(clientGame.getGameData());
     }
 
