@@ -129,7 +129,7 @@ function submitMove(gameData, connection) {
 
 function getConnectionFromUsername(username) {
     const index = connections.findIndex((conn, index) => conn.username === username);
-    if (index <= 0) {
+    if (index < 0) {
         return null;
     }
     return connections[index];
@@ -156,7 +156,7 @@ function createGame(gameData, connection) {
             const msg = `${connection.username} has begun a new game. Prepare for battle!`;
             opponentConnection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         } else {
-            const msg = `${connection.username} hasn't joined the game yet.`;
+            const msg = `Your opponent hasn't joined the game yet.`;
             connection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         }
     }
