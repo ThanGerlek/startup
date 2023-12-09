@@ -15,22 +15,22 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (rawData) => {
         const message = getMessageFromRaw(rawData);
-        handleClientMessage(message);
+        handleClientMessage(message, connection.id);
     });
 
     ws.on('close', () => {
-        connections.findIndex((conn, index) => {
-            if (conn.id === connection.id) {
-                connections.splice(index, 1);
-                return true;
-            }
-        });
+        const index = getIndexFromID(connection.id);
+        connections.splice(index, 1);
     });
 
     ws.on('pong', () => {
         connection.alive = true;
     });
 });
+
+function getIndexFromID(connectionID) {
+    return connections.findIndex((conn, index) => (conn.id === connectionID));
+}
 
 setInterval(() => {
     connections.forEach((conn) => {
@@ -68,8 +68,10 @@ function getMessageFromRaw(rawData) {
     return message;
 }
 
-function handleClientMessage(message) {
-    if (message.action === 'submitMove') {
+function handleClientMessage(message, connectionID) {
+    if (message.action === 'setUsername') {
+        registerUsernameWithConnection(message.value, connectionID);
+    } else if (message.action === 'submitMove') {
         submitMove(message.value);
     } else if (message.action === 'test') {
         console.log("Received test message: %s", JSON.stringify(message));
@@ -78,9 +80,25 @@ function handleClientMessage(message) {
     }
 }
 
+function registerUsernameWithConnection(username, connectionID) {
+    const conn = connections[getIndexFromID(connectionID)];
+    if (!!conn.username && conn.username !== username) {
+        throw new Error(`Tried to register connection username '${username}', but that ID already has username '${conn.username}'`);
+    }
+    conn.username = username;
+}
+
 function submitMove(gameData) {
     console.log(`Received submitMove() request with gameData ${gameData}`);
     // TODO
+}
+
+function getConnectionFromUsername(username) {
+    const index = connections.findIndex((conn, index) => conn.username === username);
+    if (index <= 0) {
+        throw new Error(`Could not find connection for username '${username}'`);
+    }
+    return connections[index];
 }
 
 module.exports = {handleUpgrade};
