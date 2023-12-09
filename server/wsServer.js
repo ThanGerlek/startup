@@ -15,7 +15,15 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (rawData) => {
         const message = getMessageFromRaw(rawData);
-        handleClientMessage(message, connection.id);
+        try {
+            handleClientMessage(message, connection.id);
+        } catch (e) {
+            if (e instanceof UserFriendlyError) {
+                const response = {action: 'error', 'value': e.getUserMessage()};
+                connection.ws.send(JSON.stringify(response));
+            }
+            throw e;
+        }
     });
 
     ws.on('close', () => {
@@ -96,9 +104,22 @@ function submitMove(gameData) {
 function getConnectionFromUsername(username) {
     const index = connections.findIndex((conn, index) => conn.username === username);
     if (index <= 0) {
-        throw new Error(`Could not find connection for username '${username}'`);
+        throw new UserFriendlyError(`Could not find connection for username '${username}'`, "Sorry, we couldn't find that person. The username you entered might be incorrect, or maybe they're not online right now.");
     }
     return connections[index];
+}
+
+class UserFriendlyError extends Error {
+    #userMessage;
+
+    constructor(errorMessage, userMessage) {
+        super(errorMessage);
+        this.#userMessage = userMessage;
+    }
+
+    getUserMessage() {
+        return this.#userMessage;
+    }
 }
 
 module.exports = {handleUpgrade};
