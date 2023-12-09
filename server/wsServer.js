@@ -97,21 +97,35 @@ function registerUsernameWithConnection(username, connection) {
 
 function submitMove(gameData, connection) {
     console.log(`Received submitMove() request with gameData ${gameData}`);
-    // TODO
-    // const conn = getConnectionFromUsername(gameData.opponentUsername);
-    // if (!!conn) {
-    //     const opponentGameData = getOpponentGameData(gameData);
-    //     const message = {action: 'loadGame', value: opponentGameData};
-    //     conn.ws.send(JSON.stringify(message));
-    // } else {
-    //
-    // }
+    const senderUsername = connection.username;
+    if (!senderUsername) {
+        throw new Error("Tried to submitMove() from a connection with no registered username");
+    }
+
+    let otherUsername;
+    if (gameData.players[0] === senderUsername) {
+        otherUsername = gameData.players[1];
+    } else if (gameData.players[1] === senderUsername) {
+        otherUsername = gameData.players[0];
+    } else {
+        throw new Error("Tried to submitMove() with gameData that does not include the sender as a player");
+    }
+
+    const otherConnection = getConnectionFromUsername(otherUsername);
+
+    if (!!otherConnection) {
+        const message = {action: 'loadGame', value: gameData};
+        otherConnection.ws.send(JSON.stringify(message));
+    } else {
+        const response = {action: 'warn', value: "Couldn't reach the other player; they may have disconnected."};
+        connection.ws.send(JSON.stringify(response));
+    }
 }
 
 function getConnectionFromUsername(username) {
     const index = connections.findIndex((conn, index) => conn.username === username);
     if (index <= 0) {
-        throw new UserFriendlyError(`Could not find connection for username '${username}'`, "Sorry, we couldn't find that person. The username you entered might be incorrect, or maybe they're not online right now.");
+        return null;
     }
     return connections[index];
 }

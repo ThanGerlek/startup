@@ -1,5 +1,7 @@
 'use strict';
 
+import {displayMessage} from "./message-display.js";
+
 const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 const wsURL = `${protocol}://${window.location.host}/ws`;
 
@@ -40,6 +42,12 @@ function getMessageFromEventData(dataString) {
 function handleServerMessage(message) {
     if (message.action === 'loadGame') {
         loadGame(message.value);
+    } else if (message.action === 'notify') {
+        displayMessage('info', message.value);
+    } else if (message.action === 'warn') {
+        displayMessage('warn', message.value);
+    } else if (message.action === 'error') {
+        displayMessage('error', message.value);
     } else if (message.action === 'test') {
         console.log("Received test message: %s", JSON.stringify(message));
     } else {
