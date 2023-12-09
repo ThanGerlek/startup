@@ -100,14 +100,18 @@ class ClientGame {
 
     constructor(boardContainerElement, gameData) {
         this.#gameType = gameData.gameType;
-        this.#playerUsername = gameData.playerUsername;
-        this.#opponentUsername = gameData.opponentUsername;
-        this.#isPlayerTurn = gameData.isPlayerTurn;
+        this.#initUsernames(gameData);
 
         this.#gameBoard = new Board(gameData.board, null); // TODO? style: Replace 1-param constructor with a subclass of Board
         this.#localBoard = new Board(gameData.board, boardContainerElement);
 
         this.#rowBeingEdited = null;
+    }
+
+    #initUsernames(gameData) {
+        this.#playerUsername = localStorage.getItem('username');
+        this.#opponentUsername = (gameData.players[0] === this.#playerUsername) ? gameData.players[1] : gameData.players[0];
+        this.#isPlayerTurn = gameData.currentPlayer === this.#playerUsername;
     }
 
     gameType() {
@@ -162,9 +166,8 @@ class ClientGame {
 
     getGameData() {
         return {
-            playerUsername: this.#playerUsername,
-            opponentUsername: this.#opponentUsername,
-            isPlayerTurn: this.#isPlayerTurn,
+            players: [this.#playerUsername, this.#opponentUsername],
+            currentPlayer: this.getCurrentPlayer(),
             board: this.#gameBoard.toArray(),
             gameType: this.#gameType,
         };
