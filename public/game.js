@@ -3,7 +3,7 @@
 import {clearMessageDisplay, displayMessage} from "./message-display.js";
 import {Board} from "./board.mjs";
 
-import {getSocketConnection} from "./wsClient.mjs";
+import {getSocketConnection, setLoadGameCallback} from "./wsClient.mjs";
 
 // don't initialize until page load
 let socket = null;
@@ -11,7 +11,8 @@ let clientGame = null;
 
 async function onLoad() {
     socket = await getSocketConnection();
-    clientGame = setUpGame();
+    setLoadGameCallback(loadGame);
+    setUpGame();
     registerUsername();
     createGameRequest(clientGame.getGameData());
     updateCurrentPlayerText();
@@ -47,12 +48,16 @@ function setUpGame() {
         throw new Error("Could not find gameData in localStorage");
     }
     const gameData = JSON.parse(gameJson);
+    loadGame(gameData);
+}
 
+function loadGame(gameData) {
+    console.log('Called loadGame');
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
     updateVisuals();
 
-    return new ClientGame(boardContainerElement, gameData);
+    clientGame = new ClientGame(boardContainerElement, gameData);
 }
 
 function registerUsername() {

@@ -5,6 +5,17 @@ import {displayMessage} from "./message-display.js";
 const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 const wsURL = `${protocol}://${window.location.host}/ws`;
 
+
+const defaultLoadGameCallback = () => {
+    throw new Error("loadGameCallback() was called but not set");
+};
+
+let loadGameCallback = defaultLoadGameCallback;
+
+function setLoadGameCallback(callback) {
+    loadGameCallback = callback;
+}
+
 function getSocketConnection() {
     return new Promise((resolve, reject) => {
         const socket = new WebSocket(wsURL);
@@ -58,8 +69,8 @@ function handleServerMessage(message) {
 }
 
 function loadGame(gameData) {
-    console.log(`Received loadGame() request with gameData ${gameData}`);
-    // TODO
+    console.log(`Received loadGame() request with gameData ${JSON.stringify(gameData)}`);
+    loadGameCallback(gameData);
 }
 
-export {getSocketConnection};
+export {getSocketConnection, setLoadGameCallback};
