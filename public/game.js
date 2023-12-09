@@ -19,7 +19,6 @@ async function onLoad() {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
-    clearMessageDisplay();
     if (clientGame.gameType() !== 'local' && !clientGame.isPlayerTurn()) {
         displayMessage('error', "It's not your turn!");
         return;
@@ -31,15 +30,7 @@ function onSubmitButtonClick() {
         submitMoveToServer(clientGame.getGameData());
     }
 
-    if (clientGame.isGameOver()) {
-        if (clientGame.isPlayerTurn()) {
-            playerWin();
-        } else {
-            opponentWin();
-        }
-    } else {
-        updateCurrentPlayerText();
-    }
+    updateVisuals();
 }
 
 function onResetButtonClick() {
@@ -59,6 +50,7 @@ function setUpGame() {
 
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
+    updateVisuals();
 
     return new ClientGame(boardContainerElement, gameData);
 }
@@ -71,6 +63,19 @@ function registerUsername() {
 function createGameRequest(gameData) {
     const message = {action: 'createGame', value: gameData};
     socket.send(JSON.stringify(message));
+}
+
+function updateVisuals() {
+    clearMessageDisplay();
+    if (clientGame.isGameOver()) {
+        if (clientGame.isPlayerTurn()) {
+            playerWin();
+        } else {
+            opponentWin();
+        }
+    } else {
+        updateCurrentPlayerText();
+    }
 }
 
 function opponentWin() {
