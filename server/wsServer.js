@@ -16,7 +16,7 @@ wss.on('connection', (ws) => {
     ws.on('message', (rawData) => {
         const message = getMessageFromRaw(rawData);
         try {
-            handleClientMessage(message, connection.id);
+            handleClientMessage(message, connection);
         } catch (e) {
             if (e instanceof UserFriendlyError) {
                 const response = {action: 'error', 'value': e.getUserMessage()};
@@ -76,11 +76,11 @@ function getMessageFromRaw(rawData) {
     return message;
 }
 
-function handleClientMessage(message, connectionID) {
+function handleClientMessage(message, connection) {
     if (message.action === 'registerUsername') {
-        registerUsernameWithConnection(message.value, connectionID);
+        registerUsernameWithConnection(message.value, connection);
     } else if (message.action === 'submitMove') {
-        submitMove(message.value);
+        submitMove(message.value, connection);
     } else if (message.action === 'test') {
         console.log("Received test message: %s", JSON.stringify(message));
     } else {
@@ -88,15 +88,14 @@ function handleClientMessage(message, connectionID) {
     }
 }
 
-function registerUsernameWithConnection(username, connectionID) {
-    const conn = connections[getIndexFromID(connectionID)];
-    if (!!conn.username && conn.username !== username) {
-        throw new Error(`Tried to register connection username '${username}', but that ID already has username '${conn.username}'`);
+function registerUsernameWithConnection(username, connection) {
+    if (!!connection.username && connection.username !== username) {
+        throw new Error(`Tried to register connection username '${username}', but that connection already has username '${connection.username}'`);
     }
-    conn.username = username;
+    connection.username = username;
 }
 
-function submitMove(gameData) {
+function submitMove(gameData, connection) {
     console.log(`Received submitMove() request with gameData ${gameData}`);
     const conn = getConnectionFromUsername(gameData.opponentUsername);
     if (!!conn) {
