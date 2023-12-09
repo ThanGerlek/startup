@@ -150,6 +150,15 @@ function createGame(gameData, connection) {
         }
     } else {
         games.push(gameData);
+        connection.ws.send(JSON.stringify({action: 'log', value: 'Created new game successfully'}));
+
+        if (!!opponentConnection) {
+            const msg = `${connection.username} has begun a new game. Prepare for battle!`;
+            opponentConnection.ws.send(JSON.stringify({action: 'notify', value: msg}));
+        } else {
+            const msg = `${connection.username} hasn't joined the game yet.`;
+            connection.ws.send(JSON.stringify({action: 'notify', value: msg}));
+        }
     }
 }
 
