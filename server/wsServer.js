@@ -98,7 +98,14 @@ function registerUsernameWithConnection(username, connectionID) {
 
 function submitMove(gameData) {
     console.log(`Received submitMove() request with gameData ${gameData}`);
-    // TODO
+    const conn = getConnectionFromUsername(gameData.opponentUsername);
+    if (!!conn) {
+        const opponentGameData = getOpponentGameData(gameData);
+        const message = {action: 'loadGame', value: opponentGameData};
+        conn.ws.send(JSON.stringify(message));
+    } else {
+
+    }
 }
 
 function getConnectionFromUsername(username) {
@@ -107,6 +114,14 @@ function getConnectionFromUsername(username) {
         throw new UserFriendlyError(`Could not find connection for username '${username}'`, "Sorry, we couldn't find that person. The username you entered might be incorrect, or maybe they're not online right now.");
     }
     return connections[index];
+}
+
+function getOpponentGameData(gameData) {
+    const opponentGameData = JSON.parse(JSON.stringify(gameData));
+    opponentGameData.isPlayerTurn = !gameData.isPlayerTurn;
+    opponentGameData.playerUsername = gameData.opponentUsername;
+    opponentGameData.opponentUsername = gameData.playerUsername;
+    return opponentGameData;
 }
 
 class UserFriendlyError extends Error {
