@@ -11,7 +11,8 @@ let clientGame = null;
 
 function onLoad() {
     socket = getSocketConnection();
-    setUpGame();
+    clientGame = setUpGame();
+    updateCurrentPlayerText();
 }
 
 function onSubmitButtonClick() {
@@ -57,9 +58,7 @@ function setUpGame() {
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
 
-    clientGame = new ClientGame(boardContainerElement, gameData);
-
-    updateCurrentPlayerText();
+    return new ClientGame(boardContainerElement, gameData);
 }
 
 function opponentWin() {
