@@ -69,7 +69,7 @@ function getMessageFromRaw(rawData) {
 }
 
 function handleClientMessage(message, connectionID) {
-    if (message.action === 'setUsername') {
+    if (message.action === 'registerUsername') {
         registerUsernameWithConnection(message.value, connectionID);
     } else if (message.action === 'submitMove') {
         submitMove(message.value);

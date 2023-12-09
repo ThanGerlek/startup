@@ -12,6 +12,7 @@ let clientGame = null;
 function onLoad() {
     socket = getSocketConnection();
     clientGame = setUpGame();
+    registerUsername();
     updateCurrentPlayerText();
 }
 
@@ -59,6 +60,11 @@ function setUpGame() {
     boardContainerElement.textContent = '';
 
     return new ClientGame(boardContainerElement, gameData);
+}
+
+function registerUsername() {
+    const message = {action: 'registerUsername', value: clientGame.username};
+    socket.send(JSON.stringify(message));
 }
 
 function opponentWin() {
