@@ -13,6 +13,7 @@ async function onLoad() {
     socket = await getSocketConnection();
     clientGame = setUpGame();
     registerUsername();
+    createGameRequest(clientGame.getGameData());
     updateCurrentPlayerText();
 }
 
@@ -64,6 +65,11 @@ function setUpGame() {
 
 function registerUsername() {
     const message = {action: 'registerUsername', value: localStorage.getItem('username')};
+    socket.send(JSON.stringify(message));
+}
+
+function createGameRequest(gameData) {
+    const message = {action: 'createGame', value: gameData};
     socket.send(JSON.stringify(message));
 }
 
