@@ -8,6 +8,8 @@ const wss = new WebSocketServer({noServer: true});
 const connections = [];
 let nextFreeId = 0;
 
+const games = [];
+
 wss.on('connection', (ws) => {
     const connection = {id: nextFreeId++, alive: true, ws: ws};
     console.log("Establishing new connection with id: %d", connection.id);
@@ -81,6 +83,8 @@ function handleClientMessage(message, connection) {
         registerUsernameWithConnection(message.value, connection);
     } else if (message.action === 'submitMove') {
         submitMove(message.value, connection);
+    } else if (message.action === 'createGame') {
+        createGame(message.value, connection);
     } else if (message.action === 'test') {
         console.log("Received test message: %s", JSON.stringify(message));
     } else {
@@ -128,6 +132,30 @@ function getConnectionFromUsername(username) {
         return null;
     }
     return connections[index];
+}
+
+function createGame(gameData, connection) {
+    const existingGame = findGame(gameData.playerUsername, gameData.opponentUsername);
+    if (!!existingGame) {
+        connection.ws.send(JSON.stringify({action: 'loadGame', value: existingGame}));
+
+        const opponentConnection = getConnectionFromUsername(gameData.opponentUsername);
+        if (!!opponentConnection) {
+            const msg = `${gameData.playerUsername} has joined the game. Prepare for battle!`;
+            opponentConnection.ws.send(JSON.stringify({action: 'notify', value: msg}));
+        } else {
+            const msg = `${gameData.playerUsername} hasn't joined the game yet.`;
+            connection.ws.send(JSON.stringify({action: 'notify', value: msg}));
+        }
+    } else {
+        games.push(gameData);
+    }
+}
+
+function findGame(player1, player2) {
+    const predicate = game => game.players.includes(player1) && game.players.includes(player2);
+    const index = games.findIndex((game, index) => predicate(game));
+    return (index < 0) ? null : games[index];
 }
 
 class UserFriendlyError extends Error {
