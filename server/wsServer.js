@@ -136,21 +136,26 @@ function getConnectionFromUsername(username) {
 }
 
 function createGame(gameData, connection) {
-    const existingGame = findGame(gameData.playerUsername, gameData.opponentUsername);
+    const existingGame = findGame(gameData.players[0], gameData.players[1]);
+    const opponentConnection = getOtherConnectionFromUsername(gameData, connection.username);
     if (!!existingGame) {
         connection.ws.send(JSON.stringify({action: 'loadGame', value: existingGame}));
 
-        const opponentConnection = getConnectionFromUsername(gameData.opponentUsername);
         if (!!opponentConnection) {
-            const msg = `${gameData.playerUsername} has joined the game. Prepare for battle!`;
+            const msg = `${connection.username} has joined the game. Prepare for battle!`;
             opponentConnection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         } else {
-            const msg = `${gameData.playerUsername} hasn't joined the game yet.`;
+            const msg = `${connection.username} hasn't joined the game yet.`;
             connection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         }
     } else {
         games.push(gameData);
     }
+}
+
+function getOtherConnectionFromUsername(gameData, username) {
+    const otherUsername = (gameData.players[0] === username) ? gameData.players[1] : gameData.players[0];
+    return getConnectionFromUsername(otherUsername);
 }
 
 function findGame(player1, player2) {
