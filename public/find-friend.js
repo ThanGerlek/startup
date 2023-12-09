@@ -23,9 +23,8 @@ function onSubmitButtonClick() {
 
 function storeNewGame(playerUsername, opponentUsername) {
     const gameData = {
-        playerUsername: playerUsername,
-        opponentUsername: opponentUsername,
-        isPlayerTurn: true, // TODO allow switching who goes first
+        players: [playerUsername, opponentUsername],
+        currentPlayer: playerUsername, // TODO allow switching who goes first
         board: generateNewBoardArray(),
         gameType: getGameType(),
     };
