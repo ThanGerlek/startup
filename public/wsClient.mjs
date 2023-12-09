@@ -4,22 +4,29 @@ const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 const wsURL = `${protocol}://${window.location.host}/ws`;
 
 function getSocketConnection() {
-    const socket = new WebSocket(wsURL);
+    return new Promise((resolve, reject) => {
+        const socket = new WebSocket(wsURL);
 
-    socket.onopen = (event) => {
-        console.log('Opened websocket connection to server.');
-    }
+        socket.onopen = (event) => {
+            resolve(socket);
+            console.log('Opened websocket connection to server.');
+        }
 
-    socket.onmessage = (event) => {
-        const message = getMessageFromEventData(event.data);
-        handleServerMessage(message);
-    }
+        socket.onmessage = (event) => {
+            const message = getMessageFromEventData(event.data);
+            handleServerMessage(message);
+        }
 
-    socket.onclose = (event) => {
-        console.log('Websocket connection closed.');
-    }
+        socket.onclose = (event) => {
+            console.log('Websocket connection closed.');
+        }
 
-    return socket;
+        setTimeout(() => {
+            if (socket.CONNECTING) {
+                reject("Timed out while still in CONNECTING state");
+            }
+        }, 5000);
+    });
 }
 
 function getMessageFromEventData(dataString) {

@@ -9,8 +9,8 @@ import {getSocketConnection} from "./wsClient.mjs";
 let socket = null;
 let clientGame = null;
 
-function onLoad() {
-    socket = getSocketConnection();
+async function onLoad() {
+    socket = await getSocketConnection();
     clientGame = setUpGame();
     registerUsername();
     updateCurrentPlayerText();
