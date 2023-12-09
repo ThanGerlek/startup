@@ -63,7 +63,7 @@ function setUpGame() {
 }
 
 function registerUsername() {
-    const message = {action: 'registerUsername', value: clientGame.username};
+    const message = {action: 'registerUsername', value: localStorage.getItem('username')};
     socket.send(JSON.stringify(message));
 }
 
