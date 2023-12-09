@@ -10,9 +10,12 @@ function onSubmitButtonClick() {
     if (opponentUsername === "") {
         displayMessage('warn', 'Please enter a username.');
     } else if (opponentUsername === playerUsername) {
-        displayMessage('warn', "Woah! That's your friend's name! Please try something else.");
+        if (getGameType() === 'local') {
+            displayMessage('warn', "Woah! That's your friend's name! Please try something else.");
+        } else {
+            displayMessage('warn', "Enter your opponent's username, not yours.");
+        }
     } else {
-        localStorage.setItem('opponentUsername', opponentUsername); // TODO? Unneeded?
         storeNewGame(playerUsername, opponentUsername);
         window.location.href = 'game.html';
     }
@@ -24,7 +27,7 @@ function storeNewGame(playerUsername, opponentUsername) {
         opponentUsername: opponentUsername,
         isPlayerTurn: true, // TODO allow switching who goes first
         board: generateNewBoardArray(),
-        gameType: 'local',
+        gameType: getGameType(),
     };
     localStorage.setItem('game', JSON.stringify(gameData));
 }
@@ -39,6 +42,10 @@ function generateNewBoardArray() {
         boardArray.push(row);
     });
     return boardArray;
+}
+
+function getGameType() {
+    return window.location.pathname === "/find-friend-local.html" ? "local" : "remote";
 }
 
 document.getElementById('submit-game-request-button').addEventListener('click', onSubmitButtonClick);
