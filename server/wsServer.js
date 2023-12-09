@@ -97,6 +97,7 @@ function registerUsernameWithConnection(username, connection) {
         throw new Error(`Tried to register connection username '${username}', but that connection already has username '${connection.username}'`);
     }
     connection.username = username;
+    connection.ws.send(JSON.stringify({action: 'log', value: 'Registered username.'}))
 }
 
 function submitMove(gameData, connection) {
@@ -118,8 +119,8 @@ function submitMove(gameData, connection) {
     const otherConnection = getConnectionFromUsername(otherUsername);
 
     if (!!otherConnection) {
-        const message = {action: 'loadGame', value: gameData};
-        otherConnection.ws.send(JSON.stringify(message));
+        otherConnection.ws.send(JSON.stringify({action: 'loadGame', value: gameData}));
+        connection.ws.send(JSON.stringify({action: 'log', value: 'Move submitted to the other player.'}));
     } else {
         const response = {action: 'warn', value: "Couldn't reach the other player; they may have disconnected."};
         connection.ws.send(JSON.stringify(response));

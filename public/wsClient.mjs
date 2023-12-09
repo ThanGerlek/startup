@@ -48,6 +48,8 @@ function handleServerMessage(message) {
         displayMessage('warn', message.value);
     } else if (message.action === 'error') {
         displayMessage('error', message.value);
+    } else if (message.action === 'log') {
+        console.log(`[Server] ${message.value}`);
     } else if (message.action === 'test') {
         console.log("Received test message: %s", JSON.stringify(message));
     } else {
