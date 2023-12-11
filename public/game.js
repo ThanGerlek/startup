@@ -11,11 +11,14 @@ let clientGame = null;
 
 async function onLoad() {
     socket = await getSocketConnection();
-    setLoadGameCallback(loadGame);
+    setLoadGameCallback((gameData) => {
+        loadGame(gameData);
+        updateVisuals();
+    });
     setUpGame();
     registerUsername();
     createGameRequest(clientGame.getGameData());
-    updateCurrentPlayerText();
+    updateVisuals();
 }
 
 function onSubmitButtonClick() {
@@ -55,8 +58,6 @@ function loadGame(gameData) {
     console.log('Called loadGame');
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
-    updateVisuals();
-
     clientGame = new ClientGame(boardContainerElement, gameData);
 }
 
