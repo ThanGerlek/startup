@@ -1,5 +1,22 @@
 # NIM Player
 
+## WebSocket deliverable
+
+Whenever a user joins a remote game, a WebSocket connection is created. The server tracks currently active games and
+sends game updates (players joining, moves made, win conditions, etc.) to one or both players.
+
+- *Frontend makes WebSocket connection*: Check.
+- *Backend listens for WebSocket connection*: Check. 
+- *Data sent over WebSocket connection*: Check.
+- *WebSocket data displayed in the application interface*: Check (albeit indirectly; see below).
+
+Note 1: I haven't had time to fix the bug in Note 2 from the Login deliverable, so follow those instructions when
+creating both accounts.
+
+Note 2, displaying WebSocket data: I don't have a chat system or anything, but of course the "current player turn" box
+updates when your opponent makes a move. A more explicit example is that after player 1 creates a game, they are
+notified when player 2 first joins.
+
 ## Login deliverable
 
 - *Supports registration and authentication*: Check.
@@ -7,7 +24,7 @@
 - *Restricts application functionality based on authentication*: Check. See below.
 
 Note 1: The easiest ways to confirm restricted functionality are that
-[the home page](https://startup.gerleksgarage.click/home.html) redirects back to login and
+[the home page](https://startup.gerleksgarage.click/home.html) redirects back to the login page and
 [this](https://startup.gerleksgarage.click/me) getCurrentUserData API call fails when logged out.
 
 Note 2: there's currently a bug where alerts on the register page don't show up, so it won't warn you if you try to
