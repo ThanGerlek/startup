@@ -145,7 +145,7 @@ function createGame(gameData, connection) {
             const msg = `${connection.username} has joined the game. Prepare for battle!`;
             opponentConnection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         } else {
-            const msg = `${connection.username} hasn't joined the game yet.`;
+            const msg = `Your opponent hasn't joined the game yet.`;
             connection.ws.send(JSON.stringify({action: 'notify', value: msg}));
         }
     } else {
