@@ -1,73 +1,50 @@
 'use strict';
 
-import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
+import {displayMessage} from "./message-display.js";
+import {DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
 
 function onSubmitButtonClick() {
-    clearMessageDisplay();
-    setupWaitNotification();
-    submitGameRequest(); // TODO convert to use .then() to redirect
-}
+    let playerUsername = localStorage.getItem('username');
+    let opponentUsername = document.getElementById('otherUsernameBox').value;
 
-async function submitGameRequest() {
-    let senderUsername = localStorage.getItem('username');
-    let receiverUsername = document.getElementById('otherUsernameBox').value;
-    console.log(`Submitting game request from user '${senderUsername}' to user '${receiverUsername}'`);
-
-    try {
-        let response = await getGameRequestResponse(senderUsername, receiverUsername);
-        cancelWaitNotification();
-        parseGameRequestResponse(response);
-    } catch (err) {
-        // failed to connect to server
-        let msg = `Failed to connect to the server. Make sure you're connected to the internet, or try again later.`;
-        cancelWaitNotification();
-        displayMessage('error', msg);
-    }
-}
-
-async function getGameRequestResponse(senderUsername, receiverUsername) {
-    let authorization = localStorage.getItem('tokenString');
-    if (authorization) {
-        authorization = JSON.parse(authorization).tokenString;
-    }
-
-    fetch('https://startup.gerleksgarage.click/game', {
-        method: 'PUT', body: JSON.stringify({
-            playerOne: senderUsername, playerTwo: receiverUsername
-        }), headers: {
-            'Content-type': 'application/json; charset=UTF-8', 'authorization': authorization,
-        },
-    }).then(response => response.json())
-        .then(response => console.log(response));
-}
-
-function parseGameRequestResponse(response) {
-    if (!response.message) {
-        displayMessage('error', 'Failed to parse HTTP response. Please try again');
-    } else if (response.message !== "OK") {
-        displayMessage('warn', response.message);
-    } else if (response.game) {
-        beginGame(response);
+    if (opponentUsername === "") {
+        displayMessage('warn', 'Please enter a username.');
+    } else if (opponentUsername === playerUsername) {
+        if (getGameType() === 'local') {
+            displayMessage('warn', "Woah! That's your friend's name! Please try something else.");
+        } else {
+            displayMessage('warn', "Enter your opponent's username, not yours.");
+        }
     } else {
-        waitForFriend(response);
+        storeNewGame(playerUsername, opponentUsername);
+        window.location.href = 'game.html';
     }
 }
 
-function beginGame(response) {
-    openWebSocketConnection(response);
-    window.game = response.game;
-    window.location.href = 'board.html';
+function storeNewGame(playerUsername, opponentUsername) {
+    const gameData = {
+        players: [playerUsername, opponentUsername],
+        currentPlayer: playerUsername, // TODO allow switching who goes first
+        board: generateNewBoardArray(),
+        gameType: getGameType(),
+    };
+    localStorage.setItem('game', JSON.stringify(gameData));
 }
 
-function waitForFriend(response, receiverUsername) {
-    openWebSocketConnection(response);
-    localStorage.setItem('opponentUsername', receiverUsername);
-    window.location.href = 'wait-for-friend.html';
+function generateNewBoardArray() {
+    const boardArray = [];
+    DEFAULT_BOARD_DIMENSIONS.forEach(rowSize => {
+        const row = [];
+        for (let i = 0; i < rowSize; i++) {
+            row.push(false);
+        }
+        boardArray.push(row);
+    });
+    return boardArray;
 }
 
-function openWebSocketConnection(response) {
-    console.log('Simulating opening WebSocket connection.');
-    // TODO ws: implement WebSocket
+function getGameType() {
+    return window.location.pathname === "/find-friend-local.html" ? "local" : "remote";
 }
 
 document.getElementById('submit-game-request-button').addEventListener('click', onSubmitButtonClick);

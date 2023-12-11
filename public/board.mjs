@@ -1,3 +1,5 @@
+'use strict';
+
 const DEFAULT_BOARD_DIMENSIONS = [1, 3, 5, 7];
 
 function markElementTaken(element) {
@@ -117,13 +119,22 @@ class Row {
     }
 
     copyStateFrom(otherRow) {
-        if (this.size() !== otherRow.size()) {
-            throw new Error("Mismatched row sizes when calling row.copyStateFrom()");
+        this.fromArray(otherRow.toArray());
+    }
+
+    fromArray(pieces) {
+        if (this.size() !== pieces.length) {
+            throw new Error("Mismatched row sizes when calling row.fromArray()");
         }
-        for (let i = 0; i < this.size() && i < otherRow.size(); i++) {
-            let isTaken = otherRow.isTaken(i);
-            this.#pieces[i].setIsTaken(isTaken);
+        for (let i = 0; i < this.size(); i++) {
+            this.#pieces[i].setIsTaken(pieces[i]);
         }
+    }
+
+    toArray() {
+        const arr = [];
+        this.#pieces.forEach(piece => arr.push(piece.isTaken()));
+        return arr;
     }
 }
 
@@ -131,15 +142,17 @@ class Board {
     #rows;
     #boardContainerElement;
 
-    constructor(boardDimensions, boardContainerElement) {
-        this.#rows = [];
+    constructor(boardArray, boardContainerElement) {
         this.#boardContainerElement = boardContainerElement;
+        this.#initRows(boardArray);
+        this.fromArray(boardArray);
+    }
 
-        let numRows = boardDimensions.length;
-        for (let i = 0; i < numRows; i++) {
-            let rowSize = boardDimensions[i];
-            this.addNewRow(rowSize);
-        }
+    #initRows(boardArray) {
+        this.#rows = [];
+        boardArray.forEach(rowArray => {
+            this.addNewRow(rowArray.length);
+        });
     }
 
     numPiecesLeft() {
@@ -168,9 +181,7 @@ class Board {
     }
 
     copyStateFrom(otherBoard) {
-        for (let rowIndex = 0; rowIndex < this.#rows.length; rowIndex++) {
-            this.#rows[rowIndex].copyStateFrom(otherBoard.#rows[rowIndex]);
-        }
+        this.fromArray(otherBoard.toArray());
     }
 
     compareRows(otherBoard) {
@@ -180,6 +191,22 @@ class Board {
             rowDiffs.push(rowDiff);
         }
         return rowDiffs;
+    }
+
+    fromArray(rows) {
+        if (this.#rows.length !== rows.length) {
+            throw new Error("Mismatched numbers of rows when calling board.fromArray()");
+        }
+        rows.forEach
+        for (let i = 0; i < this.#rows.length; i++) {
+            this.#rows[i].fromArray(rows[i]);
+        }
+    }
+
+    toArray() {
+        const arr = [];
+        this.#rows.forEach(row => arr.push(row.toArray()));
+        return arr;
     }
 }
 
