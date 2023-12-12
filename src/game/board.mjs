@@ -197,7 +197,6 @@ class Board {
         if (this.#rows.length !== rows.length) {
             throw new Error("Mismatched numbers of rows when calling board.fromArray()");
         }
-        rows.forEach
         for (let i = 0; i < this.#rows.length; i++) {
             this.#rows[i].fromArray(rows[i]);
         }
