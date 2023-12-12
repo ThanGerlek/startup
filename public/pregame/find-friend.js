@@ -1,7 +1,7 @@
 'use strict';
 
-import {displayMessage} from "./message-display.js";
-import {DEFAULT_BOARD_DIMENSIONS} from "./board.mjs";
+import {displayMessage} from "../general/message-display.js";
+import {DEFAULT_BOARD_DIMENSIONS} from "../game/board.mjs";
 
 function onSubmitButtonClick() {
     let playerUsername = localStorage.getItem('username');

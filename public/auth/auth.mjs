@@ -2,7 +2,7 @@
 
 // TODO server: change logout from a simple redirect to returning a completely different HTTP response
 
-import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
+import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "../general/message-display.js";
 
 function onLoginButtonClick() {
     onAuthenticateButtonClick('/session');

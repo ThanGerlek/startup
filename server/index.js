@@ -1,7 +1,7 @@
 'use strict'
 
 const app = require('./server');
-const {handleUpgrade} = require('./server/wsServer');
+const {handleUpgrade} = require('./wsServer');
 
 const port = 4000;
 

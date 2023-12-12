@@ -1,6 +1,6 @@
 'use strict';
 
-import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "./message-display.js";
+import {cancelWaitNotification, clearMessageDisplay, displayMessage, setupWaitNotification} from "../general/message-display.js";
 
 function onSubmitButtonClick() {
     clearMessageDisplay();

@@ -2,10 +2,10 @@
 
 const cookieParser = require('cookie-parser');
 
-const database = require('./server/database');
-const handler = require('./server/handler');
-const security = require('./server/security');
-const services = require('./server/services/services');
+const database = require('./database');
+const handler = require('./handler');
+const security = require('./security');
+const services = require('./services/services');
 
 // Load express router
 const express = require('express');

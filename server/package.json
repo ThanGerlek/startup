@@ -2,7 +2,7 @@
   "name": "startup",
   "version": "1.0.0",
   "description": "A simple webapp implementing the game NIM.",
-  "main": "../index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },

@@ -1,9 +1,9 @@
 'use strict';
 
-import {clearMessageDisplay, displayMessage} from "./message-display.js";
+import {clearMessageDisplay, displayMessage} from "../general/message-display.js";
 import {Board} from "./board.mjs";
 
-import {getSocketConnection, setLoadGameCallback} from "./wsClient.mjs";
+import {getSocketConnection, setLoadGameCallback} from "../general/wsClient.mjs";
 
 // don't initialize until page load
 let socket = null;
