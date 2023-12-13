@@ -1,10 +1,10 @@
+import React from 'react';
 import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useWindowDimensions} from 'react-native';
 import {Home} from "./home/home.jsx";
 import {GameController} from "./pregame/game-controller.jsx";
-import {Login} from "./auth/login.jsx";
-import {Register} from "./auth/register.jsx";
+import {AuthController} from "./auth/authController.jsx";
 import {WaitForFriend} from "./pregame/wait-for-friend.jsx";
 import {YouLose} from "./postgame/you-lose.jsx";
 import {YouWin} from "./postgame/you-win.jsx";
@@ -14,6 +14,13 @@ import {Secretses} from "./general/secretses.jsx";
 
 function App() {
     const {height} = useWindowDimensions();
+
+    const [sessionData, setSessionData] = React.useState({});
+
+    function login(username) {
+        const newSessionData = {...sessionData, username: username};
+        setSessionData(newSessionData);
+    }
 
     return (<BrowserRouter>
         <div className="bg-light d-flex flex-column" style={{minHeight: height}}>
@@ -33,13 +40,15 @@ function App() {
 
             <Routes>
                 <Route path='/' element={<Home/>} exact/>
-                <Route path='/find-friend-remote' element={<GameController username={username} gameType="remote"/>}/>
-                <Route path='/find-friend-local' element={<GameController username={username} gameType="local"/>}/>
+                <Route path='/find-friend-remote'
+                       element={<GameController username={sessionData.username} gameType="remote"/>}/>
+                <Route path='/find-friend-local'
+                       element={<GameController username={sessionData.username} gameType="local"/>}/>
                 <Route path='/game' element={<Game/>}/>
                 <Route path='/secretses' element={<Secretses/>}/>
                 <Route path='/home' element={<Home/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/register' element={<Register/>}/>
+                <Route path='/login' element={<AuthController isLogin={true} login={login} />}/>
+                <Route path='/register' element={<AuthController isLogin={false} login={login} />}/>
                 <Route path='/stats' element={<Stats/>}/>
                 <Route path='/wait-for-friend' element={<WaitForFriend/>}/>
                 <Route path='/you-lose' element={<YouLose/>}/>
