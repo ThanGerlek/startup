@@ -33,8 +33,8 @@ function App() {
 
             <Routes>
                 <Route path='/' element={<Home/>} exact/>
-                <Route path='/find-friend-remote' element={<FindFriendRemote/>}/>
-                <Route path='/find-friend-local' element={<FindFriendLocal/>}/>
+                <Route path='/find-friend-remote' element={<GameController username={username} gameType="remote"/>}/>
+                <Route path='/find-friend-local' element={<GameController username={username} gameType="local"/>}/>
                 <Route path='/game' element={<Game/>}/>
                 <Route path='/secretses' element={<Secretses/>}/>
                 <Route path='/home' element={<Home/>}/>
