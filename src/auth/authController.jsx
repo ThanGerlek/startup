@@ -5,16 +5,27 @@ import {
     displayMessage,
     setupWaitNotification
 } from "../general/message-display.js";
+import {Navigate} from "react-router-dom";
 
-export function AuthController({isLogin, login}) {
+export function AuthController({isLogin, login, isInitiallyLoggedIn}) {
     const [isLoginPage, setIsLoginPage] = React.useState(isLogin);
+    const [isLoggedIn, setIsLoggedIn] = React.useState(isInitiallyLoggedIn);
     const redirectToRegister = () => setIsLoginPage(false);
     const redirectToLogin = () => setIsLoginPage(true);
 
+    function loginLocal(username) {
+        setIsLoggedIn(true);
+        login(username);
+    }
+
+    if (isLoggedIn) {
+        return <Navigate to={'/home'} replace/>;
+    }
+
     if (isLoginPage) {
-        return <Login login={login} redirectToRegister={redirectToRegister}/>;
+        return <Login login={loginLocal} redirectToRegister={redirectToRegister}/>;
     } else {
-        return <Register login={login} redirectToLogin={redirectToLogin}/>;
+        return <Register login={loginLocal} redirectToLogin={redirectToLogin}/>;
     }
 }
 
