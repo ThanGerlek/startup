@@ -1,5 +1,7 @@
 import React from 'react';
 
+// TODO wait-for-friend.jsx
+
 export function WaitForFriend() {
     return (<main className="mx-3 flex-grow-1 d-flex flex-column justify-content-around align-items-center">
 

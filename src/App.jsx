@@ -2,8 +2,7 @@ import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useWindowDimensions} from 'react-native';
 import {Home} from "./home/home.jsx";
-import {FindFriendRemote} from "./pregame/find-friend-remote.jsx";
-import {FindFriendLocal} from "./pregame/find-friend-local.jsx";
+import {GameController} from "./pregame/game-controller.jsx";
 import {Login} from "./auth/login.jsx";
 import {Register} from "./auth/register.jsx";
 import {WaitForFriend} from "./pregame/wait-for-friend.jsx";
@@ -11,7 +10,7 @@ import {YouLose} from "./postgame/you-lose.jsx";
 import {YouWin} from "./postgame/you-win.jsx";
 import {Game} from "./game/game.jsx";
 import {Stats} from "./stats/stats.jsx";
-import {Secretses} from "./general/secretses";
+import {Secretses} from "./general/secretses.jsx";
 
 function App() {
     const {height} = useWindowDimensions();
