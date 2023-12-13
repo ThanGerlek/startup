@@ -22,6 +22,15 @@ function App() {
         setSessionData(newSessionData);
     }
 
+    function logout() {
+        setSessionData({});
+        window.location.href = 'login';
+    }
+
+    function isLoggedIn() {
+        return !!sessionData.username;
+    }
+
     return (<BrowserRouter>
         <div className="bg-light d-flex flex-column" style={{minHeight: height}}>
             <header
@@ -32,8 +41,7 @@ function App() {
                 </NavLink>
                 <ul className="nav">
                     <li>
-                        <button id="logout-button" className="btn d-flex text-dark text-decoration-none">Logout
-                        </button>
+                        <LogoutButton isLoggedIn={isLoggedIn()} logout={logout}/>
                     </li>
                 </ul>
             </header>
@@ -47,8 +55,8 @@ function App() {
                 <Route path='/game' element={<Game/>}/>
                 <Route path='/secretses' element={<Secretses/>}/>
                 <Route path='/home' element={<Home/>}/>
-                <Route path='/login' element={<AuthController isLogin={true} login={login} />}/>
-                <Route path='/register' element={<AuthController isLogin={false} login={login} />}/>
+                <Route path='/login' element={<AuthController isLogin={true} login={login}/>}/>
+                <Route path='/register' element={<AuthController isLogin={false} login={login}/>}/>
                 <Route path='/stats' element={<Stats/>}/>
                 <Route path='/wait-for-friend' element={<WaitForFriend/>}/>
                 <Route path='/you-lose' element={<YouLose/>}/>
@@ -69,6 +77,19 @@ function NotFound() {
     return (<main className="mx-3 flex-grow-1 d-flex flex-column justify-content-between align-items-center">
         404: Return to sender. Address unknown.
     </main>);
+}
+
+function LogoutButton({isLoggedIn, logout}) {
+    const label = isLoggedIn ? "Logout" : "Login";
+
+    function handleButtonClick(event) {
+        event.preventDefault();
+        if (!isLoggedIn) {
+            logout();
+        }
+    }
+
+    return <button className="btn d-flex text-dark text-decoration-none" onClick={handleButtonClick}>{label}</button>;
 }
 
 export default App;
