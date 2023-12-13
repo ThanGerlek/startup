@@ -40,8 +40,13 @@ export function FindFriendRemote({playerUsername, startGame}) {
 
 export function FindFriend({playerUsername, startGame, opponentPrompt, sameNameWarning, gameType}) {
 
-    function handleSubmitButtonClick(event) {
-        const opponentUsername = event.target.value;
+    const [opponentUsername, setOpponentUsername] = React.useState('');
+
+    function handleChange(event) {
+        setOpponentUsername(event.target.value);
+    }
+
+    function handleButtonClick() {
         if (opponentUsername === "") {
             displayMessage('warn', 'Please enter a username.');
         } else if (opponentUsername === playerUsername) {
@@ -75,8 +80,8 @@ export function FindFriend({playerUsername, startGame, opponentPrompt, sameNameW
         <h3>Start a game</h3>
         <p className="my-2 text-center">{opponentPrompt}</p>
         <div className="my-2 d-flex flex-wrap align-items-center justify-content-center">
-            <input type="text" id="otherUsernameBox" name="otherUser"/>
-            <button className="btn btn-success m-1" onSubmit={handleSubmitButtonClick}>Go!</button>
+            <input type="text" name="opponentUsername" onChange={handleChange}/>
+            <button className="btn btn-success m-1" onClick={handleButtonClick}>Go!</button>
         </div>
 
         <div id="info_message" className="alert alert-info" style={{display: "none"}}></div>
