@@ -96,7 +96,7 @@ function LogoutButton({isLoggedIn, logoutSessionData}) {
 
     function handleButtonClick(event) {
         event.preventDefault();
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
             logout();
         }
     }
