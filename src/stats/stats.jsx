@@ -1,5 +1,7 @@
 import React from 'react';
 
+// TODO stats.jsx
+
 export function Stats() {
     return (<main className="mx-3 flex-grow-1 d-flex flex-column justify-content-between align-items-center">
         <div className="pageDescription">
