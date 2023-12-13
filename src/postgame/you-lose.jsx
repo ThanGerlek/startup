@@ -7,7 +7,7 @@ export function YouLose() {
 
     React.useEffect(() => {
         getQuote();
-    });
+    }, []);
 
     async function getQuote() {
         const quote = await fetch('https://api.quotable.io/random')
