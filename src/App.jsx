@@ -48,7 +48,7 @@ function App() {
             </header>
 
             <Routes>
-                <Route path='/' element={<Home/>} exact/>
+                <Route path='/' element={<Navigate to='/home'/>} exact/>
                 <Route path='/secretses' element={<Secretses/>}/>
 
                 <Route path='/login'
