@@ -49,19 +49,30 @@ function App() {
 
             <Routes>
                 <Route path='/' element={<Home/>} exact/>
-                <Route path='/find-friend-remote'
-                       element={<RequireAuth isLoggedIn={isLoggedIn} element={<GameController username={sessionData.username} gameType="remote"/>}/>}/>
-                <Route path='/find-friend-local'
-                       element={<RequireAuth isLoggedIn={isLoggedIn} element={<GameController username={sessionData.username} gameType="local"/>}/>}/>
-                <Route path='/game' element={<RequireAuth isLoggedIn={isLoggedIn} element={<Game/>}/>}/>
                 <Route path='/secretses' element={<Secretses/>}/>
+
+                <Route path='/login'
+                       element={<AuthController isLogin={true} login={login} isInitiallyLoggedIn={isLoggedIn()}/>}/>
+                <Route path='/register'
+                       element={<AuthController isLogin={false} login={login} isInitiallyLoggedIn={isLoggedIn()}/>}/>
+
+                <Route path='/find-friend-remote' element={<RequireAuth isLoggedIn={isLoggedIn} element=
+                    {<GameController username={sessionData.username} gameType="remote"/>}
+                />}/>
+                <Route path='/find-friend-local' element={<RequireAuth isLoggedIn={isLoggedIn} element=
+                    {<GameController username={sessionData.username} gameType="local"/>}
+                />}/>
+                <Route path='/wait-for-friend' element={<RequireAuth isLoggedIn={isLoggedIn} element=
+                    {<WaitForFriend/>}
+                />}/>
+
+                <Route path='/game' element={<RequireAuth isLoggedIn={isLoggedIn} element={<Game/>}/>}/>
                 <Route path='/home' element={<RequireAuth isLoggedIn={isLoggedIn} element={<Home/>}/>}/>
-                <Route path='/login' element={<AuthController isLogin={true} login={login} isInitiallyLoggedIn={isLoggedIn()}/>}/>
-                <Route path='/register' element={<AuthController isLogin={false} login={login} isInitiallyLoggedIn={isLoggedIn()}/>}/>
                 <Route path='/stats' element={<RequireAuth isLoggedIn={isLoggedIn} element={<Stats/>}/>}/>
-                <Route path='/wait-for-friend' element={<RequireAuth isLoggedIn={isLoggedIn} element={<WaitForFriend/>}/>}/>
                 <Route path='/you-lose' element={<RequireAuth isLoggedIn={isLoggedIn} element={<YouLose/>}/>}/>
                 <Route path='/you-win' element={<RequireAuth isLoggedIn={isLoggedIn} element={<YouWin/>}/>}/>
+
+
                 <Route path='*' element={<NotFound/>}/>
             </Routes>
 
