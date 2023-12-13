@@ -1,5 +1,3 @@
-'use strict';
-
 const bcrypt = require('bcrypt');
 const uuid = require("uuid");
 const cryptConfig = require('../../config.json').crypt;

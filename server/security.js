@@ -1,5 +1,3 @@
-'use strict';
-
 const {ErrorResponse} = require("./http");
 const database = require("./database");
 const config = require("../config.json");

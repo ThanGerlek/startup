@@ -1,5 +1,3 @@
-'use strict';
-
 // Auth Data Access
 
 const {ValueAlreadyTakenError, BadRequestError} = require("./dataAccessErrors");

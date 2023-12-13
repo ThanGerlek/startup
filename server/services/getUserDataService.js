@@ -1,5 +1,3 @@
-'use strict';
-
 const {UserDataResponse} = require('../http');
 
 // TODO! GetUserDataService tests!

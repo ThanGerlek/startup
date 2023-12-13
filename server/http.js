@@ -1,5 +1,3 @@
-'use strict';
-
 let MessageResponse = class {
     // clear, logout, join
     message;

@@ -1,5 +1,3 @@
-'use strict';
-
 const {
     UnauthorizedAccessError, BadRequestError, NoSuchItemError, ValueAlreadyTakenError, DataAccessError
 } = require("./dataAccess/dataAccess");

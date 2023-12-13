@@ -1,5 +1,3 @@
-'use strict';
-
 // User Data Access
 
 const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");

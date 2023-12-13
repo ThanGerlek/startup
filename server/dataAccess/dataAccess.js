@@ -1,5 +1,3 @@
-'use strict';
-
 const {AuthDAO} = require('./authDAO');
 const {GameDAO} = require('./gameDAO');
 const {GameRequestDAO} = require('./gameRequestDAO');

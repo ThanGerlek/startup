@@ -1,5 +1,3 @@
-'use strict';
-
 const {ClearApplicationService} = require('./clearApplicationService');
 const {JoinGameService} = require('./joinGameService');
 const {LoginService} = require('./loginService');

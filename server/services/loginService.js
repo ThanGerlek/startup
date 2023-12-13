@@ -1,5 +1,3 @@
-'use strict';
-
 const {AuthResponse} = require('../http');
 const {UnauthorizedAccessError, NoSuchItemError} = require("../dataAccess/dataAccess");
 const bcrypt = require('bcrypt')

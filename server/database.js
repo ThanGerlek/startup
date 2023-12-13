@@ -1,5 +1,3 @@
-'use strict';
-
 const {MongoClient} = require("mongodb");
 const config = require("../config.json");
 const {DataAccessManager} = require("./dataAccess/dataAccess");

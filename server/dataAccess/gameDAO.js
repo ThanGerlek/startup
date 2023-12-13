@@ -1,5 +1,3 @@
-'use strict';
-
 // Game Data Access
 // TODO! implement gameDAO
 
