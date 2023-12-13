@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 export function Home() {
     // TODO test: set up UI testing
@@ -13,7 +14,7 @@ export function Home() {
         <div className="container d-flex" style={{maxWidth: 450}}>
             <div className="container d-flex flex-column justify-content-between align-items-center">
                 <div className="align-items-center justify-content-center text-center">
-                    <a className="btn btn-success" href="../../public/find-friend-remote.html">Play with a friend online!</a>
+                    <NavLink className="btn btn-success" to='/find-friend-remote'>Play with a friend online!</NavLink>
                 </div>
                 <div className="my-3 align-items-center justify-content-center">
                     <img src="../../public/15-75-matchstick.png" alt="matchstick"/>
@@ -24,12 +25,12 @@ export function Home() {
                     <img src="../../public/15-75-matchstick.png" alt="matchstick"/>
                 </div>
                 <div className="my-3 align-items-center justify-content-center text-center">
-                    <a className="btn btn-success" href="../../public/stats.html">See your stats!</a>
+                    <NavLink className="btn btn-success" to='/stats'>See your stats!</NavLink>
                 </div>
             </div>
             <div className="container d-flex flex-column justify-content-between align-items-center">
                 <div className="align-items-center justify-content-center text-center">
-                    <a className="btn btn-success" href="../../public/find-friend-local.html">Play locally on this device!</a>
+                    <NavLink className="btn btn-success" to='/find-friend-local'>Play locally on this device!</NavLink>
                 </div>
                 <div className="my-3 align-items-center justify-content-center">
                     <img src="../../public/15-75-matchstick.png" alt="matchstick"/>

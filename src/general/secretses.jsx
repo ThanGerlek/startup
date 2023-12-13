@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 export function Secretses() {
     return (
@@ -12,16 +13,15 @@ export function Secretses() {
 
             <nav>
                 <menu>
-                    <li><a href="../../public/game.html">game.html</a></li>
-                    <li><a href="../../public/find-friend-remote.html">find-friend.html</a></li>
-                    <li><a href="../../public/find-friend-local.html">find-friend.html</a></li>
-                    <li><a href="../../public/home.html">home.html</a></li>
-                    <li><a href="../../public/index.html">index.html</a></li>
-                    <li><a href="../../public/login.html">login.html</a></li>
-                    <li><a href="../../public/stats.html">stats.html</a></li>
-                    <li><a href="../../public/wait-for-friend.html">wait-for-friend.html</a></li>
-                    <li><a href="../../public/you-lose.html">you-lose.html</a></li>
-                    <li><a href="../../public/you-win.html">you-win.html</a></li>
+                    <NavLink className='nav-link' to='/game'>game</NavLink>
+                    <NavLink className='nav-link' to='/find-friend-remote'>find-friend-remote</NavLink>
+                    <NavLink className='nav-link' to='/find-friend-local'>find-friend-local</NavLink>
+                    <NavLink className='nav-link' to='/home'>home</NavLink>
+                    <NavLink className='nav-link' to='/login'>login</NavLink>
+                    <NavLink className='nav-link' to='/stats'>stats</NavLink>
+                    <NavLink className='nav-link' to='/wait-for-friend'>wait-for-friend</NavLink>
+                    <NavLink className='nav-link' to='/you-lose'>you-lose</NavLink>
+                    <NavLink className='nav-link' to='/you-win'>you-win</NavLink>
                 </menu>
             </nav>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 export function YouLose() {
     return (
@@ -10,7 +11,7 @@ export function YouLose() {
             <p className="text-center">You must be horribly ashamed. But don't worry, maybe you can redeem yourself and restore
                 honor to your family.</p>
 
-            <a className="btn btn-success" href="../../public/home.html">Play again!</a>
+            <NavLink className="btn btn-success" to='/home'>Play again!</NavLink>
 
             {/* TODO make this nicer-looking */}
             <p className="text-center" id="quote">Bob</p>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 export function YouWin() {
     return (<main className="mx-3 flex-grow-1 d-flex flex-column justify-content-around align-items-center">
@@ -12,7 +13,7 @@ export function YouWin() {
             <p className="">🐔</p>
         </div>
 
-        <a className="btn btn-success" href="../../public/home.html">Play again!</a>
+        <NavLink className="btn btn-success" to='/home'>Play again!</NavLink>
 
         <div></div>
     </main>);

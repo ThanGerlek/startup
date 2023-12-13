@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useWindowDimensions} from 'react-native';
 import {Home} from "./home/home.jsx";
@@ -20,9 +20,9 @@ function App() {
             <header
                 className="container-fluid my-2 align-items-center justify-content-between d-flex flex-wrap border-bottom">
                 <div></div>
-                <a href="../public/home.html" className="text-dark text-decoration-none">
+                <NavLink className="text-dark text-decoration-none" to='/home'>
                     <h1>NIM Player</h1>
-                </a>
+                </NavLink>
                 <ul className="nav">
                     <li>
                         <button id="logout-button" className="btn d-flex text-dark text-decoration-none">Logout
