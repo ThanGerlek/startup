@@ -40,7 +40,7 @@ function Register({login, redirectToLogin}) {
                      secondaryButton={secondaryButton} showSecurityWarning={true}/>;
 }
 
-function AuthPage({login, instructionText, apiPath, primaryButton, secondaryButton, showSecurityWarning}) {
+function AuthPage({login, instructionText, apiPath, primaryButtonLabel, secondaryButton, showSecurityWarning}) {
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -127,7 +127,7 @@ function AuthPage({login, instructionText, apiPath, primaryButton, secondaryButt
 
             {/* TODO Add a second password box */}
 
-            <button className="btn btn-success my-2" onSubmit={primaryButtonCallback}>{primaryButton.label}</button>
+            <button className="btn btn-success my-2" onSubmit={primaryButtonCallback}>{primaryButtonLabel}</button>
 
             <div className="align-items-center text-center my-2"
                  style={{display: showSecurityWarning ? "block" : "none"}}>
