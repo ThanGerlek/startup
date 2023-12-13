@@ -19,7 +19,7 @@ export function AuthController({isLogin, login}) {
 }
 
 function Login({login, redirectToRegister}) {
-    const apiPath = "/user";
+    const apiPath = "/api/session";
     const instructionText = "Please log in to play.";
     const primaryButtonLabel = "Login";
     const secondaryButton = {label: "Create account", callback: redirectToRegister};
@@ -30,7 +30,7 @@ function Login({login, redirectToRegister}) {
 }
 
 function Register({login, redirectToLogin}) {
-    const apiPath = "/user";
+    const apiPath = "/api/user";
     const instructionText = "Enter a username and password.";
     const primaryButtonLabel = "Create!";
     const secondaryButton = {label: "Back to login", callback: redirectToLogin};
