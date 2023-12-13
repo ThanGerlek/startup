@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 
 // Endpoint: Clear application
 app.delete('/db', async (req, res) => {
+    console.log('Hit endpoint: clear application');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.ClearApplicationService(dataAccessManager);
@@ -45,6 +46,7 @@ app.delete('/db', async (req, res) => {
 
 // Endpoint: Register
 app.post('/user', async (req, res) => {
+    console.log('Hit endpoint: register');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.RegisterService(dataAccessManager);
@@ -68,6 +70,7 @@ app.post('/user', async (req, res) => {
 
 //  Endpoint: Login
 app.post('/session', async (req, res) => {
+    console.log('Hit endpoint: login');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LoginService(dataAccessManager);
@@ -96,6 +99,7 @@ secureRouter.use(security.requireAuthCookie);
 
 // Endpoint: Get User Data
 secureRouter.get('/user/:username', async (req, res) => {
+    console.log('Hit secure endpoint: get user data');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const username = req.params.username;
@@ -112,6 +116,7 @@ secureRouter.get('/user/:username', async (req, res) => {
 
 // Endpoint: Get Current User Data
 secureRouter.get('/me', async (req, res) => {
+    console.log('Hit secure endpoint: whoami');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const tokenString = security.getAuthCookie(req);
@@ -127,6 +132,7 @@ secureRouter.get('/me', async (req, res) => {
 
 //  Endpoint: Logout
 secureRouter.delete('/session', async (req, res) => {
+    console.log('Hit secure endpoint: logout');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.LogoutService(dataAccessManager);
@@ -149,6 +155,7 @@ secureRouter.delete('/session', async (req, res) => {
 
 //  Endpoint: Join Game
 secureRouter.post('/game', async (req, res) => {
+    console.log('Hit secure endpoint: join game');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const service = new services.JoinGameService(dataAccessManager);

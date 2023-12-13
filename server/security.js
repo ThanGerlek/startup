@@ -28,6 +28,8 @@ function stripSecureInfo(obj) {
 }
 
 async function requireAuthCookie(req, res, next) {
+    console.log('Hit middleware: requireAuthCookie for secure endpoints');
+
     const tokenString = getAuthCookie(req);
     if (!tokenString) {
         res.status(401).send(new ErrorResponse("No credentials provided"));
