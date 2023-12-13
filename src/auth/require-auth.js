@@ -18,7 +18,7 @@ async function onLogoutButtonClick() {
 }
 
 function requireAuthentication() {
-    fetch('/me')
+    fetch('/api/secure/me')
         .then(r => r.json())
         .then(response => {
             console.log(response);

@@ -23,9 +23,11 @@ app.use((req, res, next) => {
     next();
 });
 
+const apiRouter = express.Router();
+app.use('/api', apiRouter);
 
 // Endpoint: Clear application
-app.delete('/db', async (req, res) => {
+apiRouter.delete('/db', async (req, res) => {
     console.log('Hit endpoint: clear application');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
@@ -45,7 +47,7 @@ app.delete('/db', async (req, res) => {
 
 
 // Endpoint: Register
-app.post('/user', async (req, res) => {
+apiRouter.post('/user', async (req, res) => {
     console.log('Hit endpoint: register');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
@@ -69,7 +71,7 @@ app.post('/user', async (req, res) => {
 
 
 //  Endpoint: Login
-app.post('/session', async (req, res) => {
+apiRouter.post('/session', async (req, res) => {
     console.log('Hit endpoint: login');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
@@ -93,7 +95,7 @@ app.post('/session', async (req, res) => {
 
 // Require valid auth token for secureRouter endpoints
 const secureRouter = express.Router();
-app.use(secureRouter);
+apiRouter.use('/secure', secureRouter);
 secureRouter.use(security.requireAuthCookie);
 
 
@@ -116,7 +118,7 @@ secureRouter.get('/user/:username', async (req, res) => {
 
 // Endpoint: Get Current User Data
 secureRouter.get('/me', async (req, res) => {
-    console.log('Hit secure endpoint: whoami');
+    console.log('Hit secure endpoint: /me');
     try {
         await database.connectAndRun(async (dataAccessManager) => {
             const tokenString = security.getAuthCookie(req);
