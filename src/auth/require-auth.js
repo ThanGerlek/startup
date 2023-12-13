@@ -2,10 +2,8 @@ function onLoad() {
     requireAuthentication();
 }
 
-async function onLogoutButtonClick() {
-    window.location.replace('login.html');
-    localStorage.clear();
-    await fetch('/session', {method: 'DELETE'})
+export async function sendLogoutRequest() {
+    await fetch('/api/session', {method: 'DELETE'})
         .then(r => r.json())
         .then(r => {
             console.log('Logged out successfully...?');
@@ -39,6 +37,3 @@ function failToAuthenticate(message) {
     window.location.href = 'login.html';
     localStorage.clear();
 }
-
-document.addEventListener('DOMContentLoaded', onLoad);
-document.getElementById('logout-button').addEventListener('click', onLogoutButtonClick);

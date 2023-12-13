@@ -5,6 +5,7 @@ import {useWindowDimensions} from 'react-native';
 import {Home} from "./home/home.jsx";
 import {GameController} from "./pregame/game-controller.jsx";
 import {AuthController} from "./auth/authController.jsx";
+import {sendLogoutRequest} from "./auth/require-auth.js";
 import {WaitForFriend} from "./pregame/wait-for-friend.jsx";
 import {YouLose} from "./postgame/you-lose.jsx";
 import {YouWin} from "./postgame/you-win.jsx";
@@ -41,7 +42,7 @@ function App() {
                 </NavLink>
                 <ul className="nav">
                     <li>
-                        <LogoutButton isLoggedIn={isLoggedIn()} logout={logout}/>
+                        <LogoutButton isLoggedIn={isLoggedIn()} logoutSessionData={logout}/>
                     </li>
                 </ul>
             </header>
@@ -79,7 +80,7 @@ function NotFound() {
     </main>);
 }
 
-function LogoutButton({isLoggedIn, logout}) {
+function LogoutButton({isLoggedIn, logoutSessionData}) {
     const label = isLoggedIn ? "Logout" : "Login";
 
     function handleButtonClick(event) {
@@ -87,6 +88,13 @@ function LogoutButton({isLoggedIn, logout}) {
         if (!isLoggedIn) {
             logout();
         }
+    }
+
+    function logout() {
+        console.log("Logging out");
+        sendLogoutRequest();
+        logoutSessionData();
+        // TODO? logoutSessionData() only after request succeeds
     }
 
     return <button className="btn d-flex text-dark text-decoration-none" onClick={handleButtonClick}>{label}</button>;
