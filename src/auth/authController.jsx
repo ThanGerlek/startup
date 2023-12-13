@@ -127,7 +127,7 @@ function AuthPage({login, instructionText, apiPath, primaryButtonLabel, secondar
 
             {/* TODO Add a second password box */}
 
-            <button className="btn btn-success my-2" onSubmit={primaryButtonCallback}>{primaryButtonLabel}</button>
+            <button className="btn btn-success my-2" onClick={primaryButtonCallback}>{primaryButtonLabel}</button>
 
             <div className="align-items-center text-center my-2"
                  style={{display: showSecurityWarning ? "block" : "none"}}>
@@ -135,7 +135,7 @@ function AuthPage({login, instructionText, apiPath, primaryButtonLabel, secondar
                 <i>This website was built by a college kid, not a security expert. It is NOT secure.</i>
             </div>
 
-            <button className="btn btn-link my-2" onSubmit={secondaryButton.callback}>{secondaryButton.label}</button>
+            <button className="btn btn-link my-2" onClick={secondaryButton.callback}>{secondaryButton.label}</button>
 
             <div id="info_message" className="alert alert-info" style={{display: "none"}}></div>
             <div id="warn_message" className="alert alert-warning" style={{display: "none"}}></div>
