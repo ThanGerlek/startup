@@ -11,6 +11,7 @@ import {YouLose} from "./postgame/you-lose.jsx";
 import {YouWin} from "./postgame/you-win.jsx";
 import {Game} from "./game/game.jsx";
 import {Stats} from "./stats/stats.jsx";
+import {Secretses} from "./general/secretses";
 
 function App() {
     const {height} = useWindowDimensions();
@@ -36,6 +37,7 @@ function App() {
                 <Route path='/find-friend-remote' element={<FindFriendRemote/>}/>
                 <Route path='/find-friend-local' element={<FindFriendLocal/>}/>
                 <Route path='/game' element={<Game/>}/>
+                <Route path='/secretses' element={<Secretses/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/register' element={<Register/>}/>
