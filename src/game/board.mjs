@@ -14,7 +14,7 @@ function constructGamepieceElement(onclickListener) {
     gamepieceElement.type = "image";
     gamepieceElement.alt = "matchstick";
     gamepieceElement.height = 50;
-    gamepieceElement.src = "img/150-750-matchstick.png";
+    gamepieceElement.src = "150-750-matchstick.png";
     gamepieceElement.className = "px-2";
 
     gamepieceElement.addEventListener('click', onclickListener);

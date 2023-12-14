@@ -17,12 +17,12 @@ export function Home() {
                     <NavLink className="btn btn-success" to='/find-friend-remote'>Play with a friend online!</NavLink>
                 </div>
                 <div className="my-3 align-items-center justify-content-center">
-                    <img src="../../public/15-75-matchstick.png" alt="matchstick"/>
+                    <img src="15-75-matchstick.png" alt="matchstick"/>
                 </div>
             </div>
             <div className="container d-flex flex-column justify-content-between align-items-center">
                 <div className="align-items-center justify-content-center">
-                    <img src="../../public/15-75-matchstick.png" alt="matchstick"/>
+                    <img src="15-75-matchstick.png" alt="matchstick"/>
                 </div>
                 <div className="my-3 align-items-center justify-content-center text-center">
                     <NavLink className="btn btn-success" to='/stats'>See your stats!</NavLink>
@@ -33,7 +33,7 @@ export function Home() {
                     <NavLink className="btn btn-success" to='/find-friend-local'>Play locally on this device!</NavLink>
                 </div>
                 <div className="my-3 align-items-center justify-content-center">
-                    <img src="../../public/15-75-matchstick.png" alt="matchstick"/>
+                    <img src="15-75-matchstick.png" alt="matchstick"/>
                 </div>
             </div>
         </div>
