@@ -1,12 +1,30 @@
 # NIM Player
 
+## React deliverable
+
+Converted the entire webapp to a single-page React application. LocalStorage has been replaced by React state, HTML
+pages have been replaced by `react-router-dom` routes, and most of the logic has been reorganized into React components.
+
+- *Bundled using WebPack and Babel*: Check. Uses `create-react-app` to run the React server.
+- *Multiple functional React components*: Check. Logic and state for authentication and navigation all use React
+  components.
+- *React router*: Check. Acts as a single-page application.
+- *React hooks*: Check. WebSocket, 3rd party API calls, etc. are handled using React useEffect hooks.
+
+Things still to be done include implementing the Stats page (which is still a placeholder), replacing the
+vanilla-Javascript `messageDisplay` module with React components, and encapsulating session data so it can be more easily
+passed between React elements. The gameboard itself is also still vanilla JS (it's implemented with ES6 classes, and
+replacing it with React state completely would have required inverting the entire dependency tree, which I ran out of
+time to do).
+
 ## WebSocket deliverable
 
 Whenever a user joins a remote game, a WebSocket connection is created. The server tracks currently active games and
 sends game updates (players joining, moves made, win conditions, etc.) to one or both players.
 
 - *Frontend makes WebSocket connection*: Check.
-- *Backend listens for WebSocket connection*: Check. 
+- *Backend listens for WebSocket connection*: Check.
+- *Backend listens for WebSocket connection*: Check.
 - *Data sent over WebSocket connection*: Check.
 - *WebSocket data displayed in the application interface*: Check (albeit indirectly; see below).
 
@@ -76,6 +94,8 @@ Account registration and login has been fully implemented (albeit not yet crypto
 register service endpoints. (Login information is persistent across browser sessions but not server restart.)
 
 Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a work in progress.
+Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a
+work in progress.
 
 - *HTTP service with Node.js and `express`*: All connections to the server pass through `express` endpoints.
 - *Frontend calls backend service endpoints*: Login and account registration use fully functional endpoints.
