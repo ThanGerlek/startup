@@ -127,7 +127,7 @@ async function onLoad(initialGameData, playerUsername) {
         updateVisuals();
     });
     loadGame(initialGameData, playerUsername);
-    registerUsername();
+    registerUsername(playerUsername);
     createGameRequest(clientGame.getGameData());
     updateVisuals();
 }
@@ -160,8 +160,8 @@ function loadGame(gameData,playerUsername) {
     clientGame = new ClientGame(boardContainerElement, gameData, playerUsername);
 }
 
-function registerUsername() {
-    const message = {action: 'registerUsername', value: localStorage.getItem('username')};
+function registerUsername(playerUsername) {
+    const message = {action: 'registerUsername', value: playerUsername};
     socket.send(JSON.stringify(message));
 }
 
