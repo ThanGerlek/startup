@@ -1,15 +1,52 @@
 import React from 'react';
+import {Navigate} from "react-router-dom";
 import {clearMessageDisplay, displayMessage} from "../general/message-display.js";
 import {Board} from "./board.mjs";
 import {getSocketConnection, setLoadGameCallback} from "../general/wsClient.mjs";
 
+let socket = null;
+let clientGame = null;
 
-export function Game() {
+let playerWin = function () {
+    throw new Error("Called playerWin() before it was defined");
+};
+
+let opponentWin = function () {
+    throw new Error("Called opponentWin() before it was defined");
+};
+
+export function Game({gameData, playerUsername}) {
+
+    const [winState, setWinState] = React.useState(null);
+
+    playerWin = function () {
+        console.log('player win');
+        setWinState('player');
+    }
+    opponentWin = function () {
+        console.log('Opponent win');
+        setWinState('opponent');
+    }
 
     React.useEffect(() => {
-        onLoad();
-    }, []);
+        onLoad(gameData, playerUsername);
+    }, [gameData, playerUsername]);
 
+
+    if (winState) {
+        // TODO db: update player stats (on win or loss)
+        if (winState === 'player') {
+            return <Navigate to={'/you-win'}/>;
+        } else {
+            return <Navigate to={'/you-lose'}/>;
+        }
+    } else {
+        return <GameDisplay/>;
+    }
+}
+
+
+function GameDisplay() {
     return (<main className="mx-3 flex-grow-1 d-flex flex-column justify-content-between align-items-center">
         {/* TODO. css: Shrink game buttons to better handle 150% size? Remove opponent name when they're too big? */}
         {/* TODO. html: Display "Make your move!" as a message, so there's always a box there, and replace with "waiting for opponent" when it's not the player's turn */}
@@ -67,8 +104,11 @@ export function Game() {
 
         <div className="container-fluid d-flex justify-content-around">
             {/* TODO. css: Switch to check and reset icons */}
-            <button type="button" id="submit-board-button" className="btn btn-success" onSubmit={onSubmitButtonClick}>Submit</button>
-            <button type="button" id="reset-board-button" className="btn btn-dark" onSubmit={onResetButtonClick}>Reset</button>
+            <button type="button" id="submit-board-button" className="btn btn-success"
+                    onClick={onSubmitButtonClick}>Submit
+            </button>
+            <button type="button" id="reset-board-button" className="btn btn-dark" onSubmit={onResetButtonClick}>Reset
+            </button>
         </div>
 
         <div id="info_message" className="alert alert-info" style={{display: "none"}}></div>
@@ -80,16 +120,13 @@ export function Game() {
     </main>);
 }
 
-let socket = null;
-let clientGame = null;
-
-async function onLoad() {
+async function onLoad(initialGameData, playerUsername) {
     socket = await getSocketConnection();
     setLoadGameCallback((gameData) => {
-        loadGame(gameData);
+        loadGame(gameData, playerUsername);
         updateVisuals();
     });
-    setUpGame();
+    loadGame(initialGameData, playerUsername);
     registerUsername();
     createGameRequest(clientGame.getGameData());
     updateVisuals();
@@ -103,7 +140,6 @@ function onSubmitButtonClick() {
     }
     clientGame.submitMove();
 
-    localStorage.setItem('game', JSON.stringify(clientGame.getGameData()));
     if (clientGame.gameType() === 'remote') {
         submitMoveToServer(clientGame.getGameData());
     }
@@ -117,22 +153,11 @@ function onResetButtonClick() {
     clientGame.resetMove();
 }
 
-function setUpGame() {
-    console.log('Setting up Game');
-
-    const gameJson = localStorage.getItem('game');
-    if (!gameJson) {
-        throw new Error("Could not find gameData in localStorage");
-    }
-    const gameData = JSON.parse(gameJson);
-    loadGame(gameData);
-}
-
-function loadGame(gameData) {
+function loadGame(gameData,playerUsername) {
     console.log('Called loadGame');
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';
-    clientGame = new ClientGame(boardContainerElement, gameData);
+    clientGame = new ClientGame(boardContainerElement, gameData, playerUsername);
 }
 
 function registerUsername() {
@@ -158,17 +183,6 @@ function updateVisuals() {
     }
 }
 
-function opponentWin() {
-    console.log('Opponent win');
-    window.location.href = 'you-lose.html';
-    // TODO db: update player stats (on win or loss)
-}
-
-function playerWin() {
-    console.log('Player win');
-    window.location.href = 'you-win.html';
-}
-
 function submitMoveToServer() {
     const message = {'action': 'submitMove', 'value': clientGame.getGameData()};
     socket.send(JSON.stringify(message));
@@ -189,9 +203,9 @@ class ClientGame {
 
     #rowBeingEdited;
 
-    constructor(boardContainerElement, gameData) {
+    constructor(boardContainerElement, gameData, playerUsername) {
         this.#gameType = gameData.gameType;
-        this.#initUsernames(gameData);
+        this.#initUsernames(gameData, playerUsername);
 
         this.#gameBoard = new Board(gameData.board, null); // TODO? style: Replace 1-param constructor with a subclass of Board
         this.#localBoard = new Board(gameData.board, boardContainerElement);
@@ -199,8 +213,8 @@ class ClientGame {
         this.#rowBeingEdited = null;
     }
 
-    #initUsernames(gameData) {
-        this.#playerUsername = localStorage.getItem('username');
+    #initUsernames(gameData, playerUsername) {
+        this.#playerUsername = playerUsername;
         this.#opponentUsername = (gameData.players[0] === this.#playerUsername) ? gameData.players[1] : gameData.players[0];
         this.#isPlayerTurn = gameData.currentPlayer === this.#playerUsername;
     }

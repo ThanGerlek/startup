@@ -13,7 +13,7 @@ export function GameController({username, gameType}) {
     }
 
     if (isGameActive) {
-        return <Game gameData={gameData}/>;
+        return <Game gameData={gameData} playerUsername={username}/>;
     } else if (gameType === 'local') {
         return <FindFriendLocal playerUsername={username} startGame={startGame}/>;
     } else {
