@@ -2,7 +2,7 @@
 
 const {ValueAlreadyTakenError, DataAccessManager} = require("../../server/dataAccess/dataAccess");
 const {MongoClient} = require("mongodb");
-const dbConfig = require("../../config.json").database;
+const dbConfig = require("../../server/config.json").database;
 
 let client;
 let authDAO;

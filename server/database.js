@@ -1,5 +1,5 @@
 const {MongoClient} = require("mongodb");
-const config = require("../config.json");
+const config = require("./config.json");
 const {DataAccessManager} = require("./dataAccess/dataAccess");
 
 const mongoURL = `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.hostname}`;

@@ -6,7 +6,7 @@ const {
 const {Game, User} = require('../../server/models');
 const {Board, DEFAULT_BOARD_DIMENSIONS} = require('../board');
 const {MongoClient} = require("mongodb");
-const dbConfig = require("../../config.json").database;
+const dbConfig = require("../../server/config.json").database;
 
 let client;
 let gameDAO;

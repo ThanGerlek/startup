@@ -5,7 +5,7 @@ const {
 } = require('../../server/dataAccess/dataAccess');
 const {User} = require('../../server/models');
 const {MongoClient} = require("mongodb");
-const dbConfig = require("../../config.json").database;
+const dbConfig = require("../../server/config.json").database;
 
 let client;
 let gameRequestDAO;

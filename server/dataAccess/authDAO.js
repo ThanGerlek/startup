@@ -2,7 +2,7 @@
 
 const {ValueAlreadyTakenError, BadRequestError} = require("./dataAccessErrors");
 const {AuthToken} = require("../models");
-const dbConfig = require('../../config.json').database;
+const dbConfig = require('../config.json').database;
 
 class AuthDAO {
     #collection;

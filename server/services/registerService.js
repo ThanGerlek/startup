@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const uuid = require("uuid");
-const cryptConfig = require('../../config.json').crypt;
+const cryptConfig = require('../config.json').crypt;
 
 const {AuthResponse} = require('../http');
 const {ValueAlreadyTakenError, BadRequestError} = require("../dataAccess/dataAccess");

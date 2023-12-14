@@ -1,6 +1,6 @@
 const {ErrorResponse} = require("./http");
 const database = require("./database");
-const config = require("../config.json");
+const config = require("./config.json");
 
 function setAuthCookie(res, token) {
     res.cookie(config.cookie.authCookieName, token, {

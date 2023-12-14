@@ -1,7 +1,7 @@
 // User Data Access
 
 const {NoSuchItemError, ValueAlreadyTakenError} = require("./dataAccessErrors");
-const dbConfig = require("../../config.json").database;
+const dbConfig = require("../config.json").database;
 
 class UserDAO {
     #collection;
