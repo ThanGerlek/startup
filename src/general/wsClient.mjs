@@ -1,5 +1,3 @@
-'use strict';
-
 import {displayMessage} from "./message-display.js";
 
 const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';

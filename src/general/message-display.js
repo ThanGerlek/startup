@@ -1,5 +1,3 @@
-'use strict';
-
 function setupWaitNotification(delay) {
     if (!delay) {
         delay = 1000;
