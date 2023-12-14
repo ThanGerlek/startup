@@ -59,7 +59,7 @@ export function FindFriend({playerUsername, startGame, opponentPrompt, sameNameW
 
     function generateGameData(playerUsername, opponentUsername) {
         return {
-            players: [playerUsername, opponentUsername], currentPlayer: playerUsername, // TODO allow switching who goes first
+            players: [playerUsername, opponentUsername], currentPlayer: opponentUsername, // TODO allow switching who goes first
             board: generateNewBoardArray(), gameType: gameType,
         };
     }
