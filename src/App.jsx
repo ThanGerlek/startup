@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Navigate, NavLink, Route, Routes} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import {Home} from "./home/home.jsx";
 import {GameController} from "./pregame/game-controller.jsx";
 import {AuthController} from "./auth/authController.jsx";
@@ -30,7 +31,7 @@ function App() {
     }
 
     return (<BrowserRouter>
-        <div className="bg-light d-flex flex-column">
+        <div className="fullSize bg-light d-flex flex-column">
             <header
                 className="container-fluid my-2 align-items-center justify-content-between d-flex flex-wrap border-bottom">
                 <div></div>
