@@ -124,6 +124,7 @@ async function onLoad(initialGameData, playerUsername) {
     socket = await getSocketConnection();
     setLoadGameCallback((gameData) => {
         loadGame(gameData, playerUsername);
+        clearMessageDisplay();
         updateVisuals();
     });
     loadGame(initialGameData, playerUsername);
@@ -134,6 +135,7 @@ async function onLoad(initialGameData, playerUsername) {
 
 function onSubmitButtonClick() {
     console.log(`Submit button was clicked.`);
+    clearMessageDisplay();
     if (clientGame.gameType() !== 'local' && !clientGame.isPlayerTurn()) {
         displayMessage('error', "It's not your turn!");
         return;
@@ -171,7 +173,6 @@ function createGameRequest(gameData) {
 }
 
 function updateVisuals() {
-    clearMessageDisplay();
     if (clientGame.isGameOver()) {
         if (clientGame.isPlayerTurn()) {
             playerWin();
