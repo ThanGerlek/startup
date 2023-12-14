@@ -10,8 +10,6 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
-    "react-native": "^0.73.0",
-    "react-native-web": "^0.19.9",
     "react-router-dom": "^6.20.1",
     "web-vitals": "^2.1.4"
   },
