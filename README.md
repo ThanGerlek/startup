@@ -12,10 +12,10 @@ pages have been replaced by `react-router-dom` routes, and most of the logic has
 - *React hooks*: Check. WebSocket, 3rd party API calls, etc. are handled using React useEffect hooks.
 
 Things still to be done include implementing the Stats page (which is still a placeholder), replacing the
-vanilla-Javascript `messageDisplay` module with React components, and encapsulating session data so it can be more easily
-passed between React elements. The gameboard itself is also still vanilla JS (it's implemented with ES6 classes, and
-replacing it with React state completely would have required inverting the entire dependency tree, which I ran out of
-time to do).
+vanilla-Javascript `messageDisplay` module with React components, and encapsulating session data so it can be more
+easily passed between React elements. The gameboard itself is also still vanilla JS (it's implemented with ES6 classes,
+and replacing it with React state completely would have required inverting the entire dependency tree, which I ran out
+of time to do).
 
 ## WebSocket deliverable
 
@@ -93,7 +93,8 @@ database interactions. Local play is fully supported (and online play is functio
 Account registration and login has been fully implemented (albeit not yet cryptographically securely) using login and
 register service endpoints. (Login information is persistent across browser sessions but not server restart.)
 
-Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a work in progress.
+Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a
+work in progress.
 Note: I did not have enough time to fully implement the request/create/join game system, so those endpoints are still a
 work in progress.
 

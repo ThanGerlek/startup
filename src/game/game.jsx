@@ -155,7 +155,7 @@ function onResetButtonClick() {
     clientGame.resetMove();
 }
 
-function loadGame(gameData,playerUsername) {
+function loadGame(gameData, playerUsername) {
     console.log('Called loadGame');
     let boardContainerElement = document.getElementById('board-container');
     boardContainerElement.textContent = '';

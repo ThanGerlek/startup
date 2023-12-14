@@ -182,7 +182,7 @@ secureRouter.post('/game', async (req, res) => {
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
-    res.sendFile('index.html', { root: 'public' });
+    res.sendFile('index.html', {root: 'public'});
 });
 
 module.exports = app;

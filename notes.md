@@ -14,7 +14,6 @@
   not.
 - Deliverables that do not include the above will not be graded.
 
-
 ## Personal Notes
 
 Server IP: `44.206.85.52`
@@ -113,20 +112,20 @@ Professor Jensen's office hours: 2264 TMCB, Wednesday 9 - 11 AM
 
 ```css
 p {
-  text-align: center;
-  font-size: 20vh;
+    text-align: center;
+    font-size: 20vh;
 
-  animation-name: demo;
-  animation-duration: 3s;
+    animation-name: demo;
+    animation-duration: 3s;
 }
 
 @keyframes demo {
-  from {
-    font-size: 0;
-  }
-  to {
-    font-size: 20vh;
-  }
+    from {
+        font-size: 0;
+    }
+    to {
+        font-size: 20vh;
+    }
 }
 ```
 

@@ -10,8 +10,8 @@ export async function sendLogoutRequest() {
             console.log(JSON.stringify(r));
         })
         .catch(e => {
-        console.log(`Failed to connect to server: ${e.message}`);
-    });
+            console.log(`Failed to connect to server: ${e.message}`);
+        });
     console.log('Finished logging out.');
 }
 
