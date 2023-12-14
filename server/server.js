@@ -180,4 +180,9 @@ secureRouter.post('/game', async (req, res) => {
 // | **Failure response** | [500] `{ "message": "Error: description" }`                                                                                                                                                |
 
 
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+    res.sendFile('index.html', { root: 'public' });
+});
+
 module.exports = app;
