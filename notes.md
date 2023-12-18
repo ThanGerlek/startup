@@ -1,5 +1,88 @@
 # Notes
 
+## Final Exam Review
+
+- HTTP 80, HTTPS 443, SSH 22
+- HTTP status codes 300 req, 400 serv, 500 misc
+- What do the following attributes of a cookie do? Domain/Path (set scope of cookie), SameSite (CORS), HTTPOnly (no JS)
+- Given the following MongoDB query: `{ cost: { $gt: 10 }, name: /fran.*/}` Select all of the matching documents.
+- Assuming the following Node.js service code is executing with websockets, what will be logged to the console of the web browser?
+- What is the WebSocket protocol used for?
+- What is JSX and how are the curly braces rendered?
+- What are React Hooks used for?
+- What is the useEffect hook used for? "Connect to and sync with external systems"
+- What role does npm play in web development?
+- What does package.json do in a npm project?
+- What does the fetch function do?
+- What does node.js do?
+- What does Vite do? "Frontend tooling"
+
+
+Assuming a HTML document with a `<div id="root"></div>` element, what content will the following React component generate?
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+function App() {
+  return (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Cahal" />
+      <Welcome name="Edite" />
+    </div>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+Assuming a HTML document with a `<div id="root"></div>` element, what content will the following React component generate?
+```jsx
+function Numbers() { 
+  const numbers = [1, 2, 3, 4, 5];
+  const listItems = numbers.map((number) =>
+    <li>{number}</li>
+  );
+  return(<ul>{listItems}</ul>)
+}
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+root.render(<Numbers/>);
+```
+
+What does the following React component do?
+```jsx
+function Example() {
+  // Declare a new state variable, which we'll call "count"  
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
+What does this code do?
+```jsx
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
 ## First Notes (GitHub Assignment)
 
 - You can use this `notes.md` file on the exams
