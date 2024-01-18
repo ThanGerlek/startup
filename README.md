@@ -1,5 +1,9 @@
 # NIM Player
 
+A simple React webapp implementing the game of NIM, originally built for BYU's _CS260: Web Programming_ course. The current deployment is playable at (startup.gerleksgarage.click)[startup.gerleksgarage.click].
+
+The app is hosted on an AWS EC2 instance with Caddy, using React and Bootstrap on the frontend and MongoDB and Express in the backend with Node.js. Peer-to-peer communication during gameplay is through websocket. Authentication uses the bcrypt library.
+
 ## React deliverable
 
 Converted the entire webapp to a single-page React application. LocalStorage has been replaced by React state, HTML
